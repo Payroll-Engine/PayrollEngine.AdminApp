@@ -1,0 +1,31 @@
+﻿@inherits DatabaseParameterDialogBase
+
+<MudDialog Class="item-dialog"
+           TitleClass="mud-theme-primary pe-dialog-title">
+    <DialogContent>
+        <MudForm @ref="Form" @bind-IsValid="@IsValid">
+            <MudStack Class="pa-4" Spacing="4">
+                @* name *@
+                <MudTextField T="string" @bind-Value="@EditParameter.Name"
+                              Variant="@Globals.InputFieldVariant"
+                              Label="@Localizer.Name"
+                              Margin="Margin.Dense"
+                              AutoFocus="true"
+                              Required="true" />
+                @* value *@
+                <MudTextField T="string" @bind-Value="@EditParameter.Value"
+                              Variant="@Globals.InputFieldVariant"
+                              Label="@Localizer.Value"
+                              Margin="Margin.Dense"
+                              Required="true" />
+            </MudStack>
+        </MudForm>
+    </DialogContent>
+    <DialogActions>
+        <MudStack Row="true" Spacing="0" Class="mx-4 mb-2 gap-2">
+            <MudButton Variant="@Globals.ButtonVariant" OnClick="Cancel">@Localizer.Cancel</MudButton>
+            <MudButton Variant="@Globals.ButtonVariant" Color="Color.Primary" OnClick="Submit"
+                       Disabled="@(!IsValid)">@Localizer.Ok</MudButton>
+        </MudStack>
+    </DialogActions>
+</MudDialog>

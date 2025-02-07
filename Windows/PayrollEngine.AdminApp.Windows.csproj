@@ -1,0 +1,32 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
+
+	<PropertyGroup>
+		<AssemblyName>PayrollEngine.AdminApp</AssemblyName>
+		<RootNamespace>PayrollEngine.AdminApp.Windows</RootNamespace>
+		<Description>Payroll Engine Admin Application Core Library</Description>
+		<OutputType>WinExe</OutputType>
+		<UserSecretsId>AdminApp</UserSecretsId>
+		<TargetFramework>net9.0-windows</TargetFramework>
+		<UseWPF>true</UseWPF>
+	</PropertyGroup>
+
+	<ItemGroup>
+	  <Resource Include="appicon.ico" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Microsoft.AspNetCore.Components.WebView.Wpf" Version="9.0.30" />
+		<PackageReference Include="Microsoft.Extensions.Configuration" Version="9.0.1" />
+		<PackageReference Include="Microsoft.Extensions.Configuration.FileExtensions" Version="9.0.1" />
+		<PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="9.0.1" />
+		<PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="6.0.1" />
+		<PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="9.0.1" />
+		<PackageReference Include="MudBlazor" Version="8.1.0" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <ProjectReference Include="..\Persistence.SqlServer\PayrollEngine.AdminApp.Persistence.SqlServer.csproj" />
+	  <ProjectReference Include="..\Presentation\PayrollEngine.AdminApp.Presentation.csproj" />
+	</ItemGroup>
+
+</Project>

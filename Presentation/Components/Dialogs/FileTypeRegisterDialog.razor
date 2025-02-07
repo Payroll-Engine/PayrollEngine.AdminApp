@@ -1,0 +1,30 @@
+﻿@inherits FileTypeRegisterDialogBase
+
+<MudDialog Class="item-dialog" TitleClass="mud-theme-primary pe-dialog-title"
+           Style="min-width: 30rem; min-height: 12rem;">
+    <DialogContent>
+        <MudStack Class="pb-8">
+            <MudText Class="ma-4">@Localizer.FileTypeRegisterMessage(FileTypeExtension)</MudText>
+            <MudStack Row="true" Class="justify-center">
+                <MudButton Class="mx-4"
+                           Variant="@Globals.ButtonVariant"
+                           Color="Color.Primary"
+                           OnClick="Cancel">
+                    @Localizer.Cancel
+                </MudButton>
+                <MudButton Class="mx-4"
+                           Variant="@Globals.ButtonVariant"
+                           Color="Color.Error"
+                           OnClick="Unregister">
+                    @Localizer.Unregister
+                </MudButton>
+                <MudButton Class="mx-4"
+                           Variant="@Globals.ButtonVariant"
+                           Color="Color.Success"
+                           OnClick="Register">
+                    @Localizer.Register
+                </MudButton>
+            </MudStack>
+        </MudStack>
+    </DialogContent>
+</MudDialog>

@@ -1,0 +1,154 @@
+﻿@using PayrollEngine.AdminApp.WebServer
+@using PayrollEngine.AdminApp.Persistence
+
+@inherits BackendAssetViewBase
+
+<MudStack Spacing="2">
+    <MudStack Spacing="0" Row="true">
+        <MudText Typo="Typo.h5" Class="flex-grow-1">@Localizer.BackendLocalTitle</MudText>
+        <MudText Color="Asset.BackendStatus.ToEditColor()">@Localizer.Enum(Asset.BackendStatus)</MudText>
+    </MudStack>
+
+    @if (Asset.DatabaseStatus >= DatabaseStatus.EmptyDatabase)
+    {
+        @* **************************** api **************************** *@
+        <MudStack Spacing="0" Class="align-center" Row="true">
+
+            @* text *@
+            <MudText Class="flex-grow-1">
+                <MudStack Spacing="0">
+                    <MudText Style="font-size: large;">
+                        @Localizer.WebServer
+                        @if (Asset.WebServerStatus == WebServerStatus.Available)
+                        {
+                            <MudIcon Icon="@Icons.Material.Filled.PlayCircleOutline"
+                                     Color="Color.Success"
+                                     Style="margin-left: 0.5rem; vertical-align: middle; zoom: 0.8;" />
+                        }
+                    </MudText>
+                    <MudStack Row="true" Spacing="0">
+                        <MudTooltip Delay="1000" Text="@Asset.WebServerConnection.ToConnectionString(encryptApiKey: true)" Placement="Placement.Top">
+                            <MudText Typo="Typo.caption" Style="@WebServerUrlStyle">@WebServerHref</MudText>
+                        </MudTooltip>
+                        <ClipboardButton Text="@WebServerUrl" />
+                    </MudStack>
+                </MudStack>
+            </MudText>
+
+            @* actions *@
+            <div class="d-flex flex-grow-1 justify-end align-end">
+
+                @* edit action *@
+                <MudTooltip Delay="1000" Text="@Localizer.Enum(Asset.WebServerStatus)" Placement="Placement.Top">
+                    <MudButton @onclick="@EditServerAsync"
+                               Class="ml-2"
+                               Color="@(Asset.WebServerStatus == WebServerStatus.UndefinedConnection ?
+                                          Color.Success : Color.Primary)"
+                               Variant="@Globals.ButtonVariant"
+                               EndIcon="@(Asset.WebServerStatus == WebServerStatus.UndefinedConnection ?
+                                        Icons.Material.Filled.Add : Icons.Material.Filled.Edit)"
+                               Size="Size.Small">@WebServerEditText</MudButton>
+                </MudTooltip>
+
+                @* browse action *@
+                @if (Asset.WebServerStatus == WebServerStatus.Available)
+                {
+                    <MudTooltip Delay="1000" Text="@Localizer.OpenBackendHelp" Placement="Placement.Top">
+                        <MudButton @onclick="@BrowseServerAsync"
+                                   Class="ml-2"
+                                   Color="@Color.Primary"
+                                   Variant="@Globals.ButtonVariant"
+                                   EndIcon="@Icons.Material.Filled.Api"
+                                   Size="Size.Small">@Localizer.OpenBackend</MudButton>
+                    </MudTooltip>
+                }
+
+                @* start action *@
+                @if (Asset.WebServerStatus == WebServerStatus.NotAvailable)
+                {
+                    <MudTooltip Delay="1000" Text="@Localizer.StartHelp" Placement="Placement.Top">
+                        <MudButton @onclick="@StartServerAsync"
+                                   Class="ml-2"
+                                   Color="@Color.Success"
+                                   Variant="@Globals.ButtonVariant"
+                                   EndIcon="@Icons.Material.Filled.PlayCircleOutline"
+                                   Size="Size.Small">@Localizer.Start</MudButton>
+                    </MudTooltip>
+                }
+            </div>
+        </MudStack>
+
+        <MudDivider />
+    }
+
+    @* **************************** database **************************** *@
+    <MudStack Spacing="0" Class="align-center" Row="true">
+
+        @* text *@
+        <MudText Class="flex-grow-1">
+            <MudStack Spacing="0">
+                <MudText Style="font-size: large;">
+                    @Localizer.Database
+                    @if (Asset.DatabaseStatus == DatabaseStatus.Available)
+                    {
+                        <MudIcon Icon="@Icons.Material.Filled.PlayCircleOutline"
+                                 Color="Color.Success"
+                                 Style="margin-left: 0.5rem; vertical-align: middle; zoom: 0.8;" />
+                    }
+                </MudText>
+                @if (Asset.DatabaseStatus == DatabaseStatus.Available)
+                {
+                    <MudTooltip Delay="1000" Text="@Asset.DatabaseConnection.ToConnectionString(encryptPassword: true)" Placement="Placement.Top">
+                        <MudText Typo="Typo.caption">@DatabaseConnectionUI</MudText>
+                    </MudTooltip>
+                }
+                else
+                {
+                    <MudText Typo="Typo.caption">@Asset.DatabaseConnection.ToConnectionString(encryptPassword: true)</MudText>
+                }
+            </MudStack>
+        </MudText>
+
+        @* actions *@
+        <div class="d-flex flex-grow-1 justify-end align-end">
+
+            @* edit action *@
+            <MudTooltip Delay="1000" Text="@Localizer.Enum(Asset.DatabaseStatus)" Placement="Placement.Top">
+                <MudButton @onclick="@EditConnectionAsync"
+                           Class="ml-2"
+                           Color="@(Asset.DatabaseStatus == DatabaseStatus.UndefinedConnection ?
+                                      Color.Success : Color.Primary)"
+                           Variant="@Globals.ButtonVariant"
+                           EndIcon="@(Asset.DatabaseStatus == DatabaseStatus.UndefinedConnection ?
+                                        Icons.Material.Filled.Add : Icons.Material.Filled.Edit)"
+                           Size="Size.Small">@ConnectionEditText</MudButton>
+            </MudTooltip>
+
+            @* setup action *@
+            @if (DatabasePendingChange)
+            {
+                <MudTooltip Delay="1000" Text="@Localizer.DatabaseUpdateHelp" Placement="Placement.Top">
+                    <MudButton @onclick="@SetupDatabaseAsync"
+                               Class="ml-2"
+                               Color="Color.Success"
+                               Variant="@Globals.ButtonVariant"
+                               EndIcon="@(Asset.DatabaseStatus == DatabaseStatus.OutdatedVersion ?
+                                            Icons.Material.Filled.Update : Icons.Material.Filled.InstallDesktop)"
+                               Size="Size.Small">@DatabaseSetupText</MudButton>
+                </MudTooltip>
+            }
+        </div>
+    </MudStack>
+
+    @* database download help *@
+    @if (Asset.DatabaseStatus <= DatabaseStatus.MissingServer)
+    {
+        <MudPaper Elevation="0" Outlined="true" Class="d-flex align-center pa-2 mt-1">
+            <MudIcon Icon="@Icons.Material.Outlined.Info" Style="zoom: 0.8" />
+            <MudText Typo="Typo.caption" Class="d-flex flex-grow-1 pl-2">
+                @Localizer.DatabaseSetupHelp
+            </MudText>
+        </MudPaper>
+    }
+
+</MudStack>

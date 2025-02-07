@@ -1,0 +1,72 @@
+﻿@inherits DatabaseSetupDialogBase
+
+<MudDialog Class="item-dialog" TitleClass="mud-theme-primary pe-dialog-title"
+           Style="min-width: 30rem; min-height: 12rem;">
+    <DialogContent>
+        <MudStack>
+            <MudSimpleTable>
+                <MudStack Class="pa-4" Spacing="4">
+                    @* server *@
+                    <MudTextField T="string"
+                                  Value="@Connection.Server"
+                                  Variant="@Globals.InputFieldVariant"
+                                  Label="@Localizer.ServerName"
+                                  Margin="Margin.Dense"
+                                  Disabled="true" />
+                    @* database *@
+                    <MudTextField T="string"
+                                  Value="@Connection.Database"
+                                  Variant="@Globals.InputFieldVariant"
+                                  Label="@Localizer.DatabaseName"
+                                  Margin="Margin.Dense"
+                                  Disabled="true" />
+
+                    @* timeout *@
+                    @if (UseCollation)
+                    {
+                        <MudTextField T="string"
+                                      @bind-Value="@Collation"
+                                      Variant="@Globals.InputFieldVariant"
+                                      Label="@Localizer.DatabaseCollation"
+                                      Disabled="@SetupExecute"
+                                      Margin="Margin.Dense" />
+                    }
+
+                </MudStack>
+            </MudSimpleTable>
+
+            @if (SetupExecute)
+            {
+                <MudSpacer />
+
+                <MudProgressLinear Color="Color.Info" Rounded="true"
+                                   Class="mud-table-loading-progress py-4"
+                                   Indeterminate="true" Size="Size.Large" />
+            }
+        </MudStack>
+
+        @* Status *@
+        @if (!string.IsNullOrWhiteSpace(StatusMessage))
+        {
+            <MudPaper Elevation="0" Outlined="true" Class="d-flex align-center pa-2 mx-4">
+                <MudText Typo="Typo.caption" Class="d-flex flex-grow-1 pl-2">
+                    @StatusMessage
+                </MudText>
+            </MudPaper>
+        }
+
+    </DialogContent>
+    <DialogActions>
+        <MudStack Row="true" Spacing="0" Class="mx-4 mb-2 gap-2">
+            <MudButton Variant="@Globals.ButtonVariant" 
+                       Disabled="@SetupExecute"
+                       OnClick="Cancel">@Localizer.Cancel</MudButton>
+            <MudButton Variant="@Globals.ButtonVariant" 
+                       Disabled="@SetupExecute"
+                       Color="Color.Primary" 
+                       OnClick="Submit">
+                @(SetupMode == DatabaseSetupMode.Create ? Localizer.Create : Localizer.Update)
+            </MudButton>
+        </MudStack>
+    </DialogActions>
+</MudDialog>

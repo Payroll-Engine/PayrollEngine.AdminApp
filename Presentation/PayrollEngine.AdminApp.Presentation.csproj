@@ -1,0 +1,22 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
+
+	<PropertyGroup>
+		<AssemblyName>PayrollEngine.AdminApp.Presentation</AssemblyName>
+		<RootNamespace>PayrollEngine.AdminApp.Presentation</RootNamespace>
+		<Description>Payroll Engine Admin Application Presentation Library</Description>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<SupportedPlatform Include="browser" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<FrameworkReference Include="Microsoft.AspNetCore.App" />
+		<PackageReference Include="MudBlazor" Version="8.1.0" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <ProjectReference Include="..\Core\PayrollEngine.AdminApp.Core.csproj" />
+	</ItemGroup>
+
+</Project>

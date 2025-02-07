@@ -1,0 +1,31 @@
+﻿@inherits ConsoleAssetViewBase
+
+<MudStack Spacing="0" Row="true">
+
+    @* text *@
+    <MudText Typo="Typo.h5" Class="flex-grow-1">@Localizer.ConsoleTitle</MudText>
+
+    @* actions *@
+    <div class="d-flex justify-end align-end">
+        
+        @* action register *@
+        @if (CanRegisterFileType)
+        {
+            <MudTooltip Delay="1000" Text="@Localizer.RegisterHelp" Placement="Placement.Top">
+                <MudButton @onclick="@RegisterFileTypeAsync"
+                           Color="Color.Primary"
+                           Variant="@Globals.ButtonVariant"
+                           EndIcon="@Icons.Material.Filled.AppRegistration"
+                           Class="ml-2"
+                           Size="Size.Small">@Localizer.Register</MudButton>
+            </MudTooltip>
+        }
+        else if (AdminCanRegisterFileType)
+        {
+            <MudTooltip Delay="1000" Text="@Localizer.AdminRegisterHelp" Placement="Placement.Top">
+                <MudIcon Icon="@Icons.Material.Outlined.Info" Style="zoom: 0.8" />
+            </MudTooltip>
+        }
+
+    </div>
+</MudStack>

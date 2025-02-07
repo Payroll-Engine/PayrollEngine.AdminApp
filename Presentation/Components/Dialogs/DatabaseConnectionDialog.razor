@@ -1,0 +1,159 @@
+﻿@using PayrollEngine.AdminApp.Persistence
+@inherits DatabaseConnectionDialogBase
+
+<MudDialog Class="item-dialog" Style="min-width: 40rem; min-height: 33rem;"
+           TitleClass="mud-theme-primary pe-dialog-title">
+    <DialogContent>
+        <MudForm @ref="Form" @bind-IsValid="@IsValid">
+
+            @* connection status *@
+            <MudPaper Elevation="0" Outlined="true" Class="pa-2 mt-2 mb-4">
+
+                <MudStack Row="true" Class="d-flex flex-grow-1 align-center" Spacing="0">
+                    <div class="flex-grow-1">
+                        <MudTooltip Delay="1000" Text="@Localizer.ConnectionStatusHelp" Placement="Placement.Top">
+                            <MudText Class="ml-2" Color="@DatabaseStatus.ToEditColor()">
+                                @Localizer.ConnectionStatus(Localizer.Enum(DatabaseStatus))
+                            </MudText>
+                        </MudTooltip>
+                    </div>
+
+                    <MudTooltip Delay="1000" Text="@Localizer.RefreshConnectionStatusHelp" Placement="Placement.Left">
+                        <MudIconButton OnClick="UpdateStatusAsync"
+                                       Class="ml-2"
+                                       Color="Color.Primary"
+                                       Variant="@Globals.ButtonVariant"
+                                       Style="zoom: 0.8"
+                                       Disabled="@(StatusUpdate || !IsValid)"
+                                       Icon="@Icons.Material.Outlined.Refresh"
+                                       Size="Size.Small" />
+                    </MudTooltip>
+                </MudStack>
+                @if (StatusUpdate)
+                {
+                    <MudProgressLinear Color="Color.Info" Rounded="true"
+                                       Class="mud-table-loading-progress mt-2"
+                                       Indeterminate="true" />
+                }
+            </MudPaper>
+
+            @* connection edit *@
+            <MudTabs Elevation="6" Style="min-width: 36rem; min-height: 19rem;"
+                     Rounded="true" ApplyEffectsToContainer="true" PanelClass="pa-1">
+
+                @* common tab *@
+                <MudTabPanel Text="@Localizer.CommonFields">
+                    <MudStack Class="pa-4" Spacing="4">
+                        @* server *@
+                        <MudTextField T="string" @bind-Value="@EditConnection.Server"
+                                      Variant="@Globals.InputFieldVariant"
+                                      Label="@Localizer.ServerName"
+                                      Margin="Margin.Dense"
+                                      AutoFocus="true"
+                                      Required="true" />
+                        @* database *@
+                        <MudTextField T="string" @bind-Value="@EditConnection.Database"
+                                      Variant="@Globals.InputFieldVariant"
+                                      Label="@Localizer.DatabaseName"
+                                      Margin="Margin.Dense"
+                                      Required="true" />
+                        @* timeout *@
+                        <MudNumericField T="int" @bind-Value="@EditConnection.Timeout"
+                                         Variant="@Globals.InputFieldVariant"
+                                         Label="@Localizer.Timeout"
+                                         Margin="Margin.Dense"
+                                         Required="true" />
+
+
+                    </MudStack>
+                </MudTabPanel>
+
+                @* security tab *@
+                <MudTabPanel Text="@Localizer.Security">
+                    <MudStack Class="pa-4" Spacing="4">
+                        @* integrated security *@
+                        <MudCheckBox @bind-Value="@EditConnection.IntegratedSecurity"
+                                     Dense="true"
+                                     Color="Color.Primary">
+                            @Localizer.IntegratedSecurity
+                        </MudCheckBox>
+                        @* trusted connection *@
+                        <MudCheckBox @bind-Value="@EditConnection.TrustedConnection"
+                                     Dense="true"
+                                     Color="Color.Primary">
+                            @Localizer.TrustedConnection
+                        </MudCheckBox>
+                        @* user id *@
+                        <MudTextField T="string" @bind-Value="@EditConnection.UserId"
+                                      Variant="@Globals.InputFieldVariant"
+                                      Label="@Localizer.UserId"
+                                      Disabled="EditConnection.TrustedConnection"
+                                      Margin="Margin.Dense"
+                                      Required="@(!EditConnection.TrustedConnection)" />
+                        @* password *@
+                        <MudTextField T="string" @bind-Value="@EditConnection.Password"
+                                      Variant="@Globals.InputFieldVariant"
+                                      InputType="@PasswordInputType"
+                                      Label="@Localizer.Password"
+                                      Disabled="EditConnection.TrustedConnection"
+                                      Margin="Margin.Dense"
+                                      Required="@(!EditConnection.TrustedConnection)"
+                                      Adornment="Adornment.End"
+                                      AdornmentIcon="@PasswordInputIcon"
+                                      OnAdornmentClick="TogglePasswordVisibility" />
+                    </MudStack>
+                </MudTabPanel>
+
+                @* custom parameters tab *@
+                <MudTabPanel Text="@Localizer.CustomParameters">
+                    <MudDataGrid T="ConnectionParameter"
+                                 Dense="true"
+                                 Items="@EditConnection.CustomParameters">
+                        <Columns>
+                            <PropertyColumn Property="x => x.Name" Title="@Localizer.Name" />
+                            <PropertyColumn Property="x => x.Value" Title="@Localizer.Value" />
+                            <TemplateColumn CellClass="d-flex justify-end" ShowColumnOptions="false"
+                                            ShowFilterIcon="false" Sortable="false">
+                                <HeaderTemplate>
+                                    <MudStack Row="true" Justify="Justify.FlexEnd" Class="d-flex flex-grow-1">
+                                        <MudIconButton @onclick="@AddParameterAsync"
+                                                       Color="Color.Tertiary"
+                                                       Variant="@Globals.ButtonVariant"
+                                                       Icon="@Icons.Material.Filled.Add"
+                                                       Size="Size.Small" />
+                                    </MudStack>
+                                </HeaderTemplate>
+                                <FilterTemplate />
+                                <CellTemplate>
+                                    <MudStack Row="true">
+                                        <MudIconButton @onclick="@(() => RemoveParameterAsync(context.Item))"
+                                                       Color="Color.Secondary"
+                                                       Variant="@Globals.ButtonVariant"
+                                                       Icon="@Icons.Material.Filled.Remove"
+                                                       Size="Size.Small" />
+                                        <MudIconButton @onclick="@(() => EditParameterAsync(context.Item))"
+                                                       Color="Color.Primary"
+                                                       Variant="@Globals.ButtonVariant"
+                                                       Icon="@Icons.Material.Filled.Edit"
+                                                       Size="Size.Small" />
+                                    </MudStack>
+                                </CellTemplate>
+                            </TemplateColumn>
+                        </Columns>
+                        <NoRecordsContent>
+                            @Localizer.NotDataAvailable
+                        </NoRecordsContent>
+                    </MudDataGrid>
+                </MudTabPanel>
+            </MudTabs>
+
+        </MudForm>
+    </DialogContent>
+    <DialogActions>
+        <MudStack Row="true" Spacing="0" Class="mx-4 mb-2 gap-2">
+            <MudButton Variant="@Globals.ButtonVariant" OnClick="Cancel">@Localizer.Cancel</MudButton>
+            <MudButton Variant="@Globals.ButtonVariant" Color="Color.Primary" OnClick="Submit"
+                       Disabled="@(!IsValid)">@DatabaseChangeText</MudButton>
+        </MudStack>
+    </DialogActions>
+</MudDialog>

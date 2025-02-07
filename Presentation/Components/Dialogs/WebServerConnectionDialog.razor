@@ -1,0 +1,49 @@
+﻿@inherits WebServerConnectionDialogBase
+
+<MudDialog Class="item-dialog" Style="min-width: 30rem;"
+           TitleClass="mud-theme-primary pe-dialog-title">
+    <DialogContent>
+        <MudForm @ref="Form" @bind-IsValid="@IsValid">
+
+            <MudStack Class="pa-4" Spacing="4">
+                @* base url *@
+                <MudTextField T="string" @bind-Value="@EditConnection.BaseUrl"
+                              Variant="@Globals.InputFieldVariant"
+                              Label="@Localizer.BaseUrl"
+                              Margin="Margin.Dense"
+                              AutoFocus="true"
+                              Required="true" />
+                @* port *@
+                <MudNumericField T="int" @bind-Value="@EditConnection.Port"
+                                 Variant="@Globals.InputFieldVariant"
+                                 Label="@Localizer.Port"
+                                 Margin="Margin.Dense" />
+                
+                @if (!UrlOnly)
+                {
+                    @* timeout *@
+                    <MudNumericField T="int" @bind-Value="@Timeout"
+                                     Variant="@Globals.InputFieldVariant"
+                                     Label="@Localizer.Timeout"
+                                     Margin="Margin.Dense" />
+                    @* api key *@
+                    <MudTextField T="string" @bind-Value="@EditConnection.ApiKey"
+                                  Variant="@Globals.InputFieldVariant"
+                                  Label="@Localizer.ApiKey"
+                                  InputType="@ApiKeyInputType"
+                                  Margin="Margin.Dense" 
+                                  Adornment="Adornment.End"
+                                  AdornmentIcon="@ApiKeyInputIcon"
+                                  OnAdornmentClick="ToggleApiKeyVisibility" />
+                }
+            </MudStack>
+        </MudForm>
+    </DialogContent>
+    <DialogActions>
+        <MudStack Row="true" Spacing="0" Class="mx-4 mb-2 gap-2">
+            <MudButton Variant="@Globals.ButtonVariant" OnClick="Cancel">@Localizer.Cancel</MudButton>
+            <MudButton Variant="@Globals.ButtonVariant" Color="Color.Primary" OnClick="Submit"
+                       Disabled="@(!IsValid)">@Localizer.Ok</MudButton>
+        </MudStack>
+    </DialogActions>
+</MudDialog>

@@ -1,0 +1,23 @@
+﻿
+@inherits FileAssetViewBase
+
+<MudStack Spacing="0" Row="true">
+
+    @* text *@
+    <MudText Typo="Typo.h5" Class="flex-grow-1">
+        @Title
+    </MudText>
+
+    @* actions *@
+    <div class="d-flex flex-grow-1 justify-end align-end">
+        @* open asset *@
+        <MudTooltip Delay="1000" Text="@Localizer.BrowseFolderHelp" Placement="Placement.Top">
+            <MudButton @onclick="@BrowseAsync"
+                       Color="Color.Primary"
+                       Variant="@Globals.ButtonVariant"
+                       EndIcon="@Icons.Material.Filled.FolderOpen"
+                       Class="ml-2"
+                       Size="Size.Small">@Localizer.BrowseFolder</MudButton>
+        </MudTooltip>
+    </div>
+</MudStack>

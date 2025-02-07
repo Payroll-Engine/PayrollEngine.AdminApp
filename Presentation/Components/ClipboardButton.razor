@@ -1,0 +1,34 @@
+﻿<MudTooltip Delay="1000" Text="@Localizer.CopyToClipboardHelp" Placement="@TooltipPlacement">
+    <MudIconButton OnClick="WebServerUrlToClipboard"
+    Style="zoom: 0.6"
+    Class="pl-4"
+    Icon="@Icons.Material.Filled.ContentCopy" />
+</MudTooltip>
+
+@code {
+    /// <summary>
+    /// Clipboard text
+    /// </summary>
+    [Parameter] public string Text { get; set; }
+
+    /// <summary>
+    /// Tooltip placement
+    /// </summary>
+    [Parameter] public Placement TooltipPlacement { get; set; } = Placement.Right;
+
+    [Inject] private Localizer Localizer { get; set; }
+    [Inject] private IJSRuntime JSRuntime { get; set; }
+
+    /// <summary>
+    /// Copy text to clipboard
+    /// </summary>
+    protected void WebServerUrlToClipboard()
+    {
+        if (string.IsNullOrWhiteSpace(Text))
+        {
+            return;
+        }
+        // source https://www.meziantou.net/copying-text-to-clipboard-in-a-blazor-application.htm
+        JSRuntime.InvokeVoidAsync("navigator.clipboard.writeText", Text);
+    }
+}

@@ -1,0 +1,15 @@
+﻿@inherits MainLayoutBase
+
+@* MudBlazor *@
+<MudThemeProvider @ref="ThemeProvider" IsDarkMode="@DarkMode" />
+<MudPopoverProvider />
+<MudDialogProvider MaxWidth="MaxWidth.ExtraLarge"
+                   CloseOnEscapeKey="true" />
+
+<div class="page">
+    <main>
+        <article class="content">
+            @Body
+        </article>
+    </main>
+</div>

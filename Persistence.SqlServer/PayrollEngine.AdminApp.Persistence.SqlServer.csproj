@@ -1,0 +1,18 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<AssemblyName>PayrollEngine.AdminApp.Persistence.SqlServer</AssemblyName>
+		<RootNamespace>PayrollEngine.AdminApp.Persistence.SqlServer</RootNamespace>
+		<Description>Payroll Engine Admin Application SQL Server Persistence</Description>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Microsoft.Data.SqlClient" Version="5.2.2" />
+		<PackageReference Include="Microsoft.SqlServer.SqlManagementObjects" Version="172.52.0" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <ProjectReference Include="..\Core\PayrollEngine.AdminApp.Core.csproj" />
+	</ItemGroup>
+
+</Project>

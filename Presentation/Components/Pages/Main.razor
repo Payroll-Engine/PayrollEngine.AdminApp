@@ -1,0 +1,115 @@
+﻿@page "/"
+
+@inherits MainPage
+
+@if (!HasAnyAsset)
+{
+    <MudPaper Class="ma-4 pa-4 mud-error">
+        <MudText>@Localizer.MissingAssetsError</MudText>
+    </MudPaper>
+    return;
+}
+
+<div class="d-flex align-center my-1 px-4">
+    <MudText Typo="Typo.h4" Class="d-d-flex flex-1" Style="padding: 0 !important;">
+        @Localizer.AppTitle
+    </MudText>
+    <MudTooltip Delay="1000" Text="@Localizer.LastUpdatedAppStatusHelp" Placement="Placement.Left">
+        <MudText Typo="Typo.subtitle2" Class="align-end"
+                 Style="font-size: x-small; font-weight: lighter; line-height: normal">
+            @StatusLastUpdated.ToLongTimeString()
+        </MudText>
+    </MudTooltip>
+    <MudTooltip Delay="1000" Text="@RefreshHelp" Placement="Placement.Left">
+        <MudIconButton OnClick="UpdateAssetStatusAsync"
+                       Class="ml-2"
+                       Color="@Color.Primary"
+                       Variant="@Globals.ButtonVariant"
+                       Style="zoom: 0.8"
+                       Disabled="StatusUpdate"
+                       Icon="@(ActiveTimer ? Icons.Material.Outlined.AutoMode : Icons.Material.Outlined.Refresh)"
+                       Size="Size.Small" />
+    </MudTooltip>
+</div>
+@if (StatusUpdate)
+{
+    <div class="px-2 pt-2">
+        <MudProgressLinear Color="Color.Info" Rounded="true"
+                           Class="mud-table-loading-progress"
+                           Indeterminate="true" />
+    </div>
+}
+
+<MudStack Row="false" Class="justify-center pa-2" Spacing="2">
+
+    @if (Loaded)
+    {
+        @* WebApp *@
+        @if (WebAppAvailable)
+        {
+            <MudPaper Class="pa-3" Elevation="4">
+                <WebAppAssetView Asset="@AssetService.WebApp" />
+            </MudPaper>
+        }
+
+        @* Backend (local) *@
+        @if (BackendAvailable)
+        {
+            <MudPaper Class="pa-3" Elevation="4">
+                <BackendAssetView Asset="@AssetService.Backend" />
+            </MudPaper>
+        }
+        else @if (WebAppAvailable || ConsoleAvailable)
+        {
+            @* Backend (remote) *@
+            <MudPaper Class="pa-3">
+                <RemoteBackendAssetView Asset="@AssetService.RemoteBackend" />
+            </MudPaper>
+        }
+
+        @* Console *@
+        @if (ConsoleAvailable)
+        {
+            <MudPaper Class="pa-3" Elevation="4">
+                <ConsoleAssetView Asset="@AssetService.Console" />
+            </MudPaper>
+        }
+    }
+
+    @* Tests *@
+    @if (TestsAvailable)
+    {
+        <MudPaper Class="pa-3" Elevation="4">
+            <FileAssetView Asset="@AssetService.Tests" Title="@Localizer.TestsTitle" />
+        </MudPaper>
+    }
+
+    @* Examples *@
+    @if (ExamplesAvailable)
+    {
+        <MudPaper Class="pa-3" Elevation="4">
+            <FileAssetView Asset="@AssetService.Examples" Title="@Localizer.ExamplesTitle" />
+        </MudPaper>
+    }
+
+    @* Status *@
+    @if (HasStatusMessage)
+    {
+        <MudPaper Elevation="0" Outlined="true" Class="d-flex align-center pa-2 mt-1">
+            <MudIcon Icon="@StatusIcon" Style="zoom: 0.8"
+                     Color="@(StatusType == StatusMessageType.Error ? Color.Error : Color.Default)" />
+            <MudText Typo="Typo.caption"
+                     Color="@(StatusType == StatusMessageType.Error ? Color.Error : Color.Default)"
+                     Class="d-flex flex-grow-1 pl-2">
+                @StatusMessage
+            </MudText>
+        </MudPaper>
+    }
+
+</MudStack>
+
+<style>
+    .pe-dialog-title {
+        padding: 0.7rem 1rem;
+    }
+</style>
