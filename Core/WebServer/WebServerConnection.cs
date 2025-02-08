@@ -27,10 +27,17 @@ public class WebServerConnection
     /// </summary>
     public string ApiKey { get; set; }
 
+    /// <summary>
+    /// Default constructor
+    /// </summary>
     public WebServerConnection()
     {
     }
 
+    /// <summary>
+    /// Copy constructor
+    /// </summary>
+    /// <param name="copy"></param>
     public WebServerConnection(WebServerConnection copy)
     {
         ImportValues(copy);
@@ -89,5 +96,6 @@ public class WebServerConnection
         ApiKey = source.ApiKey;
     }
 
+    /// <inheritdoc />
     public override string ToString() => ToUrl();
 }

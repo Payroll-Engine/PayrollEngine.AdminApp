@@ -15,14 +15,20 @@ namespace PayrollEngine.AdminApp.Presentation.Components.Pages;
 /// </summary>
 public class MainPage : ComponentBase, IDisposable
 {
+    /// <summary>
+    /// Localizer
+    /// </summary>
     [Inject]
     protected Localizer Localizer { get; set; }
-    [Inject]
-    protected IStatusMessageService StatusMessageService { get; set; }
+    /// <summary>
+    /// Asset service
+    /// </summary>
     [Inject]
     protected IAssetService AssetService { get; set; }
     [Inject]
-    protected IConfigurationRoot Configuration { get; set; }
+    private IStatusMessageService StatusMessageService { get; set; }
+    [Inject]
+    private IConfigurationRoot Configuration { get; set; }
 
     #region Backend
 
@@ -95,9 +101,16 @@ public class MainPage : ComponentBase, IDisposable
     /// <summary>
     /// Console asset available
     /// </summary>
-    protected bool ConsoleAvailable =>
-        BackendForClientAvailable && AssetService.Console.Available;
+    protected bool ConsoleAvailable => AssetService.Console.Available;
+
+    /// <summary>
+    /// Tests asset available
+    /// </summary>
     protected bool TestsAvailable => AssetService.Tests.Available;
+
+    /// <summary>
+    /// Examples asset available
+    /// </summary>
     protected bool ExamplesAvailable => AssetService.Examples.Available;
 
     #endregion
@@ -202,7 +215,7 @@ public class MainPage : ComponentBase, IDisposable
         {
             return;
         }
-        InvokeAsync(UpdateAssetStatusAsync);
+        InvokeAsync(UpdateStatusAsync);
     }
 
     #endregion
@@ -212,18 +225,19 @@ public class MainPage : ComponentBase, IDisposable
     /// <summary>
     /// Update assets status
     /// </summary>
-    protected async Task UpdateAssetStatusAsync()
+    protected async Task UpdateStatusAsync()
     {
         if (StatusUpdate)
         {
             return;
         }
 
+        // show progress indicator
         StatusUpdate = true;
         StateHasChanged();
         try
         {
-            await AssetService.UpdateStatusAsync();
+            await Task.Run(AssetService.UpdateStatusAsync);
             StatusLastUpdated = DateTime.Now;
         }
         catch (Exception exception)
@@ -232,6 +246,7 @@ public class MainPage : ComponentBase, IDisposable
         }
         finally
         {
+            // hide progress indicator
             StatusUpdate = false;
             StateHasChanged();
         }
@@ -264,7 +279,7 @@ public class MainPage : ComponentBase, IDisposable
         // update status
         if (updateStatus)
         {
-            await UpdateAssetStatusAsync();
+            await UpdateStatusAsync();
         }
 
         // first render only

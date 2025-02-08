@@ -15,6 +15,14 @@ namespace PayrollEngine.AdminApp.Asset;
 /// </summary>
 public class FileAssetService : IAssetService
 {
+    /// <summary>
+    /// Constructor
+    /// </summary>
+    /// <param name="fileProvider">File provider</param>
+    /// <param name="settingsService">App settings provider</param>
+    /// <param name="databaseService">Database service</param>
+    /// <param name="webServerService">Web server service</param>
+    /// <exception cref="ArgumentNullException"></exception>
     public FileAssetService(
         PhysicalFileProvider fileProvider,
         ISettingsService settingsService,
@@ -51,19 +59,19 @@ public class FileAssetService : IAssetService
 
     /// <inheritdoc />
     public BackendAsset Backend { get; }
-    
+
     /// <inheritdoc />
     public RemoteBackendAsset RemoteBackend { get; }
-    
+
     /// <inheritdoc />
     public WebAppAsset WebApp { get; }
-    
+
     /// <inheritdoc />
     public ConsoleAsset Console { get; }
-    
+
     /// <inheritdoc />
     public TestsAsset Tests { get; }
-    
+
     /// <inheritdoc />
     public ExamplesAsset Examples { get; }
 
@@ -73,7 +81,7 @@ public class FileAssetService : IAssetService
 
     /// <inheritdoc />
     public bool ValidStatus { get; private set; } = true;
-    
+
     /// <inheritdoc />
     public event EventHandler StatusInvalidated;
 
@@ -118,13 +126,16 @@ public class FileAssetService : IAssetService
     {
         var scripts = new List<string>();
 
+        // update scripts ordered from old to new version
         var scriptsByVersion = Backend.Parameters.Database.UpdateScripts.OrderBy(x => x.FromVersion);
         foreach (var updateScript in scriptsByVersion)
         {
+            // ignore older version than the existing version
             if (updateScript.FromVersion < existing)
             {
                 continue;
             }
+            // add update scripts
             foreach (var script in updateScript.Scripts)
             {
                 scripts.Add(ReadScriptFile(script));
@@ -133,6 +144,10 @@ public class FileAssetService : IAssetService
         return Task.FromResult(scripts);
     }
 
+    /// <summary>
+    /// Read backend script file
+    /// </summary>
+    /// <param name="name">File name</param>
     private string ReadScriptFile(string name)
     {
         var fileName = OperatingSystem.PathCombine(Backend.Name, name);

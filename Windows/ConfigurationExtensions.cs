@@ -9,6 +9,13 @@ namespace PayrollEngine.AdminApp.Windows;
 public static class ConfigurationExtensions
 {
     /// <summary>
+    /// Get app culture
+    /// </summary>
+    /// <param name="configuration">Configuration</param>
+    public static string Culture(this IConfigurationRoot configuration) =>
+        configuration[nameof(Culture)];
+
+    /// <summary>
     /// Get file asset path
     /// </summary>
     /// <param name="configuration">Configuration</param>
@@ -21,6 +28,28 @@ public static class ConfigurationExtensions
     /// <param name="configuration">Configuration</param>
     public static string HelpUrl(this IConfigurationRoot configuration) =>
         configuration[nameof(HelpUrl)];
+
+    /// <summary>
+    /// Get database collation
+    /// </summary>
+    /// <param name="configuration">Configuration</param>
+    public static string DatabaseCollation(this IConfigurationRoot configuration) =>
+        configuration[nameof(DatabaseCollation)];
+
+    /// <summary>
+    /// Get database connection timeout
+    /// </summary>
+    /// <param name="configuration">Configuration</param>
+    /// <param name="defaultTimeout">Default database request timeout</param>
+    public static int DatabaseConnectTimeout(this IConfigurationRoot configuration, int defaultTimeout)
+    {
+        var timeout = configuration[nameof(DatabaseConnectTimeout)];
+        if (string.IsNullOrWhiteSpace(timeout) || !int.TryParse(timeout, out var seconds))
+        {
+            return defaultTimeout;
+        }
+        return seconds;
+    }
 
     /// <summary>
     /// Get http connection timeout

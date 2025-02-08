@@ -20,6 +20,9 @@ public abstract class WebAppAssetViewBase : ComponentBase
     /// </summary>
     [Parameter] public WebAppAsset Asset { get; set; }
 
+    /// <summary>
+    /// Localizer
+    /// </summary>
     [Inject] protected Localizer Localizer { get; set; }
     [Inject] private IStatusMessageService StatusMessageService { get; set; }
     [Inject] private IDialogService DialogService { get; set; }
@@ -64,8 +67,22 @@ public abstract class WebAppAssetViewBase : ComponentBase
     /// <summary>
     /// Web server href
     /// </summary>
-    protected MarkupString WebServerHref =>
-        MarkupTool.ToHref(WebServerUrl);
+    protected MarkupString WebServerHref
+    {
+        get
+        {
+            var serverUrl = WebServerUrl;
+            if (string.IsNullOrWhiteSpace(serverUrl))
+            {
+                serverUrl = Localizer.UrlUndefined;
+            }
+            return Asset.WebServerStatus == WebServerStatus.Available ?
+                // link
+                MarkupTool.ToHref(serverUrl) :
+                // no link
+                new(serverUrl);
+        }
+    }
 
     /// <summary>
     /// Web server edit text
@@ -74,7 +91,7 @@ public abstract class WebAppAssetViewBase : ComponentBase
         Asset.WebServerStatus switch
         {
             WebServerStatus.UndefinedConnection => Localizer.Add,
-            _ => Localizer.EditDatabase
+            _ => Localizer.Edit
         };
 
     /// <summary>
@@ -88,7 +105,7 @@ public abstract class WebAppAssetViewBase : ComponentBase
         }
         catch (Exception exception)
         {
-            await DialogService.ShowMessageBox(Localizer.WebAppTitle, exception);
+            await DialogService.ShowMessage(Localizer.WebAppTitle, exception);
         }
     }
 
@@ -108,7 +125,7 @@ public abstract class WebAppAssetViewBase : ComponentBase
         }
         catch (Exception exception)
         {
-            await DialogService.ShowMessageBox(Localizer.WebAppTitle, exception);
+            await DialogService.ShowMessage(Localizer.WebAppTitle, exception);
         }
     }
 
@@ -166,7 +183,7 @@ public abstract class WebAppAssetViewBase : ComponentBase
         }
         catch (Exception exception)
         {
-            await DialogService.ShowMessageBox(Localizer.DatabaseConnectionDialogTitle, exception);
+            await DialogService.ShowMessage(Localizer.DatabaseConnectionDialogTitle, exception);
         }
     }
 
@@ -184,10 +201,9 @@ public abstract class WebAppAssetViewBase : ComponentBase
         }
 
         // confirm certificate installation
-        var dialog = await DialogService.ShowMessageBox(
+        var dialog = await DialogService.ShowConfirm(
             title: Localizer.WebAppTitle,
-            markupMessage: Localizer.MissingDotNetDevCertificate,
-            cancelText: Localizer.Cancel);
+            markupMessage: Localizer.MissingDotNetDevCertificate);
         if (dialog != true)
         {
             return false;
@@ -201,10 +217,9 @@ public abstract class WebAppAssetViewBase : ComponentBase
         // certificate setup failed
         if (!OperatingSystem.HasLocalSecureDevCertificate())
         {
-            dialog = await DialogService.ShowMessageBox(
+            dialog = await DialogService.ShowConfirm(
                 title: Localizer.WebAppTitle,
-                markupMessage: Localizer.DotNetDevCertificateSetupFailed,
-                cancelText: Localizer.Cancel);
+                markupMessage: Localizer.DotNetDevCertificateSetupFailed);
             return dialog == true;
         }
 

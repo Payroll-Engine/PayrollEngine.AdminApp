@@ -17,45 +17,51 @@ public static class Specification
     /// <summary>Configuration setting name, containing the payroll database connection string</summary>
     public const string PayrollDatabaseConnection = "PayrollDatabaseConnection";
 
+    /// <summary>Configuration setting name, containing the payroll web app connection string</summary>
     public const string PayrollWebAppConnection = "PayrollWebAppConnection";
 
     #endregion
 
     #region Assets
 
+    /// <summary>File name containing the assets parameter</summary>
     public const string AssetParameterFileName = "asset.json";
-    
+
+    /// <summary>Default backend url</summary>
     public const string BackendDefaultBaseUrl = "https://localhost";
+    /// <summary>Default backend port</summary>
     public const int BackendDefaultPort = 44354;
+    /// <summary>Default backend connection timeout</summary>
     public const int BackendDefaultTimeout = 100;
 
+    /// <summary>Default web app url</summary>
     public const string WebAppDefaultBaseUrl = "https://localhost";
+    /// <summary>Default web app url</summary>
     public const int WebAppDefaultPort = 7179;
 
     #endregion
 
     #region Database
 
-    public const string TenantTableName = "Tenant";
-
+    /// <summary>Default web app url</summary>
     public const string DatabaseCollation = "SQL_Latin1_General_CP1_CS_AS";
-
-    public const string DatabaseServerName = "localhost";
-    public const string DatabaseName = nameof(PayrollEngine);
-    public const bool DatabaseDefaultIntegratedSecurity = true;
-    public const bool DatabaseTrustedConnection = true;
-    public const int DatabaseConnectionTimeout = 100;
 
     #endregion
 
     #region App config
 
-    public const int AppRefreshDefaultTimeout = 120;
-    public const int AppRefreshMinTimeout = 15;
-    public const int AppRefreshMaxTimeout = 60 * 60; // 1 hour
-
+    /// <summary>App dark mode config name</summary>
     public const string DarkModeConfig = "DarkMode";
+    /// <summary>Http connection timeout config name</summary>
     public const string HttpConnectTimeoutConfig = "HttpConnectTimeout";
+
+    /// <summary>App refresh default timeout</summary>
+    public const int AppRefreshDefaultTimeout = 120;
+    /// <summary>App refresh mim timeout</summary>
+    public const int AppRefreshMinTimeout = 15;
+    /// <summary>App refresh max timeout</summary>
+    public const int AppRefreshMaxTimeout = 60 * 60; // 1 hour
+    /// <summary>Auto refresh timeout config name</summary>
     public const string AutoRefreshTimeoutConfig = "AutoRefreshTimeout";
 
     #endregion

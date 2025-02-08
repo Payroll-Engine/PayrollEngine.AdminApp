@@ -4,6 +4,7 @@
 		<AssemblyName>PayrollEngine.AdminApp.Presentation</AssemblyName>
 		<RootNamespace>PayrollEngine.AdminApp.Presentation</RootNamespace>
 		<Description>Payroll Engine Admin Application Presentation Library</Description>
+		<GenerateDocumentationFile>True</GenerateDocumentationFile>
 	</PropertyGroup>
 
 	<ItemGroup>

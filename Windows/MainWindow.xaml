@@ -41,8 +41,8 @@
                         HorizontalAlignment="Right" 
                         Orientation="Horizontal">
                 <TextBlock Name="AdminText"
-                           Background="Brown"
-                           FontWeight="Bold"
+                           Background="DimGray"
+                           FontWeight="DemiBold"
                            VerticalAlignment="Center"
                            Padding="8 2" />
                 <Button Width="35"

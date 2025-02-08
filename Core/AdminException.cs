@@ -7,17 +7,12 @@ namespace PayrollEngine.AdminApp;
 /// </summary>
 public class AdminException : Exception
 {
-    public AdminException()
-    {
-    }
-
+    /// <summary>
+    /// Default constructor
+    /// </summary>
+    /// <param name="message"></param>
     public AdminException(string message) :
         base(message)
-    {
-    }
-
-    public AdminException(string message, Exception innerException) :
-        base(message, innerException)
     {
     }
 }

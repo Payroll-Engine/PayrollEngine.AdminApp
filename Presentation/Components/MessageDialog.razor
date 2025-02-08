@@ -1,0 +1,43 @@
+﻿<MudDialog Class="item-dialog" TitleClass="mud-theme-primary pe-dialog-title"
+           Style="min-width: 24rem; max-width: 36rem; min-height: 12rem; max-height: 48rem">
+    <DialogContent>
+        <MudStack Class="pb-8">
+            @if (string.IsNullOrWhiteSpace(Message))
+            {
+                <MudText Class="ma-6" Align="Align.Center">@MarkupMessage</MudText>
+            }
+            else
+            {
+                <MudText Class="ma-6" Align="Align.Center">@Message</MudText>
+            }
+            <MudStack Row="true" Class="justify-center">
+                <MudButton Class="mx-4"
+                           Variant="@Globals.ButtonVariant"
+                           Color="@ButtonColor"
+                           OnClick="@Close">
+                    @(ButtonText ?? Localizer.Ok)
+                </MudButton>
+            </MudStack>
+        </MudStack>
+    </DialogContent>
+</MudDialog>
+
+@code {
+    [CascadingParameter] private IMudDialogInstance MudDialog { get; set; }
+
+    /// <summary>Dialog message</summary>
+    [Parameter] public string Message { get; set; }
+    /// <summary>Dialog markup message</summary>
+    [Parameter] public MarkupString MarkupMessage { get; set; }
+    /// <summary>Button text (default: OK)</summary>
+    [Parameter] public string ButtonText { get; set; }
+    /// <summary>Button color (default: default)</summary>
+    [Parameter] public Color ButtonColor { get; set; } = Color.Default;
+
+    [Inject] private Localizer Localizer { get; set; }
+
+    /// <summary>
+    /// Close
+    /// </summary>
+    private void Close() => MudDialog.Close(DialogResult.Ok(true));
+}

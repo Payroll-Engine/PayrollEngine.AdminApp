@@ -4,6 +4,7 @@
 		<AssemblyName>PayrollEngine.AdminApp.Persistence.SqlServer</AssemblyName>
 		<RootNamespace>PayrollEngine.AdminApp.Persistence.SqlServer</RootNamespace>
 		<Description>Payroll Engine Admin Application SQL Server Persistence</Description>
+		<GenerateDocumentationFile>True</GenerateDocumentationFile>
 	</PropertyGroup>
 
 	<ItemGroup>

@@ -8,6 +8,9 @@ namespace PayrollEngine.AdminApp.Asset;
 /// </summary>
 public class RemoteBackendAsset : WebServerAssetBase, IVirtualAsset
 {
+    /// <summary>
+    /// Constructor
+    /// </summary>
     public RemoteBackendAsset()
     {
         // always available

@@ -22,6 +22,9 @@ public abstract class BackendAssetViewBase : ComponentBase
     /// </summary>
     [Parameter] public BackendAsset Asset { get; set; }
 
+    /// <summary>
+    /// Localizer
+    /// </summary>
     [Inject] protected Localizer Localizer { get; set; }
     [Inject] private IStatusMessageService StatusMessageService { get; set; }
     [Inject] private IDialogService DialogService { get; set; }
@@ -55,7 +58,7 @@ public abstract class BackendAssetViewBase : ComponentBase
             var serverUrl = WebServerUrl;
             if (string.IsNullOrWhiteSpace(serverUrl))
             {
-                serverUrl = Localizer.ConnectionUndefined;
+                serverUrl = Localizer.UrlUndefined;
             }
             return Asset.WebServerStatus == WebServerStatus.Available ?
                 // link
@@ -72,7 +75,7 @@ public abstract class BackendAssetViewBase : ComponentBase
         Asset.WebServerStatus switch
         {
             WebServerStatus.UndefinedConnection => Localizer.Add,
-            _ => Localizer.EditDatabase
+            _ => Localizer.Edit
         };
 
     /// <summary>
@@ -86,7 +89,7 @@ public abstract class BackendAssetViewBase : ComponentBase
         }
         catch (Exception exception)
         {
-            await DialogService.ShowMessageBox(Localizer.BackendLocalTitle, exception);
+            await DialogService.ShowMessage(Localizer.BackendLocalTitle, exception);
         }
     }
 
@@ -106,7 +109,7 @@ public abstract class BackendAssetViewBase : ComponentBase
         }
         catch (Exception exception)
         {
-            await DialogService.ShowMessageBox(Localizer.BackendLocalTitle, exception);
+            await DialogService.ShowMessage(Localizer.BackendLocalTitle, exception);
         }
     }
 
@@ -121,10 +124,9 @@ public abstract class BackendAssetViewBase : ComponentBase
         }
 
         // confirm certificate installation
-        var dialog = await DialogService.ShowMessageBox(
+        var dialog = await DialogService.ShowConfirm(
             title: Localizer.BackendLocalTitle,
-            markupMessage: Localizer.MissingDotNetDevCertificate,
-            cancelText: Localizer.Cancel);
+            markupMessage: Localizer.MissingDotNetDevCertificate);
         if (dialog != true)
         {
             return false;
@@ -138,10 +140,9 @@ public abstract class BackendAssetViewBase : ComponentBase
         // certificate setup failed
         if (!OperatingSystem.HasLocalSecureDevCertificate())
         {
-            dialog = await DialogService.ShowMessageBox(
+            dialog = await DialogService.ShowConfirm(
                 title: Localizer.BackendLocalTitle,
-                markupMessage: Localizer.DotNetDevCertificateSetupFailed,
-                cancelText: Localizer.Cancel);
+                markupMessage: Localizer.DotNetDevCertificateSetupFailed);
             return dialog == true;
         }
 
@@ -207,7 +208,7 @@ public abstract class BackendAssetViewBase : ComponentBase
         }
         catch (Exception exception)
         {
-            await DialogService.ShowMessageBox(Localizer.WebServer, exception);
+            await DialogService.ShowMessage(Localizer.WebServer, exception);
         }
     }
 
@@ -228,7 +229,7 @@ public abstract class BackendAssetViewBase : ComponentBase
         Asset.DatabaseStatus switch
         {
             DatabaseStatus.UndefinedConnection => Localizer.Add,
-            _ => Localizer.EditDatabase
+            _ => Localizer.Edit
         };
 
     /// <summary>
@@ -237,11 +238,10 @@ public abstract class BackendAssetViewBase : ComponentBase
     protected string DatabaseSetupText =>
         Asset.DatabaseStatus switch
         {
-            DatabaseStatus.InvalidLogin or
-                DatabaseStatus.MissingDatabase or
-                DatabaseStatus.EmptyDatabase => Localizer.Setup,
+            DatabaseStatus.MissingDatabase or
+                DatabaseStatus.EmptyDatabase => Localizer.DatabaseSetup,
             DatabaseStatus.OutdatedVersion => Localizer.Update,
-            _ => Localizer.EditDatabase
+            _ => Localizer.Edit
         };
 
     /// <summary>
@@ -262,12 +262,27 @@ public abstract class BackendAssetViewBase : ComponentBase
             // working copy
             var editConnection = new DatabaseConnection(Asset.DatabaseConnection);
 
+            // database host
+            DatabaseHost? initHost = null;
+            if (Asset.DatabaseStatus == DatabaseStatus.UndefinedConnection)
+            {
+                initHost = await DialogService.ShowEnumSelect<DatabaseHost>(
+                    title: Localizer.DatabaseConnectionDialogTitle,
+                    message: Localizer.DatabaseHostTypeQuery,
+                    reverseOrder: true);
+                if (initHost == null)
+                {
+                    return;
+                }
+            }
+
             // dialog parameters
             var parameters = new DialogParameters
             {
                 { nameof(DatabaseConnectionDialog.DatabaseService), DatabaseService },
                 { nameof(DatabaseConnectionDialog.Connection), editConnection },
-                { nameof(DatabaseConnectionDialog.Version), Asset.Parameters.Database.CurrentVersion }
+                { nameof(DatabaseConnectionDialog.Version), Asset.Parameters.Database.CurrentVersion },
+                { nameof(DatabaseConnectionDialog.InitHost), initHost }
             };
 
             // show dialog
@@ -281,7 +296,8 @@ public abstract class BackendAssetViewBase : ComponentBase
             // no changes
             if (editConnection.EqualValues(Asset.DatabaseConnection))
             {
-                await DialogService.ShowMessageBox(Localizer.DatabaseConnectionDialogTitle, Localizer.NoEditChangesMessage);
+                await DialogService.ShowMessage(Localizer.DatabaseConnectionDialogTitle,
+                    Localizer.NoEditChangesMessage);
                 return;
             }
 
@@ -299,7 +315,7 @@ public abstract class BackendAssetViewBase : ComponentBase
         }
         catch (Exception exception)
         {
-            await DialogService.ShowMessageBox(Localizer.DatabaseConnectionDialogTitle, exception);
+            await DialogService.ShowMessage(Localizer.DatabaseConnectionDialogTitle, exception);
         }
     }
 
@@ -347,7 +363,6 @@ public abstract class BackendAssetViewBase : ComponentBase
                 { nameof(DatabaseSetupDialog.DatabaseService), DatabaseService },
                 { nameof(DatabaseSetupDialog.Connection), Asset.DatabaseConnection },
                 { nameof(DatabaseSetupDialog.SetupMode), DatabaseSetupMode.Create },
-                { nameof(DatabaseSetupDialog.Collation), Specification.DatabaseCollation },
                 { nameof(DatabaseSetupDialog.Scripts), scripts }
             };
 
@@ -363,7 +378,7 @@ public abstract class BackendAssetViewBase : ComponentBase
             version = await DatabaseService.GetCurrentVersionAsync(Asset.DatabaseConnection);
             if (!Equals(version, Asset.Parameters.Database.CurrentVersion))
             {
-                await DialogService.ShowMessageBox(Localizer.DatabaseCreateDialogTitle,
+                await DialogService.ShowMessage(Localizer.DatabaseCreateDialogTitle,
                     Localizer.DatabaseCreateErrorMessage);
                 return;
             }
@@ -375,7 +390,7 @@ public abstract class BackendAssetViewBase : ComponentBase
         }
         catch (Exception exception)
         {
-            await DialogService.ShowMessageBox(Localizer.DatabaseConnectionDialogTitle, exception);
+            await DialogService.ShowMessage(Localizer.DatabaseConnectionDialogTitle, exception);
         }
     }
 
@@ -411,7 +426,7 @@ public abstract class BackendAssetViewBase : ComponentBase
 
             // show dialog
             var dialog = await (await DialogService.ShowAsync<DatabaseSetupDialog>(
-                title: Localizer.DatabaseCreateDialogTitle, parameters)).Result;
+                title: Localizer.DatabaseUpdateDialogTitle, parameters)).Result;
             if (dialog == null || dialog.Canceled)
             {
                 return;
@@ -421,7 +436,7 @@ public abstract class BackendAssetViewBase : ComponentBase
             version = await DatabaseService.GetCurrentVersionAsync(Asset.DatabaseConnection);
             if (!Equals(version, Asset.Parameters.Database.CurrentVersion))
             {
-                await DialogService.ShowMessageBox(Localizer.DatabaseUpdateDialogTitle,
+                await DialogService.ShowMessage(Localizer.DatabaseUpdateDialogTitle,
                     Localizer.DatabaseUpdateErrorMessage);
                 return;
             }
@@ -434,7 +449,7 @@ public abstract class BackendAssetViewBase : ComponentBase
         }
         catch (Exception exception)
         {
-            await DialogService.ShowMessageBox(Localizer.DatabaseUpdateDialogTitle, exception);
+            await DialogService.ShowMessage(Localizer.DatabaseUpdateDialogTitle, exception);
         }
     }
 

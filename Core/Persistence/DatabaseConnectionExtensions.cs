@@ -8,6 +8,33 @@ namespace PayrollEngine.AdminApp.Persistence;
 /// </summary>
 public static class DatabaseConnectionExtensions
 {
+
+    #region Connection
+
+    /// <summary>
+    /// Get the database host
+    /// </summary>
+    /// <param name="connection">Database connection</param>
+    public static DatabaseHost? GetHost(this DatabaseConnection connection)
+    {
+        if (string.IsNullOrWhiteSpace(connection.Server))
+        {
+            return null;
+        }
+
+        // server name localhost or machine name
+        if (string.Equals("localhost", connection.Server, StringComparison.InvariantCultureIgnoreCase) ||
+            Environment.MachineName.Equals(connection.Server, StringComparison.InvariantCultureIgnoreCase))
+        {
+            return DatabaseHost.Local;
+        }
+        return DatabaseHost.Remote;
+    }
+
+    #endregion
+
+    #region Convert
+
     /// <summary>
     /// Convert to connection string.
     /// </summary>
@@ -150,4 +177,53 @@ public static class DatabaseConnectionExtensions
 
         return connection;
     }
+
+    #endregion
+
+    #region Initialize
+
+    /// <summary>
+    /// Initialize new database
+    /// </summary>
+    /// <param name="connection">Database connection</param>
+    /// <param name="host">Target host</param>
+    public static void Initialize(this DatabaseConnection connection, DatabaseHost host)
+    {
+        switch (host)
+        {
+            case DatabaseHost.Local:
+                InitializeToLocal(connection);
+                break;
+            case DatabaseHost.Remote:
+                InitializeToRemote(connection);
+                break;
+        }
+    }
+
+    private static void InitializeToLocal(this DatabaseConnection connection)
+    {
+        connection.Server = "localhost";
+        connection.Database = nameof(PayrollEngine);
+        connection.Timeout = 30;
+        connection.UserId = null;
+        connection.Password = null;
+        connection.IntegratedSecurity = true;
+        connection.TrustedConnection = true;
+        connection.CustomParameters.Clear();
+    }
+
+    private static void InitializeToRemote(this DatabaseConnection connection)
+    {
+        connection.Server = null;
+        connection.Database = null;
+        connection.Timeout = 100;
+        connection.UserId = null;
+        connection.Password = null;
+        connection.IntegratedSecurity = false;
+        connection.TrustedConnection = false;
+        connection.CustomParameters.Clear();
+    }
+
+    #endregion
+
 }

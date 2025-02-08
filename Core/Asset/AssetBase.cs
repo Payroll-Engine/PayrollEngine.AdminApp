@@ -61,5 +61,6 @@ public abstract class AssetBase
         return result;
     }
 
+    /// <inheritdoc />
     public override string ToString() => Name;
 }

@@ -10,11 +10,16 @@ namespace PayrollEngine.AdminApp;
 public abstract class LocalizerBase
 {
     private IStringLocalizerFactory Factory { get; }
-    public IStringLocalizer Localizer { get; }
+    private IStringLocalizer Localizer { get; }
     private string GroupName { get; }
 
     private const string ResourceName = "Localizations";
 
+    /// <summary>
+    /// Constructor
+    /// </summary>
+    /// <param name="factory">String localizer factory</param>
+    /// <param name="groupName">Additional group name</param>
     protected LocalizerBase(IStringLocalizerFactory factory, string groupName = null)
     {
         Factory = factory ?? throw new ArgumentNullException(nameof(factory));

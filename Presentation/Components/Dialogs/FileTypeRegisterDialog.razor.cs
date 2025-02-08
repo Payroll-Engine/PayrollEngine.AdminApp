@@ -27,6 +27,9 @@ public abstract class FileTypeRegisterDialogBase : ComponentBase
     /// </summary>
     [Parameter] public string Executable { get; set; }
 
+    /// <summary>
+    /// Localizer
+    /// </summary>
     [Inject] protected Localizer Localizer { get; set; }
     [Inject] private IStatusMessageService StatusMessageService { get; set; }
     [Inject] private IDialogService DialogService { get; set; }
@@ -44,10 +47,9 @@ public abstract class FileTypeRegisterDialogBase : ComponentBase
         try
         {
             // confirm file type registration
-            var dialog = await DialogService.ShowMessageBox(
+            var dialog = await DialogService.ShowConfirm(
                 title: Localizer.FileTypeRegisterTitle,
-                message: Localizer.FileTypeRegisterQuery(FileTypeExtension),
-                cancelText: Localizer.Cancel);
+                message: Localizer.FileTypeRegisterQuery(FileTypeExtension));
             if (dialog != true)
             {
                 return;
@@ -56,7 +58,7 @@ public abstract class FileTypeRegisterDialogBase : ComponentBase
             var result = OperatingSystem.RegisterFileType(FileTypeName, FileTypeExtension, Executable);
             if (result != 0)
             {
-                await DialogService.ShowMessageBox(Localizer.FileTypeRegisterTitle, Localizer.FileTypeRegisterError);
+                await DialogService.ShowMessage(Localizer.FileTypeRegisterTitle, Localizer.FileTypeRegisterError);
                 return;
             }
 
@@ -66,7 +68,7 @@ public abstract class FileTypeRegisterDialogBase : ComponentBase
         }
         catch (Exception exception)
         {
-            await DialogService.ShowMessageBox(Localizer.FileTypeRegisterTitle, exception);
+            await DialogService.ShowMessage(Localizer.FileTypeRegisterTitle, exception);
             MudDialog.Close(DialogResult.Ok(false));
         }
     }
@@ -79,10 +81,9 @@ public abstract class FileTypeRegisterDialogBase : ComponentBase
         try
         {
             // confirm file type registration
-            var dialog = await DialogService.ShowMessageBox(
+            var dialog = await DialogService.ShowConfirm(
                 title: Localizer.FileTypeUnregisterTitle,
-                message: Localizer.FileTypeUnregisterQuery(FileTypeExtension),
-                cancelText: Localizer.Cancel);
+                message: Localizer.FileTypeUnregisterQuery(FileTypeExtension));
             if (dialog != true)
             {
                 return;
@@ -91,7 +92,7 @@ public abstract class FileTypeRegisterDialogBase : ComponentBase
             var result = OperatingSystem.UnregisterFileType(FileTypeName, FileTypeExtension);
             if (result != 0)
             {
-                await DialogService.ShowMessageBox(Localizer.FileTypeRegisterTitle, Localizer.FileTypeUnregisterError);
+                await DialogService.ShowMessage(Localizer.FileTypeRegisterTitle, Localizer.FileTypeUnregisterError);
                 return;
             }
 
@@ -101,7 +102,7 @@ public abstract class FileTypeRegisterDialogBase : ComponentBase
         }
         catch (Exception exception)
         {
-            await DialogService.ShowMessageBox(Localizer.FileTypeRegisterTitle, exception);
+            await DialogService.ShowMessage(Localizer.FileTypeRegisterTitle, exception);
             MudDialog.Close(DialogResult.Ok(false));
         }
     }

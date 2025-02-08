@@ -22,11 +22,6 @@ public enum DatabaseStatus
     MissingServer,
 
     /// <summary>
-    /// Invalid login
-    /// </summary>
-    InvalidLogin,
-
-    /// <summary>
     /// No database present
     /// </summary>
     MissingDatabase,

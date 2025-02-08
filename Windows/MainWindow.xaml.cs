@@ -1,5 +1,8 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 using System.Diagnostics;
+using System.Globalization;
+using System.Threading;
 using Microsoft.Extensions.Configuration;
 
 namespace PayrollEngine.AdminApp.Windows;
@@ -17,24 +20,8 @@ public partial class MainWindow
     public MainWindow()
     {
         InitializeComponent();
-
-        // title
-        Title = "Payroll Engine Admin";
-
-        if (OperatingSystem.IsAdministrator())
-        {
-            AdminText.Text = "ADMIN";
-            AdminText.Visibility = Visibility.Visible;
-        }
-        else
-        {
-            AdminText.Visibility = Visibility.Hidden;
-        }
-
-        // buttons
-        AppVersion.Text = GetAppVersion();
-        HelpButton.Click += (_, _) => Help();
-        CloseButton.Click += (_, _) => Close();
+        InitializeCulture();
+        InitializeWindow();
     }
 
     /// <summary>
@@ -62,5 +49,52 @@ public partial class MainWindow
             return null;
         }
         return $"v{assemblyInfo.FileVersion}";
+    }
+
+    /// <summary>
+    /// Initialize the application culture
+    /// </summary>
+    private void InitializeCulture()
+    {
+        var culture = ResourceTool.GetService<IConfigurationRoot>()?.Culture();
+        if (string.IsNullOrWhiteSpace(culture))
+        {
+            return;
+        }
+
+        try
+        {
+            var cultureInfo = new CultureInfo(culture);
+            Thread.CurrentThread.CurrentCulture = cultureInfo;
+            Thread.CurrentThread.CurrentUICulture = cultureInfo;
+        }
+        catch (Exception exception)
+        {
+            MessageBox.Show(Title, exception.GetBaseException().Message);
+        }
+    }
+
+    /// <summary>
+    /// Initialize the application window
+    /// </summary>
+    private void InitializeWindow()
+    {
+        // title
+        Title = "Payroll Engine Admin";
+
+        if (OperatingSystem.IsAdministrator())
+        {
+            AdminText.Text = "ADMIN";
+            AdminText.Visibility = Visibility.Visible;
+        }
+        else
+        {
+            AdminText.Visibility = Visibility.Hidden;
+        }
+
+        // buttons
+        AppVersion.Text = GetAppVersion();
+        HelpButton.Click += (_, _) => Help();
+        CloseButton.Click += (_, _) => Close();
     }
 }

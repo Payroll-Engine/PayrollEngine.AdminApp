@@ -18,6 +18,9 @@ public abstract class DatabaseParameterDialogBase : ComponentBase
     /// </summary>
     [Parameter] public ConnectionParameter Parameter { get; set; }
 
+    /// <summary>
+    /// Localizer
+    /// </summary>
     [Inject] protected Localizer Localizer { get; set; }
     [Inject] private IDialogService DialogService { get; set; }
 
@@ -64,7 +67,7 @@ public abstract class DatabaseParameterDialogBase : ComponentBase
         }
         catch (Exception exception)
         {
-            await DialogService.ShowMessageBox(Localizer.DatabaseConnectionDialogTitle, exception);
+            await DialogService.ShowMessage(Localizer.DatabaseConnectionDialogTitle, exception);
             MudDialog.Close(DialogResult.Ok(false));
         }
     }

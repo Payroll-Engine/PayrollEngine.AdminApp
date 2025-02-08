@@ -29,7 +29,9 @@
                     <MudTooltip Delay="1000" Text="@Asset.WebServerConnection.ToConnectionString(encryptApiKey: true)" Placement="Placement.Top">
                         <MudText Typo="Typo.caption" Style="@WebServerUrlStyle">@WebServerHref</MudText>
                     </MudTooltip>
-                    <ClipboardButton Text="@WebServerUrl" />
+                    <ClipboardButton 
+                        Hidden="@(Asset.WebServerStatus == WebServerStatus.UndefinedConnection)" 
+                        Text="@WebServerUrl" />
                 </MudStack>
             </MudStack>
         </MudText>
@@ -38,7 +40,7 @@
         <div class="justify-end align-end">
 
             @* edit action *@
-            <MudTooltip Delay="1000" Text="@Localizer.EditServerHelp" Placement="Placement.Top">
+            <MudTooltip Delay="1000" Text="@Localizer.Enum(Asset.WebServerStatus)" Placement="Placement.Top">
                 <MudButton @onclick="@EditServerAsync"
                            Color="@(Asset.WebServerStatus == WebServerStatus.UndefinedConnection ?
                                       Color.Success : Color.Primary)"

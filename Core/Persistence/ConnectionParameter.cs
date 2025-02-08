@@ -17,16 +17,28 @@ public class ConnectionParameter
     /// </summary>
     public string Value { get; set; }
 
+    /// <summary>
+    /// Default constructor
+    /// </summary>
     public ConnectionParameter()
     {
     }
 
+    /// <summary>
+    /// Value constructor
+    /// </summary>
+    /// <param name="name">Parameter name</param>
+    /// <param name="value">Parameter value</param>
     public ConnectionParameter(string name, string value)
     {
         Name = name;
         Value = value;
     }
 
+    /// <summary>
+    /// Copy constructor
+    /// </summary>
+    /// <param name="copy">Copy source</param>
     public ConnectionParameter(ConnectionParameter copy)
     {
         ImportValues(copy);
@@ -62,6 +74,7 @@ public class ConnectionParameter
         Value = source.Value;
     }
 
+    /// <inheritdoc />
     public override string ToString() =>
         $"{Name}={Value}";
 }

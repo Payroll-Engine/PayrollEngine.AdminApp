@@ -63,7 +63,6 @@ public static class ColorExtensions
             DatabaseStatus.InvalidConnection => Color.Error,
             DatabaseStatus.MissingServer => Color.Error,
             DatabaseStatus.MissingDatabase => Color.Error,
-            DatabaseStatus.InvalidLogin => Color.Error,
             DatabaseStatus.EmptyDatabase => Color.Error,
             DatabaseStatus.OutdatedVersion => Color.Error,
             DatabaseStatus.Available => Color.Success,

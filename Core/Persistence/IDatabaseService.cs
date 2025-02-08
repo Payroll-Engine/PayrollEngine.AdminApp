@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 namespace PayrollEngine.AdminApp.Persistence;
 
 /// <summary>
-/// Payroll Engine database service
+/// Payroll Engine admin database service
 /// </summary>
 public interface IDatabaseService
 {
@@ -25,9 +25,14 @@ public interface IDatabaseService
     /// Create a new database
     /// </summary>
     /// <param name="connection">Database connection</param>
-    /// <param name="collation">Database collation</param>
     /// <returns>Error code, zero on success</returns>
-    Task<int?> CreateDatabaseAsync(DatabaseConnection connection, string collation = null);
+    Task<int?> CreateDatabaseAsync(DatabaseConnection connection);
+
+    /// <summary>
+    /// Test for empty database
+    /// </summary>
+    /// <param name="connection">Database connection</param>
+    Task<bool?> IsEmptyDatabaseAsync(DatabaseConnection connection);
 
     /// <summary>
     /// Execute database script

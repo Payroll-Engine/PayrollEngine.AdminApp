@@ -20,6 +20,9 @@ public abstract class FileAssetViewBase : ComponentBase
     /// </summary>
     [Parameter] public string Title { get; set; }
 
+    /// <summary>
+    /// Localizer
+    /// </summary>
     [Inject] protected Localizer Localizer { get; set; }
 
     /// <summary>

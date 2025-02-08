@@ -1,6 +1,6 @@
 ﻿@inherits WebServerConnectionDialogBase
 
-<MudDialog Class="item-dialog" Style="min-width: 30rem;"
+<MudDialog Class="item-dialog" Style="min-width: 30rem; max-width: 40rem;"
            TitleClass="mud-theme-primary pe-dialog-title">
     <DialogContent>
         <MudForm @ref="Form" @bind-IsValid="@IsValid">
@@ -18,7 +18,7 @@
                                  Variant="@Globals.InputFieldVariant"
                                  Label="@Localizer.Port"
                                  Margin="Margin.Dense" />
-                
+
                 @if (!UrlOnly)
                 {
                     @* timeout *@
@@ -31,7 +31,7 @@
                                   Variant="@Globals.InputFieldVariant"
                                   Label="@Localizer.ApiKey"
                                   InputType="@ApiKeyInputType"
-                                  Margin="Margin.Dense" 
+                                  Margin="Margin.Dense"
                                   Adornment="Adornment.End"
                                   AdornmentIcon="@ApiKeyInputIcon"
                                   OnAdornmentClick="ToggleApiKeyVisibility" />

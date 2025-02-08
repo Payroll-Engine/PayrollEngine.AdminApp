@@ -1,0 +1,77 @@
+﻿@typeparam T where T : struct, Enum
+
+<MudDialog Class="item-dialog" TitleClass="mud-theme-primary pe-dialog-title"
+           Style="min-width: 24rem; max-width: 36rem; min-height: 12rem; max-height: 24rem;">
+    <DialogContent>
+        <MudStack Class="pb-8">
+            <MudText Class="ma-6" Align="Align.Center">@Message</MudText>
+            <MudStack Row="true" Class="justify-center">
+                @{
+                    if (!HideCancel)
+                    {
+                        <MudButton Class="mx-4"
+                        Variant="@Globals.ButtonVariant"
+                        Color="@CancelButtonColor"
+                        OnClick="@Cancel">
+                            @Localizer.Cancel
+                        </MudButton>
+                    }
+                    foreach (T value in GetValues())
+                    {
+                        <MudButton Class="mx-4"
+                        Variant="@Globals.ButtonVariant"
+                        Color="@ButtonColor"
+                        OnClick="@(() => Select(value))">
+                            @Localizer.Enum(value, LocalizerMap)
+                        </MudButton>
+                    }
+                }
+            </MudStack>
+        </MudStack>
+    </DialogContent>
+</MudDialog>
+
+@code {
+    [CascadingParameter] private IMudDialogInstance MudDialog { get; set; }
+
+    /// <summary>Dialog message</summary>
+    [Parameter] public string Message { get; set; }
+    /// <summary>Localize enum map type</summary>
+    [Parameter] public string LocalizerMap { get; set; }
+    /// <summary>Button color (default: primary)</summary>
+    [Parameter] public Color ButtonColor { get; set; } = Color.Primary;
+    /// <summary>Cancel button color (default: primary)</summary>
+    [Parameter] public Color CancelButtonColor { get; set; } = Color.Default;
+    /// <summary>Hide cancel button</summary>
+    [Parameter] public bool HideCancel { get; set; }
+    /// <summary>Reverse sort order</summary>
+    [Parameter] public bool ReverseOrder { get; set; }
+
+    [Inject] private Localizer Localizer { get; set; }
+
+    /// <summary>
+    /// Get enum values
+    /// </summary>
+    private List<T> GetValues()
+    {
+        var values = new List<T>(Enum.GetValues(typeof(T)).Cast<T>());
+        if (ReverseOrder)
+        {
+            values.Reverse();
+        }
+        return values;
+    }
+
+    /// <summary>
+    /// Cancel selection
+    /// </summary>
+    private void Cancel() => MudDialog.Close(DialogResult.Ok((T?)null));
+
+    /// <summary>
+    /// Set remote selection
+    /// </summary>
+    private void Select(object value)
+    {
+        MudDialog.Close(DialogResult.Ok(value));
+    }
+}

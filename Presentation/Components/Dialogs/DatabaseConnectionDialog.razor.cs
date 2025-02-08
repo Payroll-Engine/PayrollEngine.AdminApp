@@ -28,6 +28,14 @@ public abstract class DatabaseConnectionDialogBase : ComponentBase
     /// </summary>
     [Parameter] public Version Version { get; set; }
 
+    /// <summary>
+    /// Database host (init only)
+    /// </summary>
+    [Parameter] public DatabaseHost? InitHost { get; set; }
+
+    /// <summary>
+    /// Localizer
+    /// </summary>
     [Inject] protected Localizer Localizer { get; set; }
     [Inject] private IErrorService ErrorService { get; set; }
     [Inject] private IDialogService DialogService { get; set; }
@@ -64,6 +72,9 @@ public abstract class DatabaseConnectionDialogBase : ComponentBase
     /// </summary>
     protected bool IsValid { get; set; }
 
+    /// <summary>
+    /// Database change text
+    /// </summary>
     protected string DatabaseChangeText =>
         DatabaseStatus switch
         {
@@ -96,9 +107,9 @@ public abstract class DatabaseConnectionDialogBase : ComponentBase
         // existing
         if (EditConnection.CustomParameters.Contains(parameter.Name))
         {
-            await DialogService.ShowMessageBox(
+            await DialogService.ShowMessage(
                 Localizer.ConnectionParameterDialogTitle,
-                Localizer.DuplicateConnectionParameter(parameter.Name));
+                Localizer.InvalidConnectionParameter(parameter.Name));
             return;
         }
 
@@ -137,9 +148,9 @@ public abstract class DatabaseConnectionDialogBase : ComponentBase
     protected async Task RemoveParameterAsync(ConnectionParameter parameter)
     {
         // confirmation
-        var dialog = await DialogService.ShowMessageBox(
+        var dialog = await DialogService.ShowConfirm(
             Localizer.ConnectionParameterDialogTitle,
-            Localizer.RemoveQuery(parameter.Name));
+            Localizer.RemoveParameterQuery(parameter.Name));
         if (dialog == null || dialog == false)
         {
             return;
@@ -180,7 +191,7 @@ public abstract class DatabaseConnectionDialogBase : ComponentBase
         }
         catch (Exception exception)
         {
-            await DialogService.ShowMessageBox(Localizer.DatabaseConnectionDialogTitle, exception);
+            await DialogService.ShowMessage(Localizer.DatabaseConnectionDialogTitle, exception);
             MudDialog.Close(DialogResult.Ok(false));
         }
     }
@@ -209,6 +220,17 @@ public abstract class DatabaseConnectionDialogBase : ComponentBase
     #region Lifecycle
 
     /// <summary>
+    /// Status markup message
+    /// </summary>
+    protected string StatusMessage { get; private set; }
+
+    /// <summary>
+    /// Test for status message
+    /// </summary>
+    protected bool HasStatusMessage =>
+        !string.IsNullOrWhiteSpace(StatusMessage);
+
+    /// <summary>
     /// Check for status update
     /// </summary>
     protected bool StatusUpdate { get; private set; }
@@ -218,35 +240,33 @@ public abstract class DatabaseConnectionDialogBase : ComponentBase
     /// </summary>
     protected async Task UpdateStatusAsync()
     {
-        if (!EditConnection.HasRequiredValues())
+        if (!EditConnection.HasRequiredValues() || StatusUpdate)
         {
             return;
         }
 
+        // show progress indicator
         StatusUpdate = true;
         StateHasChanged();
+
         try
         {
             // reset errors
-            ErrorService.ClearErrorHistory();
+            ErrorService.Reset();
 
             // refresh database status
             DatabaseStatus = await DatabaseService.GetStatusAsync(EditConnection, Version);
 
             // errors
-            if (ErrorService.HasErrors)
-            {
-                await DialogService.ShowMessageBox(
-                    Localizer.DatabaseConnectionDialogTitle,
-                    ErrorService.GetErrorHistory(clearHistory: true));
-            }
+            StatusMessage = ErrorService.RetrieveErrors();
         }
         catch (AdminException exception)
         {
-            await DialogService.ShowMessageBox(Localizer.DatabaseConnectionDialogTitle, exception);
+            await DialogService.ShowMessage(Localizer.DatabaseConnectionDialogTitle, exception);
         }
         finally
         {
+            // hide progress indicator
             StatusUpdate = false;
             StateHasChanged();
         }
@@ -263,10 +283,10 @@ public abstract class DatabaseConnectionDialogBase : ComponentBase
         // copy edit values
         EditConnection.ImportValues(Connection);
 
-        // default connection
-        if (EditConnection.IsEmpty())
+        // initialize connection by host
+        if (EditConnection.IsEmpty() && InitHost.HasValue)
         {
-            EditConnection.SetDefaultValues();
+            EditConnection.Initialize(InitHost.Value);
             return;
         }
 

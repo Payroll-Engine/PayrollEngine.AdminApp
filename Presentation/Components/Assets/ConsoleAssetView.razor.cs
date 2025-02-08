@@ -17,6 +17,9 @@ public abstract class ConsoleAssetViewBase : ComponentBase
     /// </summary>
     [Parameter] public ConsoleAsset Asset { get; set; }
 
+    /// <summary>
+    /// Localizer
+    /// </summary>
     [Inject] protected Localizer Localizer { get; set; }
     [Inject] private IDialogService DialogService { get; set; }
 
@@ -51,7 +54,7 @@ public abstract class ConsoleAssetViewBase : ComponentBase
         }
         catch (Exception exception)
         {
-            await DialogService.ShowMessageBox(Localizer.ConsoleTitle, exception);
+            await DialogService.ShowMessage(Localizer.ConsoleTitle, exception);
         }
     }
 

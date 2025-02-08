@@ -1,0 +1,59 @@
+﻿
+<MudDialog Class="item-dialog" TitleClass="mud-theme-primary pe-dialog-title"
+           Style="min-width: 24rem; max-width: 36rem; min-height: 12rem; max-height: 48rem;">
+    <DialogContent>
+        <MudStack Class="pb-8">
+            @if (string.IsNullOrWhiteSpace(Message))
+            {
+                <MudText Class="ma-6" Align="Align.Center">@MarkupMessage</MudText>
+            }
+            else
+            {
+                <MudText Class="ma-6" Align="Align.Center">@Message</MudText>
+            }
+            <MudStack Row="true" Class="justify-center">
+                <MudButton Class="mx-4"
+                           Variant="@Globals.ButtonVariant"
+                           Color="@CancelButtonColor"
+                           OnClick="@Cancel">
+                    @(CancelButtonText ?? Localizer.Cancel)
+                </MudButton>
+                <MudButton Class="mx-4"
+                           Variant="@Globals.ButtonVariant"
+                           Color="@OkButtonColor"
+                           OnClick="@Ok">
+                    @(OkButtonText ?? Localizer.Ok)
+                </MudButton>
+            </MudStack>
+        </MudStack>
+    </DialogContent>
+</MudDialog>
+
+@code {
+    [CascadingParameter] private IMudDialogInstance MudDialog { get; set; }
+
+    /// <summary>Dialog message</summary>
+    [Parameter] public string Message { get; set; }
+    /// <summary>Dialog markup message</summary>
+    [Parameter] public MarkupString MarkupMessage { get; set; }
+    /// <summary>OK button color (default: primary)</summary>
+    [Parameter] public Color OkButtonColor { get; set; } = Color.Primary;
+    /// <summary>OK button text (default: OK)</summary>
+    [Parameter] public string OkButtonText { get; set; }
+    /// <summary>Cancel button color (default: primary)</summary>
+    [Parameter] public Color CancelButtonColor { get; set; } = Color.Default;
+    /// <summary>Cancel button text (default: Cancel)</summary>
+    [Parameter] public string CancelButtonText { get; set; }
+
+    [Inject] private Localizer Localizer { get; set; }
+
+    /// <summary>
+    /// Cancel selection
+    /// </summary>
+    private void Cancel() => MudDialog.Close(DialogResult.Ok(false));
+
+    /// <summary>
+    /// Ok selection
+    /// </summary>
+    private void Ok() => MudDialog.Close(DialogResult.Ok(true));
+}

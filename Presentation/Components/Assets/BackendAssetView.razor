@@ -30,8 +30,10 @@
                         <MudTooltip Delay="1000" Text="@Asset.WebServerConnection.ToConnectionString(encryptApiKey: true)" Placement="Placement.Top">
                             <MudText Typo="Typo.caption" Style="@WebServerUrlStyle">@WebServerHref</MudText>
                         </MudTooltip>
-                        <ClipboardButton Text="@WebServerUrl" />
-                    </MudStack>
+                        <ClipboardButton 
+                            Hidden="@(Asset.WebServerStatus == WebServerStatus.UndefinedConnection)" 
+                            Text="@WebServerUrl" />
+                                                                                                                                     </MudStack>
                 </MudStack>
             </MudText>
 

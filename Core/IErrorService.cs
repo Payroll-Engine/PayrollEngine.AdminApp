@@ -8,15 +8,11 @@ namespace PayrollEngine.AdminApp;
 public interface IErrorService
 {
     /// <summary>
-    /// Check for available errors
+    /// Retrieve errors 
     /// </summary>
-    bool HasErrors { get; }
-
-    /// <summary>
-    /// Get error history
-    /// </summary>
-    /// <param name="clearHistory">Clear error history</param>
-    string GetErrorHistory(bool clearHistory = false);
+    /// <remarks>Errors are removed</remarks>
+    /// <returns>Collected error string or null</returns>
+    string RetrieveErrors();
 
     /// <summary>
     /// Add application exception
@@ -27,18 +23,5 @@ public interface IErrorService
     /// <summary>
     /// Remove all errors, ignoring error watches
     /// </summary>
-    void ClearErrorHistory();
-
-    /// <summary>
-    /// Add error watch
-    /// </summary>
-    /// <param name="watchName">Watch name</param>
-    void AddWatch(string watchName);
-
-    /// <summary>
-    /// Get watch error history
-    /// </summary>
-    /// <param name="watchName"></param>
-    /// <param name="queryMode"></param>
-    string GetErrorHistory(string watchName, ErrorWatchQueryMode queryMode = ErrorWatchQueryMode.KeepHistory);
+    void Reset();
 }

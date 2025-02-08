@@ -23,22 +23,20 @@ public abstract class DatabaseSetupDialogBase : ComponentBase
     /// Database connection
     /// </summary>
     [Parameter] public DatabaseConnection Connection { get; set; }
-    
+
     /// <summary>
     /// Database setup mode
     /// </summary>
     [Parameter] public DatabaseSetupMode SetupMode { get; set; }
-    
-    /// <summary>
-    /// Database collation
-    /// </summary>
-    [Parameter] public string Collation { get; set; }
-    
+
     /// <summary>
     /// Database scripts
     /// </summary>
     [Parameter] public List<string> Scripts { get; set; }
 
+    /// <summary>
+    /// Localizer
+    /// </summary>
     [Inject] protected Localizer Localizer { get; set; }
     [Inject] private IErrorService ErrorService { get; set; }
     [Inject] private IDialogService DialogService { get; set; }
@@ -52,11 +50,6 @@ public abstract class DatabaseSetupDialogBase : ComponentBase
     /// Test for executing setup
     /// </summary>
     protected bool SetupExecute { get; private set; }
-
-    protected bool UseCollation =>
-        SetupMode == DatabaseSetupMode.Create && DatabaseStatus == DatabaseStatus.MissingDatabase;
-
-    private DatabaseStatus DatabaseStatus { get; set; }
 
     private string DialogTitle =>
         SetupMode == DatabaseSetupMode.Create
@@ -79,41 +72,42 @@ public abstract class DatabaseSetupDialogBase : ComponentBase
     /// <returns></returns>
     protected async Task Submit()
     {
+        if (SetupExecute)
+        {
+            return;
+        }
+
         // show progress indicator
         SetupExecute = true;
         StatusMessage = Localizer.DatabaseInstallInfo;
         StateHasChanged();
+
         try
         {
-            await InvokeAsync(Setup);
-        }
-        finally
-        {
-            // hide progress indicator
-            SetupExecute = false;
-            StateHasChanged();
-        }
-    }
+            // error handling
+            ErrorService.Reset();
 
-    private async Task Setup()
-    {
-        try
-        {
-            // error watch register
-            var watchName = nameof(DatabaseSetupDialog);
-            ErrorService.AddWatch(watchName);
 
-            // create database
-            if (SetupMode == DatabaseSetupMode.Create && DatabaseStatus == DatabaseStatus.MissingDatabase)
+            // database setup
+            if (SetupMode == DatabaseSetupMode.Create)
             {
-                StatusMessage = Localizer.DatabaseInstallInfo;
-                StateHasChanged();
-                var databaseResult = await DatabaseService.CreateDatabaseAsync(Connection, Collation);
-                if (databaseResult != 0)
+                var databaseStatus = await Task.Run(() => DatabaseService.GetStatusAsync(Connection));
+                if (databaseStatus == DatabaseStatus.MissingDatabase)
                 {
-                    await DialogService.ShowMessageBox(DialogTitle,
-                        Localizer.DatabaseCreateError(ErrorService.GetErrorHistory(watchName)));
-                    MudDialog.Close(DialogResult.Ok(false));
+                    // create database
+                    var createResult = await Task.Run(() => DatabaseService.CreateDatabaseAsync(Connection));
+                    if (createResult != 0)
+                    {
+                        // create database error
+                        return;
+                    }
+                }
+
+                // check for empty database
+                var emptyDatabase = await Task.Run(() => DatabaseService.IsEmptyDatabaseAsync(Connection));
+                if (emptyDatabase != true)
+                {
+                    await DialogService.ShowMessage(DialogTitle, Localizer.DatabaseNotEmptyMessage);
                     return;
                 }
             }
@@ -121,11 +115,13 @@ public abstract class DatabaseSetupDialogBase : ComponentBase
             // execute scripts
             StatusMessage = Localizer.ScriptInstallInfo;
             StateHasChanged();
+
+            // script install
             var scriptError = false;
             foreach (var script in Scripts)
             {
-                var rows = await DatabaseService.ExecuteScriptAsync(Connection, script);
-                if (rows < 0)
+                var rows = await Task.Run(() => DatabaseService.ExecuteScriptAsync(Connection, script));
+                if (rows == 0)
                 {
                     scriptError = true;
                     break;
@@ -136,37 +132,35 @@ public abstract class DatabaseSetupDialogBase : ComponentBase
             SetupExecute = false;
             StateHasChanged();
 
-            // script error
-            // watch unregister
-            var errors = ErrorService.GetErrorHistory(watchName,
-                queryMode: ErrorWatchQueryMode.RemoveWatch);
-            if (scriptError && !string.IsNullOrWhiteSpace(errors))
+            // error
+            if (scriptError)
             {
-                await DialogService.ShowMessageBox(DialogTitle,
-                    Localizer.DatabaseSetupError(errors));
-                MudDialog.Close(DialogResult.Ok(false));
-                return;
+                StatusMessage = ErrorService.RetrieveErrors();
             }
 
-            // success
-            await DialogService.ShowMessageBox(DialogTitle, SuccessMessage);
+            // close dialog
             MudDialog.Close(DialogResult.Ok(true));
+
+            // user confirmation
+            await InvokeAsync(SetupCompleted);
         }
         catch (Exception exception)
         {
-            await DialogService.ShowMessageBox(DialogTitle, exception);
-            MudDialog.Close(DialogResult.Ok(false));
+            StatusMessage = exception.GetBaseException().Message;
+        }
+        finally
+        {
+            // hide progress indicator
+            SetupExecute = false;
+            StateHasChanged();
         }
     }
 
-    /// <inheritdoc />
-    protected override async Task OnAfterRenderAsync(bool firstRender)
+    /// <summary>
+    /// Setup completed message
+    /// </summary>
+    private async Task SetupCompleted()
     {
-        if (firstRender)
-        {
-            DatabaseStatus = await DatabaseService.GetStatusAsync(Connection);
-            StateHasChanged();
-        }
-        await base.OnAfterRenderAsync(firstRender);
+        await DialogService.ShowMessage(DialogTitle, SuccessMessage);
     }
 }

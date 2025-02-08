@@ -78,12 +78,11 @@ internal static class DatabaseTool
     }
 
     /// <summary>
-    /// Test for available table
+    /// Test for empty database
     /// </summary>
     /// <param name="connection">Database connection</param>
-    /// <param name="tableName">Table name</param>
     /// <param name="errorService">Error service</param>
-    internal static async Task<bool?> TestTableAvailableAsync(DatabaseConnection connection, string tableName,
+    internal static async Task<bool?> TestEmptyDatabaseAsync(DatabaseConnection connection,
         IErrorService errorService)
     {
         try
@@ -93,9 +92,7 @@ internal static class DatabaseTool
             {
                 return null;
             }
-
-            var table = GetTable(database, tableName);
-            return table != null;
+            return database.Tables.Count == 0;
         }
         catch (Exception exception)
         {
@@ -159,7 +156,7 @@ internal static class DatabaseTool
     /// <param name="errorService">Error service</param>
     /// <param name="collation">Database collation</param>
     internal static async Task<int?> CreateDatabaseAsync(DatabaseConnection connection,
-        IErrorService errorService, string collation = null)
+        IErrorService errorService, string collation)
     {
         // invalid connection
         if (!connection.HasRequiredValues())
@@ -189,7 +186,7 @@ internal static class DatabaseTool
             // database
             var database = new Database(server, connection.Database)
             {
-                Collation = collation ?? Specification.DatabaseCollation
+                Collation = collation
             };
 
             database.Create();
@@ -266,7 +263,7 @@ internal static class DatabaseTool
     /// </summary>
     /// <param name="server">Server name</param>
     private static bool IsLocalServer(string server) =>
-        Environment.MachineName.Equals(new Server(server).Name);
+        Environment.MachineName.Equals(new Server(server).Name, StringComparison.InvariantCultureIgnoreCase);
 
     /// <summary>
     /// Get database object
@@ -289,23 +286,6 @@ internal static class DatabaseTool
             if (string.Equals(database.Name, connection.Database, StringComparison.InvariantCultureIgnoreCase))
             {
                 return database;
-            }
-        }
-        return null;
-    }
-
-    /// <summary>
-    /// Get database table
-    /// </summary>
-    /// <param name="database">Database object</param>
-    /// <param name="name">Table name</param>
-    private static Table GetTable(Database database, string name)
-    {
-        foreach (Table table in database.Tables)
-        {
-            if (string.Equals(table.Name, name, StringComparison.InvariantCultureIgnoreCase))
-            {
-                return table;
             }
         }
         return null;

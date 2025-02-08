@@ -1,4 +1,8 @@
-﻿<MudTooltip Delay="1000" Text="@Localizer.CopyToClipboardHelp" Placement="@TooltipPlacement">
+﻿@if (Hidden)
+{
+    return;
+}
+<MudTooltip Delay="1000" Text="@Localizer.CopyToClipboardHelp" Placement="@TooltipPlacement">
     <MudIconButton OnClick="WebServerUrlToClipboard"
     Style="zoom: 0.6"
     Class="pl-4"
@@ -10,6 +14,11 @@
     /// Clipboard text
     /// </summary>
     [Parameter] public string Text { get; set; }
+
+    /// <summary>
+    /// Hidden mode
+    /// </summary>
+    [Parameter] public bool Hidden { get; set; }
 
     /// <summary>
     /// Tooltip placement

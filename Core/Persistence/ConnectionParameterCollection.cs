@@ -65,14 +65,6 @@ public class ConnectionParameterCollection : IEnumerable<ConnectionParameter>
     public void SetValue(string name, string value) =>
         Set(new(name, value));
 
-    public void Remove(string name)
-    {
-        var existing = Get(name);
-        if (existing != null)
-        {
-            parameters.Remove(existing);
-        }
-    }
 
     /// <summary>
     /// Remove parameter
@@ -136,11 +128,13 @@ public class ConnectionParameterCollection : IEnumerable<ConnectionParameter>
 
     IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 
+    /// <inheritdoc />
     public IEnumerator<ConnectionParameter> GetEnumerator() =>
         parameters.GetEnumerator();
 
     #endregion
 
+    /// <inheritdoc />
     public override string ToString() =>
         $"{Count} parameters";
 }

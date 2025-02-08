@@ -13,10 +13,14 @@ namespace PayrollEngine.AdminApp.WebServer;
 public class WebServerService(IErrorService errorService, TimeSpan timeout) : IWebServerService
 {
     private IErrorService ErrorService { get; } = errorService;
-    public static TimeSpan DefaultTimeout = TimeSpan.FromSeconds(5);
 
     private TimeSpan Timeout { get; } =
         timeout == TimeSpan.Zero ? DefaultTimeout : timeout;
+
+    /// <summary>
+    /// Default connection timeout
+    /// </summary>
+    public static TimeSpan DefaultTimeout = TimeSpan.FromSeconds(5);
 
     /// <inheritdoc />
     public async Task<WebServerStatus> GetStatusAsync(WebServerConnection connection)

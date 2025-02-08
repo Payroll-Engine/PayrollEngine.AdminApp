@@ -48,10 +48,17 @@ public class DatabaseConnection
     /// </summary>
     public ConnectionParameterCollection CustomParameters { get; } = new();
 
+    /// <summary>
+    /// Default constructor
+    /// </summary>
     public DatabaseConnection()
     {
     }
 
+    /// <summary>
+    /// Copy constructor
+    /// </summary>
+    /// <param name="copy">Copy source</param>
     public DatabaseConnection(DatabaseConnection copy)
     {
         ImportValues(copy);
@@ -123,18 +130,7 @@ public class DatabaseConnection
         CustomParameters.ImportValues(source.CustomParameters);
     }
 
-    public void SetDefaultValues()
-    {
-        Server = Specification.DatabaseServerName;
-        Database = Specification.DatabaseName;
-        Timeout = Specification.DatabaseConnectionTimeout;
-        UserId = null;
-        Password = null;
-        IntegratedSecurity = Specification.DatabaseDefaultIntegratedSecurity;
-        TrustedConnection = Specification.DatabaseTrustedConnection;
-        CustomParameters.Clear();
-    }
-
+    /// <inheritdoc />
     public override string ToString() =>
         string.IsNullOrWhiteSpace(Server) && string.IsNullOrWhiteSpace(Database) ?
             string.Empty : $"{Server}:{Database}";

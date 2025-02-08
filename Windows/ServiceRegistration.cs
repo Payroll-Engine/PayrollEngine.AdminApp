@@ -65,9 +65,11 @@ internal static class ServiceRegistration
     {
         // base services
         var settingsService = new EnvironmentSettingsService();
-        var databaseService = new DatabaseService(errorService);
+        var databaseService = new DatabaseService(errorService,
+            timeout: configuration.DatabaseConnectTimeout(DatabaseService.DefaultTimeout),
+            collation: configuration.DatabaseCollation() ?? Specification.DatabaseCollation);
         var webServerService = new WebServerService(errorService,
-            configuration.HttpConnectTimeout(WebServerService.DefaultTimeout));
+            timeout: configuration.HttpConnectTimeout(WebServerService.DefaultTimeout));
 
         // file system asset path
         var assetPath = configuration.FileAssetsPath();
