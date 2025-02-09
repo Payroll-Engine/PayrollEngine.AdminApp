@@ -54,7 +54,7 @@ public abstract class ConsoleAssetViewBase : ComponentBase
         }
         catch (Exception exception)
         {
-            await DialogService.ShowMessage(Localizer.ConsoleTitle, exception);
+            await DialogService.ShowErrorMessage(Localizer.ConsoleTitle, exception);
         }
     }
 

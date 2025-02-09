@@ -89,7 +89,7 @@ public abstract class BackendAssetViewBase : ComponentBase
         }
         catch (Exception exception)
         {
-            await DialogService.ShowMessage(Localizer.BackendLocalTitle, exception);
+            await DialogService.ShowErrorMessage(Localizer.BackendLocalTitle, exception);
         }
     }
 
@@ -109,7 +109,7 @@ public abstract class BackendAssetViewBase : ComponentBase
         }
         catch (Exception exception)
         {
-            await DialogService.ShowMessage(Localizer.BackendLocalTitle, exception);
+            await DialogService.ShowErrorMessage(Localizer.BackendLocalTitle, exception);
         }
     }
 
@@ -208,7 +208,7 @@ public abstract class BackendAssetViewBase : ComponentBase
         }
         catch (Exception exception)
         {
-            await DialogService.ShowMessage(Localizer.Webserver, exception);
+            await DialogService.ShowErrorMessage(Localizer.Webserver, exception);
         }
     }
 
@@ -320,7 +320,7 @@ public abstract class BackendAssetViewBase : ComponentBase
         }
         catch (Exception exception)
         {
-            await DialogService.ShowMessage(Localizer.DatabaseConnectionDialogTitle, exception);
+            await DialogService.ShowErrorMessage(Localizer.DatabaseConnectionDialogTitle, exception);
         }
     }
 
@@ -403,7 +403,7 @@ public abstract class BackendAssetViewBase : ComponentBase
         }
         catch (Exception exception)
         {
-            await DialogService.ShowMessage(Localizer.DatabaseConnectionDialogTitle, exception);
+            await DialogService.ShowErrorMessage(Localizer.DatabaseConnectionDialogTitle, exception);
         }
     }
 
@@ -462,7 +462,7 @@ public abstract class BackendAssetViewBase : ComponentBase
         }
         catch (Exception exception)
         {
-            await DialogService.ShowMessage(Localizer.DatabaseUpdateDialogTitle, exception);
+            await DialogService.ShowErrorMessage(Localizer.DatabaseUpdateDialogTitle, exception);
         }
     }
 

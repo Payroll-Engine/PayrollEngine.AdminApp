@@ -105,7 +105,7 @@ public abstract class WebAppAssetViewBase : ComponentBase
         }
         catch (Exception exception)
         {
-            await DialogService.ShowMessage(Localizer.WebAppTitle, exception);
+            await DialogService.ShowErrorMessage(Localizer.WebAppTitle, exception);
         }
     }
 
@@ -125,7 +125,7 @@ public abstract class WebAppAssetViewBase : ComponentBase
         }
         catch (Exception exception)
         {
-            await DialogService.ShowMessage(Localizer.WebAppTitle, exception);
+            await DialogService.ShowErrorMessage(Localizer.WebAppTitle, exception);
         }
     }
 
@@ -183,7 +183,7 @@ public abstract class WebAppAssetViewBase : ComponentBase
         }
         catch (Exception exception)
         {
-            await DialogService.ShowMessage(Localizer.DatabaseConnectionDialogTitle, exception);
+            await DialogService.ShowErrorMessage(Localizer.DatabaseConnectionDialogTitle, exception);
         }
     }
 

@@ -83,7 +83,7 @@ public abstract class RemoteBackendAssetViewBase : ComponentBase
         }
         catch (Exception exception)
         {
-            await DialogService.ShowMessage(Localizer.BackendRemoteTitle, exception);
+            await DialogService.ShowErrorMessage(Localizer.BackendRemoteTitle, exception);
         }
     }
 
@@ -139,7 +139,7 @@ public abstract class RemoteBackendAssetViewBase : ComponentBase
         }
         catch (Exception exception)
         {
-            await DialogService.ShowMessage(Localizer.BackendRemoteTitle, exception);
+            await DialogService.ShowErrorMessage(Localizer.BackendRemoteTitle, exception);
         }
     }
 }

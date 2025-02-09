@@ -68,7 +68,7 @@ public abstract class FileTypeRegisterDialogBase : ComponentBase
         }
         catch (Exception exception)
         {
-            await DialogService.ShowMessage(Localizer.FileTypeRegisterTitle, exception);
+            await DialogService.ShowErrorMessage(Localizer.FileTypeRegisterTitle, exception);
             MudDialog.Close(DialogResult.Ok(false));
         }
     }
@@ -102,7 +102,7 @@ public abstract class FileTypeRegisterDialogBase : ComponentBase
         }
         catch (Exception exception)
         {
-            await DialogService.ShowMessage(Localizer.FileTypeRegisterTitle, exception);
+            await DialogService.ShowErrorMessage(Localizer.FileTypeRegisterTitle, exception);
             MudDialog.Close(DialogResult.Ok(false));
         }
     }

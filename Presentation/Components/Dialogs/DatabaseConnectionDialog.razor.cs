@@ -222,7 +222,7 @@ public abstract class DatabaseConnectionDialogBase : ComponentBase
         }
         catch (Exception exception)
         {
-            await DialogService.ShowMessage(Localizer.DatabaseConnectionDialogTitle, exception);
+            await DialogService.ShowErrorMessage(Localizer.DatabaseConnectionDialogTitle, exception);
             MudDialog.Close(DialogResult.Ok(false));
         }
     }
@@ -296,7 +296,7 @@ public abstract class DatabaseConnectionDialogBase : ComponentBase
         }
         catch (AdminException exception)
         {
-            await DialogService.ShowMessage(Localizer.DatabaseConnectionDialogTitle, exception);
+            await DialogService.ShowErrorMessage(Localizer.DatabaseConnectionDialogTitle, exception);
         }
         finally
         {

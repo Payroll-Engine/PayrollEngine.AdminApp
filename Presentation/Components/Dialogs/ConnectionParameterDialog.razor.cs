@@ -66,7 +66,7 @@ public abstract class DatabaseParameterDialogBase : ComponentBase
         }
         catch (Exception exception)
         {
-            await DialogService.ShowMessage(Localizer.DatabaseConnectionDialogTitle, exception);
+            await DialogService.ShowErrorMessage(Localizer.DatabaseConnectionDialogTitle, exception);
             MudDialog.Close(DialogResult.Ok(false));
         }
     }

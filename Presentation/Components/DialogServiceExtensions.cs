@@ -16,7 +16,7 @@ public static class DialogServiceExtensions
     /// <param name="service">Dialog service</param>
     /// <param name="title">Dialog title</param>
     /// <param name="exception">Dialog error</param>
-    public static async Task ShowMessage(this IDialogService service, string title, Exception exception) =>
+    public static async Task ShowErrorMessage(this IDialogService service, string title, Exception exception) =>
         await service.ShowMessage(title, exception.GetBaseException().Message,
             buttonColor: Color.Error);
 
