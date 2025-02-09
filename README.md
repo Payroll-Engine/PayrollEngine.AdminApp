@@ -5,7 +5,7 @@
 The functions of the admin app are divided into assets:
 
 | Asset            | Base asses                | Setup | Client Setup |
-|:--|:--|:--|:--|
+|:--|:--|:--:|:--:|
 | Web App          | Backend                   |   ✔️  |              |
 | Backend          |                           |   ✔️  |              |
 | Backend Remote   |                           |       |    ✔️        |
@@ -20,7 +20,7 @@ The functions of the admin app are divided into assets:
 
 Environment variables
 | Variable                | Description                                | Required  | Used by assets     |
-|:--|:--|:--|:--|
+|:--|:--|:--:|:--|
 | `PayrollDatabaseConnection` | The database connection string         | yes       | Backend            |
 | `PayrollApiConnection`      | The backend connection string          | yes       | Web App, Console   |
 | `PayrollWebAppConnection`   | The web app connection string          | no        | <sup>1)</sup>      |
