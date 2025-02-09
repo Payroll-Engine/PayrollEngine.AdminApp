@@ -270,8 +270,8 @@
 	<data name="NoParametersAvailable" xml:space="preserve">
     <value>Not data available</value>
   </data>		
-	<data name="DatabaseNotReadyToSetup" xml:space="preserve">
-    <value>Database connection is not possible with these settings.</value>
+	<data name="InvalidDatabaseConnection" xml:space="preserve">
+    <value>Invalid database connection.</value>
   </data>		
   <data name="DatabaseUpdateHelp" xml:space="preserve">
     <value>Update the database</value>

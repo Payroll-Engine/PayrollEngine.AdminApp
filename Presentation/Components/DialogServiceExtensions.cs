@@ -181,8 +181,6 @@ public static class DialogServiceExtensions
     /// <param name="buttonColor">Button color</param>
     /// <param name="cancelButtonColor">Cancel button color</param>
     /// <param name="localizerMap">Localizer map</param>
-    /// <returns></returns>
-    /// <exception cref="ArgumentException"></exception>
     public static async Task<T?> ShowEnumSelect<T>(this IDialogService service, string title, string message,
         bool hideCancel = false, bool reverseOrder = false,
         Color buttonColor = Color.Primary, Color cancelButtonColor = Color.Default,

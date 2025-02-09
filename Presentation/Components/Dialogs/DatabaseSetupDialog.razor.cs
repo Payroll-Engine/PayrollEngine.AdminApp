@@ -84,7 +84,6 @@ public abstract class DatabaseSetupDialogBase : ComponentBase
     /// <summary>
     /// Setup database
     /// </summary>
-    /// <returns></returns>
     protected async Task Submit()
     {
         if (SetupExecute)
@@ -160,7 +159,7 @@ public abstract class DatabaseSetupDialogBase : ComponentBase
             // script error
             if (scriptError)
             {
-                StatusMessage = ErrorService.RetrieveErrors();
+                StatusMessage = ErrorService.RetrieveErrors() ?? Localizer.DatabaseCreateErrorMessage;
                 return;
             }
 

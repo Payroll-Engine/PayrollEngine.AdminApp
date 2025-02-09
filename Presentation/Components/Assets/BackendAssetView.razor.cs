@@ -306,7 +306,7 @@ public abstract class BackendAssetViewBase : ComponentBase
             // update asset
             Asset.DatabaseConnection.ImportValues(editConnection);
 
-            // invalidate assets status
+            // asset status
             await AssetService.InvalidateStatusAsync();
 
             // user notification
@@ -315,7 +315,8 @@ public abstract class BackendAssetViewBase : ComponentBase
             // new connection
             if (newConnection)
             {
-                await CreateDatabaseAsync();
+                var status = await DatabaseService.GetStatusAsync(Asset.DatabaseConnection);
+                await SetupDatabaseAsync(status);
             }
         }
         catch (Exception exception)
@@ -327,13 +328,19 @@ public abstract class BackendAssetViewBase : ComponentBase
     /// <summary>
     /// Setup database
     /// </summary>
-    protected async Task SetupDatabaseAsync()
+    protected async Task SetupDatabaseAsync() =>
+        await SetupDatabaseAsync(Asset.DatabaseStatus);
+
+    /// <summary>
+    /// Setup database
+    /// </summary>
+    private async Task SetupDatabaseAsync(DatabaseStatus status)
     {
-        if (Asset.DatabaseStatus.ReadyToCreate())
+        if (status.ReadyToCreate())
         {
             await CreateDatabaseAsync();
         }
-        else if (Asset.DatabaseStatus.ReadyToCreate())
+        else if (status.ReadyToCreate())
         {
             await UpdateDatabaseAsync();
         }

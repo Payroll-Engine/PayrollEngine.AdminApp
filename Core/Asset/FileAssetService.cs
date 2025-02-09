@@ -22,7 +22,6 @@ public class FileAssetService : IAssetService
     /// <param name="settingsService">App settings provider</param>
     /// <param name="databaseService">Database service</param>
     /// <param name="webserverService">Webserver service</param>
-    /// <exception cref="ArgumentNullException"></exception>
     public FileAssetService(
         IFileAssetConfigurationService configService,
         ISettingsService settingsService,

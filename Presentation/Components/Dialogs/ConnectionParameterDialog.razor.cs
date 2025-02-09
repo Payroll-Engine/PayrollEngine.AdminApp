@@ -47,7 +47,6 @@ public abstract class DatabaseParameterDialogBase : ComponentBase
     /// <summary>
     /// Submit database parameter
     /// </summary>
-    /// <returns></returns>
     protected async Task Submit()
     {
         try

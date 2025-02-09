@@ -184,14 +184,16 @@ public abstract class DatabaseConnectionDialogBase : ComponentBase
                 return;
             }
 
-            // validate connection
+            // nes connection
             if (NewConnection)
             {
-                await UpdateDatabaseStatusAsync();
-                if (!DatabaseStatus.ReadyToCreate())
+                var status = await GetDatabaseStatusAsync();
+                // database not available
+                if (!status.PendingChange() && status != DatabaseStatus.Available)
                 {
-                    await DialogService.ShowMessage(Localizer.DatabaseConnectionDialogTitle,
-                        Localizer.DatabaseNotReadyToSetup);
+                    await DialogService.ShowMessage(
+                            Localizer.DatabaseConnectionDialogTitle,
+                            Localizer.InvalidDatabaseConnection);
                     return;
                 }
             }
@@ -267,7 +269,7 @@ public abstract class DatabaseConnectionDialogBase : ComponentBase
             ErrorService.Reset();
 
             // refresh database status
-            DatabaseStatus = await DatabaseService.GetStatusAsync(EditConnection, Version, ErrorService);
+            DatabaseStatus = await GetDatabaseStatusAsync(ErrorService);
 
             // control
             UpdateSubmitText();
@@ -288,21 +290,22 @@ public abstract class DatabaseConnectionDialogBase : ComponentBase
     }
 
     /// <summary>
-    /// Refresh database status
+    /// Get the database status
     /// </summary>
-    /// <returns></returns>
-    private async Task UpdateDatabaseStatusAsync()
-    {
-        // refresh database status
-        DatabaseStatus = await DatabaseService.GetStatusAsync(EditConnection, Version);
-    }
+    private async Task<DatabaseStatus> GetDatabaseStatusAsync(IErrorService errorService = null) =>
+        await DatabaseService.GetStatusAsync(EditConnection, Version, errorService);
 
     /// <summary>
     /// Update submit text
     /// </summary>
     private void UpdateSubmitText()
     {
-        SubmitText = NewConnection ? Localizer.Continue : Localizer.Update;
+        var text = Localizer.Ok;
+        if (NewConnection && DatabaseStatus.PendingChange())
+        {
+            text = Localizer.Continue;
+        }
+        SubmitText = text;
     }
 
     /// <summary>
@@ -320,7 +323,6 @@ public abstract class DatabaseConnectionDialogBase : ComponentBase
         if (EditConnection.IsEmpty() && InitHost.HasValue)
         {
             EditConnection.Initialize(InitHost.Value);
-            return;
         }
 
         if (!EditConnection.HasRequiredValues())
@@ -329,7 +331,7 @@ public abstract class DatabaseConnectionDialogBase : ComponentBase
         }
 
         // refresh database status
-        await UpdateDatabaseStatusAsync();
+        DatabaseStatus = await GetDatabaseStatusAsync();
     }
 
     /// <inheritdoc />
