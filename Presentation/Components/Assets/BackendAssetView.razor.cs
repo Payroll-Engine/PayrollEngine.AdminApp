@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Components;
 using MudBlazor;
 using PayrollEngine.AdminApp.Asset;
 using PayrollEngine.AdminApp.Setting;
-using PayrollEngine.AdminApp.WebServer;
+using PayrollEngine.AdminApp.Webserver;
 using PayrollEngine.AdminApp.Persistence;
 using PayrollEngine.AdminApp.Presentation.Components.Dialogs;
 
@@ -36,31 +36,31 @@ public abstract class BackendAssetViewBase : ComponentBase
     #region Backend
 
     /// <summary>
-    /// Web server url
+    /// Webserver url
     /// </summary>
-    protected string WebServerUrl =>
-        Asset.WebServerConnection.ToUrl();
+    protected string WebserverUrl =>
+        Asset.WebserverConnection.ToUrl();
 
     /// <summary>
-    /// Web server url style
+    /// Webserver url style
     /// </summary>
-    protected string WebServerUrlStyle =>
-        Asset.WebServerStatus == WebServerStatus.Available ?
+    protected string WebserverUrlStyle =>
+        Asset.WebserverStatus == WebserverStatus.Available ?
             "text-decoration: underline" : null;
 
     /// <summary>
-    /// Web server href
+    /// Webserver href
     /// </summary>
-    protected MarkupString WebServerHref
+    protected MarkupString WebserverHref
     {
         get
         {
-            var serverUrl = WebServerUrl;
+            var serverUrl = WebserverUrl;
             if (string.IsNullOrWhiteSpace(serverUrl))
             {
                 serverUrl = Localizer.UrlUndefined;
             }
-            return Asset.WebServerStatus == WebServerStatus.Available ?
+            return Asset.WebserverStatus == WebserverStatus.Available ?
                 // link
                 MarkupTool.ToHref(serverUrl) :
                 // no link
@@ -69,17 +69,17 @@ public abstract class BackendAssetViewBase : ComponentBase
     }
 
     /// <summary>
-    /// Web server edit text
+    /// Webserver edit text
     /// </summary>
-    protected string WebServerEditText =>
-        Asset.WebServerStatus switch
+    protected string WebserverEditText =>
+        Asset.WebserverStatus switch
         {
-            WebServerStatus.UndefinedConnection => Localizer.Add,
+            WebserverStatus.UndefinedConnection => Localizer.Add,
             _ => Localizer.Edit
         };
 
     /// <summary>
-    /// Browse web server asset (open API)
+    /// Browse webserver asset (open API)
     /// </summary>
     protected async Task BrowseServerAsync()
     {
@@ -94,7 +94,7 @@ public abstract class BackendAssetViewBase : ComponentBase
     }
 
     /// <summary>
-    /// Start the web server
+    /// Start the webserver
     /// </summary>
     protected async Task StartServerAsync()
     {
@@ -116,7 +116,7 @@ public abstract class BackendAssetViewBase : ComponentBase
     private async Task<bool> CheckCertificate()
     {
         // check for .net dev https certificate
-        if (!Asset.WebServerConnection.IsLocalSecureConnection() ||
+        if (!Asset.WebserverConnection.IsLocalSecureConnection() ||
             OperatingSystem.HasLocalSecureDevCertificate())
         {
             // available
@@ -158,7 +158,7 @@ public abstract class BackendAssetViewBase : ComponentBase
         try
         {
             // working copy
-            var editConnection = new WebServerConnection(Asset.WebServerConnection);
+            var editConnection = new WebserverConnection(Asset.WebserverConnection);
 
             // init
             if (editConnection.IsEmpty())
@@ -171,19 +171,19 @@ public abstract class BackendAssetViewBase : ComponentBase
             // dialog parameters
             var parameters = new DialogParameters
             {
-                { nameof(WebServerConnectionDialog.Connection), editConnection }
+                { nameof(WebserverConnectionDialog.Connection), editConnection }
             };
 
             // show dialog
-            var dialog = await (await DialogService.ShowAsync<WebServerConnectionDialog>(
-                title: Localizer.WebServerDialogTitle, parameters)).Result;
+            var dialog = await (await DialogService.ShowAsync<WebserverConnectionDialog>(
+                title: Localizer.WebserverDialogTitle, parameters)).Result;
             if (dialog == null || dialog.Canceled)
             {
                 return;
             }
 
             // no changes
-            if (editConnection.EqualValues(Asset.WebServerConnection))
+            if (editConnection.EqualValues(Asset.WebserverConnection))
             {
                 StatusMessageService.SetMessage(Localizer.NoEditChangesMessage);
                 return;
@@ -198,17 +198,17 @@ public abstract class BackendAssetViewBase : ComponentBase
             }
 
             // update local values
-            Asset.WebServerConnection.ImportValues(editConnection);
+            Asset.WebserverConnection.ImportValues(editConnection);
 
             // invalidate assets status
             await AssetService.InvalidateStatusAsync();
 
             // user notification
-            StatusMessageService.SetMessage(Localizer.WebServerConnectionUpdateMessage);
+            StatusMessageService.SetMessage(Localizer.WebserverConnectionUpdateMessage);
         }
         catch (Exception exception)
         {
-            await DialogService.ShowMessage(Localizer.WebServer, exception);
+            await DialogService.ShowMessage(Localizer.Webserver, exception);
         }
     }
 
@@ -239,7 +239,7 @@ public abstract class BackendAssetViewBase : ComponentBase
         Asset.DatabaseStatus switch
         {
             DatabaseStatus.MissingDatabase or
-                DatabaseStatus.EmptyDatabase => Localizer.DatabaseSetup,
+                DatabaseStatus.EmptyDatabase => Localizer.Create,
             DatabaseStatus.OutdatedVersion => Localizer.Update,
             _ => Localizer.Edit
         };
@@ -261,10 +261,11 @@ public abstract class BackendAssetViewBase : ComponentBase
         {
             // working copy
             var editConnection = new DatabaseConnection(Asset.DatabaseConnection);
+            var newConnection = Asset.DatabaseStatus == DatabaseStatus.UndefinedConnection;
 
             // database host
             DatabaseHost? initHost = null;
-            if (Asset.DatabaseStatus == DatabaseStatus.UndefinedConnection)
+            if (newConnection)
             {
                 initHost = await DialogService.ShowEnumSelect<DatabaseHost>(
                     title: Localizer.DatabaseConnectionDialogTitle,
@@ -312,6 +313,12 @@ public abstract class BackendAssetViewBase : ComponentBase
 
             // user notification
             StatusMessageService.SetMessage(Localizer.DatabaseConnectionUpdateMessage);
+
+            // new connection
+            if (newConnection)
+            {
+                await InitializeDatabaseAsync();
+            }
         }
         catch (Exception exception)
         {

@@ -1,12 +1,12 @@
-﻿@using PayrollEngine.AdminApp.WebServer
+﻿@using PayrollEngine.AdminApp.Webserver
 
 @inherits RemoteBackendAssetViewBase
 
 <MudStack Spacing="2">
     <MudStack Spacing="0" Row="true">
         <MudText Typo="Typo.h5" Class="flex-grow-1">@Localizer.BackendRemoteTitle</MudText>
-        <MudText Color="@Asset.WebServerStatus.ToEditColor()">
-            @Localizer.Enum(Asset.WebServerStatus, "RemoteBackendStatus")
+        <MudText Color="@Asset.WebserverStatus.ToEditColor()">
+            @Localizer.Enum(Asset.WebserverStatus, "RemoteBackendStatus")
         </MudText>
     </MudStack>
 
@@ -17,8 +17,8 @@
         <MudText Class="flex-grow-1">
             <MudStack Spacing="0">
                 <MudText Style="font-size: large;">
-                    @Localizer.WebServer
-                    @if (Asset.WebServerStatus == WebServerStatus.Available)
+                    @Localizer.Webserver
+                    @if (Asset.WebserverStatus == WebserverStatus.Available)
                     {
                         <MudIcon Icon="@Icons.Material.Filled.PlayCircleOutline"
                                  Color="Color.Success"
@@ -26,12 +26,12 @@
                     }
                 </MudText>
                 <MudStack Row="true" Spacing="0">
-                    <MudTooltip Delay="1000" Text="@Asset.WebServerConnection.ToConnectionString(encryptApiKey: true)" Placement="Placement.Top">
-                        <MudText Typo="Typo.caption" Style="@WebServerUrlStyle">@WebServerHref</MudText>
+                    <MudTooltip Delay="1000" Text="@Asset.WebserverConnection.ToConnectionString(encryptApiKey: true)" Placement="Placement.Top">
+                        <MudText Typo="Typo.caption" Style="@WebserverUrlStyle">@WebserverHref</MudText>
                     </MudTooltip>
                     <ClipboardButton 
-                        Hidden="@(Asset.WebServerStatus == WebServerStatus.UndefinedConnection)" 
-                        Text="@WebServerUrl" />
+                        Hidden="@(Asset.WebserverStatus == WebserverStatus.UndefinedConnection)" 
+                        Text="@WebserverUrl" />
                 </MudStack>
             </MudStack>
         </MudText>
@@ -40,19 +40,19 @@
         <div class="justify-end align-end">
 
             @* edit action *@
-            <MudTooltip Delay="1000" Text="@Localizer.Enum(Asset.WebServerStatus)" Placement="Placement.Top">
+            <MudTooltip Delay="1000" Text="@Localizer.Enum(Asset.WebserverStatus)" Placement="Placement.Top">
                 <MudButton @onclick="@EditServerAsync"
-                           Color="@(Asset.WebServerStatus == WebServerStatus.UndefinedConnection ?
+                           Color="@(Asset.WebserverStatus == WebserverStatus.UndefinedConnection ?
                                       Color.Success : Color.Primary)"
                            Variant="@Globals.ButtonVariant"
-                           EndIcon="@(Asset.WebServerStatus == WebServerStatus.UndefinedConnection ?
+                           EndIcon="@(Asset.WebserverStatus == WebserverStatus.UndefinedConnection ?
                                         Icons.Material.Filled.Add : Icons.Material.Filled.Edit)"
                            Class="ml-2"
-                           Size="Size.Small">@WebServerEditText</MudButton>
+                           Size="Size.Small">@WebserverEditText</MudButton>
             </MudTooltip>
 
             @* browse action *@
-            @if (Asset.WebServerStatus == WebServerStatus.Available)
+            @if (Asset.WebserverStatus == WebserverStatus.Available)
             {
                 <MudTooltip Delay="1000" Text="@Localizer.OpenBackendHelp" Placement="Placement.Top">
                     <MudButton @onclick="@BrowseServerAsync"

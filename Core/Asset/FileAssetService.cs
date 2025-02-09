@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using System.Collections.Generic;
 using Microsoft.Extensions.FileProviders;
 using PayrollEngine.AdminApp.Setting;
-using PayrollEngine.AdminApp.WebServer;
+using PayrollEngine.AdminApp.Webserver;
 using PayrollEngine.AdminApp.Persistence;
 
 namespace PayrollEngine.AdminApp.Asset;
@@ -18,26 +18,37 @@ public class FileAssetService : IAssetService
     /// <summary>
     /// Constructor
     /// </summary>
-    /// <param name="fileProvider">File provider</param>
+    /// <param name="configService">File asset configuration service</param>
     /// <param name="settingsService">App settings provider</param>
     /// <param name="databaseService">Database service</param>
-    /// <param name="webServerService">Web server service</param>
+    /// <param name="webserverService">Webserver service</param>
     /// <exception cref="ArgumentNullException"></exception>
     public FileAssetService(
-        PhysicalFileProvider fileProvider,
+        IFileAssetConfigurationService configService,
         ISettingsService settingsService,
         IDatabaseService databaseService,
-        IWebServerService webServerService)
+        IWebserverService webserverService)
     {
-        FileProvider = fileProvider ?? throw new ArgumentNullException(nameof(fileProvider));
+        // file provider
+        var configRoot = configService.GetRoot();
+        if (string.IsNullOrWhiteSpace(configRoot))
+        {
+            throw new ArgumentException(nameof(configRoot));
+        }
+        var root = OperatingSystem.DirectoryFullName(configRoot);
+        if (!OperatingSystem.DirectoryExists(configRoot))
+        {
+            throw new ArgumentException($"Invalid or missing file asset root path {configRoot}", nameof(configRoot));
+        }
+        FileProvider = new(root);
 
         // assets
         Backend = new();
         RemoteBackend = new();
         WebApp = new();
         Console = new();
-        Tests = new(fileProvider);
-        Examples = new(fileProvider);
+        Tests = new(FileProvider);
+        Examples = new(FileProvider);
         Assets = [Backend, RemoteBackend, WebApp, Console, Tests, Examples];
 
         // status
@@ -45,7 +56,7 @@ public class FileAssetService : IAssetService
         {
             SettingsService = settingsService,
             DatabaseService = databaseService,
-            WebServerService = webServerService
+            WebserverService = webserverService
         };
     }
 
@@ -162,9 +173,7 @@ public class FileAssetService : IAssetService
 
     #region Lifecycle
 
-    /// <summary>
-    /// Load all assets
-    /// </summary>
+    /// <inheritdoc />
     public async Task LoadAssetsAsync()
     {
         foreach (var asset in Assets)

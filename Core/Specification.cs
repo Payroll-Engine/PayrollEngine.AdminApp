@@ -1,5 +1,4 @@
-﻿
-namespace PayrollEngine.AdminApp;
+﻿namespace PayrollEngine.AdminApp;
 
 /// <summary>
 /// Payroll Engine Admin App Specification
@@ -63,6 +62,25 @@ public static class Specification
     public const int AppRefreshMaxTimeout = 60 * 60; // 1 hour
     /// <summary>Auto refresh timeout config name</summary>
     public const string AutoRefreshTimeoutConfig = "AutoRefreshTimeout";
+
+    #endregion
+
+    #region Defaults
+
+    /// <summary>
+    /// Default help url
+    /// </summary>
+    public const string DefaultHelpUrl = "https://github.com/Payroll-Engine";
+
+    /// <summary>
+    /// Http default connection timeout
+    /// </summary>
+    public const int HttpConnectTimeoutDefault = 5;
+
+    /// <summary>
+    /// Database default connection timeout
+    /// </summary>
+    public const int DatabaseDefaultTimeout = 5;
 
     #endregion
 

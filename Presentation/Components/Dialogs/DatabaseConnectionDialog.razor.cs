@@ -255,7 +255,7 @@ public abstract class DatabaseConnectionDialogBase : ComponentBase
             ErrorService.Reset();
 
             // refresh database status
-            DatabaseStatus = await DatabaseService.GetStatusAsync(EditConnection, Version);
+            DatabaseStatus = await DatabaseService.GetStatusAsync(EditConnection, Version, ErrorService);
 
             // errors
             StatusMessage = ErrorService.RetrieveErrors();

@@ -8,9 +8,14 @@ public class BackendAssetParameters : IAssetParameter
     // used for json serialization
     // ReSharper disable UnusedAutoPropertyAccessor.Global
     /// <summary>
-    /// Web server executable name
+    /// Webserver name
     /// </summary>
-    public string WebServerExec { get; set; }
+    public string WebserverName { get; set; }
+
+    /// <summary>
+    /// Webserver executable
+    /// </summary>
+    public string WebserverExec { get; set; }
 
     /// <summary>
     /// Database parameter
@@ -21,9 +26,9 @@ public class BackendAssetParameters : IAssetParameter
     /// <inheritdoc />
     public void Validate()
     {
-        if (string.IsNullOrWhiteSpace(WebServerExec))
+        if (string.IsNullOrWhiteSpace(WebserverExec))
         {
-            throw new AdminException("Missing web server parameter.");
+            throw new AdminException("Missing webserver parameter.");
         }
 
         if (Database == null)

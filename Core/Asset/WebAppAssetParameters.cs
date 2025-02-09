@@ -8,16 +8,22 @@ public class WebAppAssetParameters : IAssetParameter
     // used for json serialization
     // ReSharper disable once UnusedAutoPropertyAccessor.Global
     /// <summary>
-    /// Web server executable name
+    /// Webserver name
     /// </summary>
-    public string WebServerExec { get; set; }
+    public string WebserverName { get; set; }
+
+    // ReSharper disable once UnusedAutoPropertyAccessor.Global
+    /// <summary>
+    /// Webserver executable name
+    /// </summary>
+    public string WebserverExec { get; set; }
 
     /// <inheritdoc />
     public void Validate()
     {
-        if (string.IsNullOrWhiteSpace(WebServerExec))
+        if (string.IsNullOrWhiteSpace(WebserverExec))
         {
-            throw new AdminException("Missing web server parameter.");
+            throw new AdminException("Missing webserver parameter.");
         }
     }
 }

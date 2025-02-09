@@ -1,22 +1,22 @@
 ﻿using System.Threading.Tasks;
-using PayrollEngine.AdminApp.WebServer;
+using PayrollEngine.AdminApp.Webserver;
 
 namespace PayrollEngine.AdminApp.Asset;
 
 /// <summary>
-/// Web server asset
+/// Webserver asset
 /// </summary>
-public abstract class WebServerAssetBase : AssetBase, IBrowseAsset
+public abstract class WebserverAssetBase : AssetBase, IBrowseAsset
 {
     /// <summary>
-    /// Web server connection
+    /// Webserver connection
     /// </summary>
-    public WebServerConnection WebServerConnection { get; } = new();
+    public WebserverConnection WebserverConnection { get; } = new();
 
     /// <summary>
-    /// Web server status
+    /// Webserver status
     /// </summary>
-    public WebServerStatus WebServerStatus { get; private set; }
+    public WebserverStatus WebserverStatus { get; private set; }
 
     /// <inheritdoc />
     public override async Task UpdateStatusAsync(AssetContext context)
@@ -24,18 +24,18 @@ public abstract class WebServerAssetBase : AssetBase, IBrowseAsset
         // asset not available
         if (!Available)
         {
-            WebServerStatus = WebServerStatus.NotAvailable;
+            WebserverStatus = WebserverStatus.NotAvailable;
             return;
         }
 
-        // refresh the web server status
-        WebServerStatus = await context.WebServerService.GetStatusAsync(WebServerConnection);
+        // refresh the webserver status
+        WebserverStatus = await context.WebserverService.GetStatusAsync(WebserverConnection);
     }
 
     /// <inheritdoc />
     public Task BrowseAsync()
     {
-        var url = WebServerConnection.ToUrl();
+        var url = WebserverConnection.ToUrl();
         if (!string.IsNullOrWhiteSpace(url))
         {
             OperatingSystem.StartProcess(url);

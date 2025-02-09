@@ -59,14 +59,14 @@
 		<value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
 	</resheader>
 	<!-- ============================== Enums ============================== -->
-	<!-- ** WebServerStatus ** -->
-	<data name="WebServerStatus.UndefinedConnection" xml:space="preserve">
+	<!-- ** WebserverStatus ** -->
+	<data name="WebserverStatus.UndefinedConnection" xml:space="preserve">
     <value>Undefined</value>
   </data>
-	<data name="WebServerStatus.NotAvailable" xml:space="preserve">
+	<data name="WebserverStatus.NotAvailable" xml:space="preserve">
     <value>Not available</value>
   </data>
-	<data name="WebServerStatus.Available" xml:space="preserve">
+	<data name="WebserverStatus.Available" xml:space="preserve">
     <value>Available</value>
   </data>
 	<!-- ** DatabaseStatus ** -->
@@ -91,7 +91,7 @@
 	<data name="DatabaseStatus.Available" xml:space="preserve">
     <value>Available</value>
   </data>
-	<!-- ** RemoteBackendStatus (map of WebServerStatus) ** -->
+	<!-- ** RemoteBackendStatus (map of WebserverStatus) ** -->
 	<data name="RemoteBackendStatus.NotAvailable" xml:space="preserve">
     <value>Backend not available</value>
   </data>
@@ -108,10 +108,10 @@
 	<data name="BackendStatus.DatabaseNotAvailable" xml:space="preserve">
     <value>Database not available</value>
   </data>
-	<data name="BackendStatus.WebServerUndefined" xml:space="preserve">
+	<data name="BackendStatus.WebserverUndefined" xml:space="preserve">
     <value>Server not defined</value>
   </data>
-	<data name="BackendStatus.WebServerNotStarted" xml:space="preserve">
+	<data name="BackendStatus.WebserverNotStarted" xml:space="preserve">
     <value>Backend not started</value>
   </data>
 	<data name="BackendStatus.Running" xml:space="preserve">
@@ -121,10 +121,10 @@
 	<data name="WebAppStatus.NotAvailable" xml:space="preserve">
     <value>Web App not available</value>
   </data>
-	<data name="WebAppStatus.WebServerUndefined" xml:space="preserve">
+	<data name="WebAppStatus.WebserverUndefined" xml:space="preserve">
     <value>Web App not defined</value>
   </data>
-	<data name="WebAppStatus.WebServerNotStarted" xml:space="preserve">
+	<data name="WebAppStatus.WebserverNotStarted" xml:space="preserve">
     <value>Web App not started</value>
   </data>
 	<data name="WebAppStatus.Running" xml:space="preserve">
@@ -228,9 +228,6 @@
 	<data name="DatabaseUpdateDialogTitle" xml:space="preserve">
     <value>Update Database</value>
   </data>
-	<data name="DatabaseSetup" xml:space="preserve">
-    <value>Setup</value>
-  </data>
 	<data name="RefreshDatabaseStatusHelp" xml:space="preserve">
     <value>Connection status refresh</value>
   </data>
@@ -315,11 +312,11 @@
 	<data name="DatabaseSetupError" xml:space="preserve">
     <value>Setup error: {value}.</value>
   </data>
-	<!-- ** web server  ** -->
-	<data name="WebServer" xml:space="preserve">
+	<!-- ** webserver  ** -->
+	<data name="Webserver" xml:space="preserve">
     <value>Webserver</value>
   </data>
-	<data name="WebServerDialogTitle" xml:space="preserve">
+	<data name="WebserverDialogTitle" xml:space="preserve">
     <value>Webserver Connection</value>
   </data>
 	<data name="BaseUrl" xml:space="preserve">
@@ -331,7 +328,7 @@
 	<data name="ApiKey" xml:space="preserve">
     <value>API key</value>
   </data>
-	<data name="WebServerConnectionUpdateMessage" xml:space="preserve">
+	<data name="WebserverConnectionUpdateMessage" xml:space="preserve">
     <value>Webserver connection updated successfully.</value>
   </data>
 	<!-- ** web app  ** -->

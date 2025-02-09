@@ -1,22 +1,22 @@
-﻿namespace PayrollEngine.AdminApp.WebServer;
+﻿namespace PayrollEngine.AdminApp.Webserver;
 
 /// <summary>
-/// Web server status
+/// Webserver status
 /// </summary>
-public enum WebServerStatus
+public enum WebserverStatus
 {
     /// <summary>
-    /// Undefined web server connection
+    /// Undefined webserver connection
     /// </summary>
     UndefinedConnection,
 
     /// <summary>
-    /// Web server is not available
+    /// Webserver is not available
     /// </summary>
     NotAvailable,
 
     /// <summary>
-    /// Web server is available
+    /// Webserver is available
     /// </summary>
     Available
 }

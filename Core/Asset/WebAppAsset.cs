@@ -1,13 +1,13 @@
 ﻿using System.Threading.Tasks;
 using System.Collections.Generic;
-using PayrollEngine.AdminApp.WebServer;
+using PayrollEngine.AdminApp.Webserver;
 
 namespace PayrollEngine.AdminApp.Asset;
 
 /// <summary>
 /// Web app asset
 /// </summary>
-public class WebAppAsset : WebServerAssetBase, IStartAsset
+public class WebAppAsset : WebserverAssetBase, IStartAsset
 {
     /// <summary>
     /// Asset parameters
@@ -22,7 +22,7 @@ public class WebAppAsset : WebServerAssetBase, IStartAsset
     /// <inheritdoc />
     public override async Task UpdateStatusAsync(AssetContext context)
     {
-        // refresh web server status in base class
+        // refresh webserver status in base class
         await base.UpdateStatusAsync(context);
 
         // asset not available
@@ -33,16 +33,16 @@ public class WebAppAsset : WebServerAssetBase, IStartAsset
         }
 
         // backend server not defined
-        if (WebServerConnection.IsEmpty())
+        if (WebserverConnection.IsEmpty())
         {
-            WebAppStatus = WebAppStatus.WebServerUndefined;
+            WebAppStatus = WebAppStatus.WebserverUndefined;
             return;
         }
 
         // backend server not available
-        if (WebServerStatus != WebServerStatus.Available)
+        if (WebserverStatus != WebserverStatus.Available)
         {
-            WebAppStatus = WebAppStatus.WebServerNotStarted;
+            WebAppStatus = WebAppStatus.WebserverNotStarted;
             return;
         }
 
@@ -52,18 +52,22 @@ public class WebAppAsset : WebServerAssetBase, IStartAsset
     /// <inheritdoc />
     public Task StartAsync()
     {
-        OperatingSystem.StartWebServer(Name, Parameters.WebServerExec, WebServerConnection.ToUrl());
+        OperatingSystem.StartWebserver(
+            workingDirectory: Name,
+            webserverExec: Parameters.WebserverExec,
+            webserverUrl: WebserverConnection.ToUrl(),
+            webserverName: Parameters.WebserverName);
         return Task.CompletedTask;
     }
 
     /// <inheritdoc />
     public override async Task LoadAsync(AssetContext context, Dictionary<string, object> parameters = null)
     {
-        // web server connection from environment
+        // webserver connection from environment
         var connection = await context.SettingsService.GetWebAppConnectionAsync();
         if (connection != null)
         {
-            WebServerConnection.ImportValues(connection);
+            WebserverConnection.ImportValues(connection);
         }
 
         // parameters

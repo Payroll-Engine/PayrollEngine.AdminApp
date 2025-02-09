@@ -7,45 +7,56 @@ namespace PayrollEngine.AdminApp.Persistence.SqlServer;
 /// <summary>
 /// SQL Server database service
 /// </summary>
-/// <param name="errorService">Error service</param>
-/// <param name="timeout">Request timeout</param>
-/// <param name="collation">Database collation</param>
-public class DatabaseService(IErrorService errorService, int timeout, string collation) : IDatabaseService
+public class DatabaseService : IDatabaseService
 {
-    private IErrorService ErrorService { get; } = errorService;
-    private int Timeout { get; } = timeout;
-    private string Collation { get; } = collation;
-
     /// <summary>
-    /// Default connection timeout
+    /// SQL Server database service
     /// </summary>
-    public static readonly int DefaultTimeout = 5;
+    /// <param name="configService">Configuration service</param>
+    public DatabaseService(IDatabaseConfigurationService configService)
+    {
+
+        // timeout
+        var configTimeout = configService.GetConnectionTimeout();
+        if (configTimeout <= 0)
+        {
+            configTimeout = Specification.HttpConnectTimeoutDefault;
+        }
+        Timeout = configTimeout;
+
+        // collation
+        Collation = configService.GetCollation();
+    }
+
+    private int Timeout { get; }
+    private string Collation { get; }
 
     /// <inheritdoc />
-    public async Task<Version> GetCurrentVersionAsync(DatabaseConnection connection)
+    public async Task<Version> GetCurrentVersionAsync(DatabaseConnection connection, IErrorService errorService = null)
     {
         var testConnection = ToTestConnection(connection);
 
         // invalid connection
-        if (await DatabaseTool.TestDatabaseAvailableAsync(testConnection, ErrorService) != true)
+        if (await DatabaseTool.TestDatabaseAvailableAsync(testConnection, errorService) != true)
         {
             return null;
         }
 
         // empty database
-        var tableEmpty = await DatabaseTool.TestEmptyDatabaseAsync(testConnection, ErrorService);
+        var tableEmpty = await DatabaseTool.TestEmptyDatabaseAsync(testConnection, errorService);
         if (tableEmpty == true)
         {
             return null;
         }
 
         // outdated database
-        var versions = await DatabaseTool.GetDatabaseVersionsAsync(testConnection, ErrorService);
+        var versions = await DatabaseTool.GetDatabaseVersionsAsync(testConnection, errorService);
         return versions.Max();
     }
 
     /// <inheritdoc />
-    public async Task<DatabaseStatus> GetStatusAsync(DatabaseConnection connection, Version version = null)
+    public async Task<DatabaseStatus> GetStatusAsync(DatabaseConnection connection, Version version = null,
+        IErrorService errorService = null)
     {
         // empty connection
         if (connection.IsEmpty())
@@ -62,11 +73,11 @@ public class DatabaseService(IErrorService errorService, int timeout, string col
         var testConnection = ToTestConnection(connection);
 
         // database available
-        var dbAvailable = await DatabaseTool.TestDatabaseAvailableAsync(testConnection, ErrorService);
+        var dbAvailable = await DatabaseTool.TestDatabaseAvailableAsync(testConnection, errorService);
         if (dbAvailable != true)
         {
             // sql server available
-            var serverVersion = DatabaseTool.GetServerVersion(testConnection.Server, ErrorService);
+            var serverVersion = DatabaseTool.GetServerVersion(testConnection.Server, errorService);
             if (serverVersion == null)
             {
                 return DatabaseStatus.MissingServer;
@@ -77,7 +88,7 @@ public class DatabaseService(IErrorService errorService, int timeout, string col
         }
 
         // empty database
-        var tableEmpty = await DatabaseTool.TestEmptyDatabaseAsync(testConnection, ErrorService);
+        var tableEmpty = await DatabaseTool.TestEmptyDatabaseAsync(testConnection, errorService);
         if (tableEmpty == true)
         {
             return DatabaseStatus.EmptyDatabase;
@@ -87,7 +98,7 @@ public class DatabaseService(IErrorService errorService, int timeout, string col
         if (version != null)
         {
             // outdated database
-            var versions = await DatabaseTool.GetDatabaseVersionsAsync(testConnection, ErrorService);
+            var versions = await DatabaseTool.GetDatabaseVersionsAsync(testConnection, errorService);
             if (versions.Max() < version)
             {
                 return DatabaseStatus.OutdatedVersion;
@@ -99,17 +110,13 @@ public class DatabaseService(IErrorService errorService, int timeout, string col
     }
 
     /// <inheritdoc />
-    public async Task<int?> CreateDatabaseAsync(DatabaseConnection connection) =>
-        await DatabaseTool.CreateDatabaseAsync(ToTestConnection(connection), ErrorService, Collation);
+    public async Task<bool?> CreateDatabaseAsync(DatabaseConnection connection, IErrorService errorService = null) =>
+        await DatabaseTool.CreateDatabaseAsync(ToTestConnection(connection), Collation, errorService);
 
     /// <inheritdoc />
-    public async Task<bool?> IsEmptyDatabaseAsync(DatabaseConnection connection) =>
-        await DatabaseTool.TestEmptyDatabaseAsync(ToTestConnection(connection), ErrorService);
+    public async Task<int?> ExecuteScriptAsync(DatabaseConnection connection, string script, IErrorService errorService = null) =>
+        await DatabaseTool.ExecuteScriptAsync(ToTestConnection(connection), script, errorService);
 
-    /// <inheritdoc />
-    public async Task<int?> ExecuteScriptAsync(DatabaseConnection connection, string script) =>
-        await DatabaseTool.ExecuteScriptAsync(ToTestConnection(connection), script, ErrorService);
-    
     /// <summary>
     /// Convert the database connection to a connection string, reducing the request timeout
     /// </summary>

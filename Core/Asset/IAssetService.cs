@@ -46,6 +46,11 @@ public interface IAssetService
     /// </summary>
     ExamplesAsset Examples { get; }
 
+    /// <summary>
+    /// Load all assets
+    /// </summary>
+    Task LoadAssetsAsync();
+
     #endregion
 
     #region Status

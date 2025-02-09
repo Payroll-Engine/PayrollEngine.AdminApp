@@ -12,14 +12,14 @@ public enum WebAppStatus
     NotAvailable,
 
     /// <summary>
-    /// Web server undefined
+    /// Webserver undefined
     /// </summary>
-    WebServerUndefined,
+    WebserverUndefined,
 
     /// <summary>
-    /// Web server not started
+    /// Webserver not started
     /// </summary>
-    WebServerNotStarted,
+    WebserverNotStarted,
 
     /// <summary>
     /// Web app is running

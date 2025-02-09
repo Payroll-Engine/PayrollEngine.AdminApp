@@ -12,34 +12,32 @@ public interface IDatabaseService
     /// Get the current database version
     /// </summary>
     /// <param name="connection">Database connection</param>
-    Task<Version> GetCurrentVersionAsync(DatabaseConnection connection);
+    /// <param name="errorService">Error service</param>
+    Task<Version> GetCurrentVersionAsync(DatabaseConnection connection, IErrorService errorService = null);
 
     /// <summary>
     /// Get the database status
     /// </summary>
     /// <param name="connection">Database connection</param>
     /// <param name="version">Working version</param>
-    Task<DatabaseStatus> GetStatusAsync(DatabaseConnection connection, Version version = null);
+    /// <param name="errorService">Error service</param>
+    Task<DatabaseStatus> GetStatusAsync(DatabaseConnection connection, Version version = null, IErrorService errorService = null);
 
     /// <summary>
     /// Create a new database
     /// </summary>
     /// <param name="connection">Database connection</param>
-    /// <returns>Error code, zero on success</returns>
-    Task<int?> CreateDatabaseAsync(DatabaseConnection connection);
-
-    /// <summary>
-    /// Test for empty database
-    /// </summary>
-    /// <param name="connection">Database connection</param>
-    Task<bool?> IsEmptyDatabaseAsync(DatabaseConnection connection);
+    /// <param name="errorService">Error service</param>
+    /// <returns>True on success</returns>
+    Task<bool?> CreateDatabaseAsync(DatabaseConnection connection, IErrorService errorService = null);
 
     /// <summary>
     /// Execute database script
     /// </summary>
     /// <param name="connection">Database connection</param>
     /// <param name="script">Database script</param>
+    /// <param name="errorService">Error service</param>
     /// <remarks>Script is executed within a database transaction</remarks>
     /// <returns>Number of affected rows, -1 on error</returns>
-    Task<int?> ExecuteScriptAsync(DatabaseConnection connection, string script);
+    Task<int?> ExecuteScriptAsync(DatabaseConnection connection, string script, IErrorService errorService = null);
 }

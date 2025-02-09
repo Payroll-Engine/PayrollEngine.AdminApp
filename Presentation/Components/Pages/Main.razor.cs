@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.Configuration;
 using MudBlazor;
 using PayrollEngine.AdminApp.Asset;
-using PayrollEngine.AdminApp.WebServer;
+using PayrollEngine.AdminApp.Webserver;
 using PayrollEngine.AdminApp.Persistence;
 
 namespace PayrollEngine.AdminApp.Presentation.Components.Pages;
@@ -40,9 +40,9 @@ public class MainPage : ComponentBase, IDisposable
     protected bool BackendAvailable => BackendStatus > BackendStatus.NotAvailable;
 
     /// <summary>
-    /// Backend web server status
+    /// Backend webserver status
     /// </summary>
-    protected WebServerStatus BackendServerStatus => AssetService.Backend.WebServerStatus;
+    protected WebserverStatus BackendServerStatus => AssetService.Backend.WebserverStatus;
 
     /// <summary>
     /// Backend database status
@@ -56,12 +56,12 @@ public class MainPage : ComponentBase, IDisposable
             if (AssetService.Backend.Available)
             {
                 // on-prem: database must be available
-                return AssetService.Backend.BackendStatus > BackendStatus.WebServerUndefined;
+                return AssetService.Backend.BackendStatus > BackendStatus.WebserverUndefined;
             }
             if (AssetService.RemoteBackend.Available)
             {
                 // remote: web service is defined
-                return AssetService.RemoteBackend.WebServerStatus > WebServerStatus.UndefinedConnection;
+                return AssetService.RemoteBackend.WebserverStatus > WebserverStatus.UndefinedConnection;
             }
             return false;
         }
@@ -74,9 +74,9 @@ public class MainPage : ComponentBase, IDisposable
     private WebAppStatus WebAppStatus => AssetService.WebApp.WebAppStatus;
 
     /// <summary>
-    /// Web app web server status
+    /// Web app webserver status
     /// </summary>
-    protected WebServerStatus WebAppServerStatus => AssetService.WebApp.WebServerStatus;
+    protected WebserverStatus WebAppServerStatus => AssetService.WebApp.WebserverStatus;
 
     /// <summary>
     /// Web app asset available

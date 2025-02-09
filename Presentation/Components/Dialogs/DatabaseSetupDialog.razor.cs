@@ -87,28 +87,24 @@ public abstract class DatabaseSetupDialogBase : ComponentBase
             // error handling
             ErrorService.Reset();
 
-
             // database setup
             if (SetupMode == DatabaseSetupMode.Create)
             {
                 var databaseStatus = await Task.Run(() => DatabaseService.GetStatusAsync(Connection));
                 if (databaseStatus == DatabaseStatus.MissingDatabase)
                 {
-                    // create database
-                    var createResult = await Task.Run(() => DatabaseService.CreateDatabaseAsync(Connection));
-                    if (createResult != 0)
+                    // create database with error tracking
+                    var createResult = await Task.Run(() => DatabaseService.CreateDatabaseAsync(Connection, ErrorService));
+                    if (createResult != true)
                     {
-                        // create database error
+                        // database create error
+                        var error = ErrorService.RetrieveErrors();
+                        if (!string.IsNullOrWhiteSpace(error))
+                        {
+                            await DialogService.ShowMessage(DialogTitle, error);
+                        }
                         return;
                     }
-                }
-
-                // check for empty database
-                var emptyDatabase = await Task.Run(() => DatabaseService.IsEmptyDatabaseAsync(Connection));
-                if (emptyDatabase != true)
-                {
-                    await DialogService.ShowMessage(DialogTitle, Localizer.DatabaseNotEmptyMessage);
-                    return;
                 }
             }
 
@@ -116,11 +112,12 @@ public abstract class DatabaseSetupDialogBase : ComponentBase
             StatusMessage = Localizer.ScriptInstallInfo;
             StateHasChanged();
 
-            // script install
+            // scripts
             var scriptError = false;
             foreach (var script in Scripts)
             {
-                var rows = await Task.Run(() => DatabaseService.ExecuteScriptAsync(Connection, script));
+                // execute script with error tracking
+                var rows = await Task.Run(() => DatabaseService.ExecuteScriptAsync(Connection, script, ErrorService));
                 if (rows == 0)
                 {
                     scriptError = true;
@@ -132,10 +129,11 @@ public abstract class DatabaseSetupDialogBase : ComponentBase
             SetupExecute = false;
             StateHasChanged();
 
-            // error
+            // script error
             if (scriptError)
             {
                 StatusMessage = ErrorService.RetrieveErrors();
+                return;
             }
 
             // close dialog

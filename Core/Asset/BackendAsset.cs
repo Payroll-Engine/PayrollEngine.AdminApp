@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 using System.Collections.Generic;
-using PayrollEngine.AdminApp.WebServer;
+using PayrollEngine.AdminApp.Webserver;
 using PayrollEngine.AdminApp.Persistence;
 
 namespace PayrollEngine.AdminApp.Asset;
@@ -8,7 +8,7 @@ namespace PayrollEngine.AdminApp.Asset;
 /// <summary>
 /// Backend asset (local)
 /// </summary>
-public class BackendAsset : WebServerAssetBase, IStartAsset
+public class BackendAsset : WebserverAssetBase, IStartAsset
 {
     /// <summary>
     /// Asset parameters
@@ -33,7 +33,8 @@ public class BackendAsset : WebServerAssetBase, IStartAsset
     /// <inheritdoc />
     public override async Task UpdateStatusAsync(AssetContext context)
     {
-        // refresh web server status in base class
+
+        // refresh webserver status in base class
         await base.UpdateStatusAsync(context);
 
         // asset not available
@@ -55,17 +56,17 @@ public class BackendAsset : WebServerAssetBase, IStartAsset
             return;
         }
 
-        // backend status: web server not defined
-        if (WebServerStatus == WebServerStatus.UndefinedConnection)
+        // backend status: webserver not defined
+        if (WebserverStatus == WebserverStatus.UndefinedConnection)
         {
-            BackendStatus = BackendStatus.WebServerUndefined;
+            BackendStatus = BackendStatus.WebserverUndefined;
             return;
         }
 
-        // backend status: web server not started
-        if (WebServerStatus == WebServerStatus.NotAvailable)
+        // backend status: webserver not started
+        if (WebserverStatus == WebserverStatus.NotAvailable)
         {
-            BackendStatus = BackendStatus.WebServerNotStarted;
+            BackendStatus = BackendStatus.WebserverNotStarted;
             return;
         }
 
@@ -76,18 +77,22 @@ public class BackendAsset : WebServerAssetBase, IStartAsset
     /// <inheritdoc />
     public Task StartAsync()
     {
-        OperatingSystem.StartWebServer(Name, Parameters.WebServerExec, WebServerConnection.ToUrl());
+        OperatingSystem.StartWebserver(
+            workingDirectory: Name,
+            webserverExec: Parameters.WebserverExec,
+            webserverUrl: WebserverConnection.ToUrl(),
+            webserverName: Parameters.WebserverName);
         return Task.CompletedTask;
     }
 
     /// <inheritdoc />
     public override async Task LoadAsync(AssetContext context, Dictionary<string, object> parameters = null)
     {
-        // web server connection from environment
-        var webServerConnection = await context.SettingsService.GetApiConnectionAsync();
-        if (webServerConnection != null)
+        // webserver connection from environment
+        var webserverConnection = await context.SettingsService.GetApiConnectionAsync();
+        if (webserverConnection != null)
         {
-            WebServerConnection.ImportValues(webServerConnection);
+            WebserverConnection.ImportValues(webserverConnection);
         }
 
         // load database connection from environment

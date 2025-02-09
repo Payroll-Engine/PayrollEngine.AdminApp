@@ -239,16 +239,24 @@ public static class OperatingSystem
     }
 
     /// <summary>
-    /// Start a dot net web server
+    /// Start a dot net webserver
     /// </summary>
-    /// <param name="workingDirectory">Web server path</param>
-    /// <param name="webServerExec">Executable file name</param>
-    /// <param name="webServerUrl">Target web server url</param>
-    public static void StartWebServer(string workingDirectory, string webServerExec, string webServerUrl)
+    /// <param name="workingDirectory">Webserver path</param>
+    /// <param name="webserverExec">Executable file name</param>
+    /// <param name="webserverUrl">Target webserver url</param>
+    /// <param name="webserverName">Server name</param>
+    public static void StartWebserver(string workingDirectory, string webserverExec,
+        string webserverUrl, string webserverName)
     {
         Directory.SetCurrentDirectory(workingDirectory);
+
         var fileName = "dotnet.exe";
-        var arguments = $"{webServerExec} --urls={webServerUrl}";
+        var arguments = $"{webserverExec} --urls={webserverUrl}";
+        if (IsWindows() && !string.IsNullOrWhiteSpace(webserverName))
+        {
+            fileName = "cmd.exe";
+            arguments = $"/C START /MIN \"Payroll Engine - Backend Server\" dotnet {webserverExec} --urls={webserverUrl}";
+        }
         var info = new ProcessStartInfo(fileName, arguments)
         {
 

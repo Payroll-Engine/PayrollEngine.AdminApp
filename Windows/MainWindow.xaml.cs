@@ -12,8 +12,6 @@ namespace PayrollEngine.AdminApp.Windows;
 /// </summary>
 public partial class MainWindow
 {
-    private const string defaultHelpUrl = "https://github.com/Payroll-Engine";
-
     /// <summary>
     /// Default constructor
     /// </summary>
@@ -25,14 +23,14 @@ public partial class MainWindow
     }
 
     /// <summary>
-    /// Start app help
+    /// Start ap p help
     /// </summary>
     private void Help()
     {
         var appUrl = ResourceTool.GetService<IConfigurationRoot>()?.HelpUrl();
         if (string.IsNullOrWhiteSpace(appUrl))
         {
-            appUrl = defaultHelpUrl;
+            appUrl = Specification.DefaultHelpUrl;
         }
         OperatingSystem.StartProcess(appUrl);
     }

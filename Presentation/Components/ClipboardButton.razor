@@ -3,7 +3,7 @@
     return;
 }
 <MudTooltip Delay="1000" Text="@Localizer.CopyToClipboardHelp" Placement="@TooltipPlacement">
-    <MudIconButton OnClick="WebServerUrlToClipboard"
+    <MudIconButton OnClick="WebserverUrlToClipboard"
     Style="zoom: 0.6"
     Class="pl-4"
     Icon="@Icons.Material.Filled.ContentCopy" />
@@ -31,7 +31,7 @@
     /// <summary>
     /// Copy text to clipboard
     /// </summary>
-    protected void WebServerUrlToClipboard()
+    protected void WebserverUrlToClipboard()
     {
         if (string.IsNullOrWhiteSpace(Text))
         {

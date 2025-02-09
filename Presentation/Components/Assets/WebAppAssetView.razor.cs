@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Components;
 using MudBlazor;
 using PayrollEngine.AdminApp.Asset;
 using PayrollEngine.AdminApp.Setting;
-using PayrollEngine.AdminApp.WebServer;
+using PayrollEngine.AdminApp.Webserver;
 using PayrollEngine.AdminApp.Presentation.Components.Dialogs;
 
 namespace PayrollEngine.AdminApp.Presentation.Components.Assets;
@@ -45,38 +45,38 @@ public abstract class WebAppAssetViewBase : ComponentBase
             if (AssetService.RemoteBackend.Available)
             {
                 // remote: web service is defined
-                return AssetService.RemoteBackend.WebServerStatus == WebServerStatus.Available;
+                return AssetService.RemoteBackend.WebserverStatus == WebserverStatus.Available;
             }
             return false;
         }
     }
 
     /// <summary>
-    /// Web server url
+    /// Webserver url
     /// </summary>
-    protected string WebServerUrl =>
-        Asset.WebServerConnection.ToUrl();
+    protected string WebserverUrl =>
+        Asset.WebserverConnection.ToUrl();
 
     /// <summary>
-    /// Web server url style
+    /// Webserver url style
     /// </summary>
-    protected string WebServerUrlStyle =>
-        Asset.WebServerStatus == WebServerStatus.Available ?
+    protected string WebserverUrlStyle =>
+        Asset.WebserverStatus == WebserverStatus.Available ?
             "text-decoration: underline" : null;
 
     /// <summary>
-    /// Web server href
+    /// Webserver href
     /// </summary>
-    protected MarkupString WebServerHref
+    protected MarkupString WebserverHref
     {
         get
         {
-            var serverUrl = WebServerUrl;
+            var serverUrl = WebserverUrl;
             if (string.IsNullOrWhiteSpace(serverUrl))
             {
                 serverUrl = Localizer.UrlUndefined;
             }
-            return Asset.WebServerStatus == WebServerStatus.Available ?
+            return Asset.WebserverStatus == WebserverStatus.Available ?
                 // link
                 MarkupTool.ToHref(serverUrl) :
                 // no link
@@ -85,17 +85,17 @@ public abstract class WebAppAssetViewBase : ComponentBase
     }
 
     /// <summary>
-    /// Web server edit text
+    /// Webserver edit text
     /// </summary>
-    protected string WebServerEditText =>
-        Asset.WebServerStatus switch
+    protected string WebserverEditText =>
+        Asset.WebserverStatus switch
         {
-            WebServerStatus.UndefinedConnection => Localizer.Add,
+            WebserverStatus.UndefinedConnection => Localizer.Add,
             _ => Localizer.Edit
         };
 
     /// <summary>
-    /// Brows web server: web app login 
+    /// Brows webserver: web app login 
     /// </summary>
     protected async Task BrowseServerAsync()
     {
@@ -130,14 +130,14 @@ public abstract class WebAppAssetViewBase : ComponentBase
     }
 
     /// <summary>
-    /// Edit web server connection
+    /// Edit webserver connection
     /// </summary>
     protected async Task EditServerAsync()
     {
         try
         {
             // working copy
-            var editConnection = new WebServerConnection(Asset.WebServerConnection);
+            var editConnection = new WebserverConnection(Asset.WebserverConnection);
 
             // init
             if (editConnection.IsEmpty())
@@ -149,13 +149,13 @@ public abstract class WebAppAssetViewBase : ComponentBase
             // dialog parameters
             var parameters = new DialogParameters
             {
-                { nameof(WebServerConnectionDialog.Connection), editConnection },
+                { nameof(WebserverConnectionDialog.Connection), editConnection },
                 // ignore non-url fields
-                { nameof(WebServerConnectionDialog.UrlOnly), true }
+                { nameof(WebserverConnectionDialog.UrlOnly), true }
             };
 
             // show dialog
-            var dialog = await (await DialogService.ShowAsync<WebServerConnectionDialog>(
+            var dialog = await (await DialogService.ShowAsync<WebserverConnectionDialog>(
                 title: Localizer.DatabaseConnectionDialogTitle, parameters)).Result;
             if (dialog == null || dialog.Canceled)
             {
@@ -163,7 +163,7 @@ public abstract class WebAppAssetViewBase : ComponentBase
             }
 
             // no changes
-            if (editConnection.EqualValues(Asset.WebServerConnection))
+            if (editConnection.EqualValues(Asset.WebserverConnection))
             {
                 StatusMessageService.SetMessage(Localizer.NoEditChangesMessage);
                 return;
@@ -173,13 +173,13 @@ public abstract class WebAppAssetViewBase : ComponentBase
             await SettingsService.SetWebAppConnectionAsync(editConnection);
 
             // update asset
-            Asset.WebServerConnection.ImportValues(editConnection);
+            Asset.WebserverConnection.ImportValues(editConnection);
 
             // invalidate assets status
             await AssetService.InvalidateStatusAsync();
 
             // user notification
-            StatusMessageService.SetMessage(Localizer.WebServerConnectionUpdateMessage);
+            StatusMessageService.SetMessage(Localizer.WebserverConnectionUpdateMessage);
         }
         catch (Exception exception)
         {
@@ -193,7 +193,7 @@ public abstract class WebAppAssetViewBase : ComponentBase
     private async Task<bool> CheckCertificate()
     {
         // check for .net dev https certificate
-        if (!Asset.WebServerConnection.IsLocalSecureConnection() ||
+        if (!Asset.WebserverConnection.IsLocalSecureConnection() ||
             OperatingSystem.HasLocalSecureDevCertificate())
         {
             // available

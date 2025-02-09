@@ -46,7 +46,6 @@ public class Localizer(IStringLocalizerFactory factory) : LocalizerBase(factory)
     public string ConnectionParameterDialogTitle => PropertyValue();
     public string DatabaseCreateDialogTitle => PropertyValue();
     public string DatabaseUpdateDialogTitle => PropertyValue();
-    public string DatabaseSetup => PropertyValue();
     public string RefreshDatabaseStatusHelp => PropertyValue();
     public string CommonFieldsTab => PropertyValue();
     public string ServerName => PropertyValue();
@@ -81,13 +80,13 @@ public class Localizer(IStringLocalizerFactory factory) : LocalizerBase(factory)
     public string DatabaseSetupError(string value) =>
         FormatValue(PropertyValue(), nameof(value), value);
 
-    // web server
-    public string WebServer => PropertyValue();
-    public string WebServerDialogTitle => PropertyValue();
+    // webserver
+    public string Webserver => PropertyValue();
+    public string WebserverDialogTitle => PropertyValue();
     public string BaseUrl => PropertyValue();
     public string Port => PropertyValue();
     public string ApiKey => PropertyValue();
-    public string WebServerConnectionUpdateMessage => PropertyValue();
+    public string WebserverConnectionUpdateMessage => PropertyValue();
 
     // web app
     public string WebAppTitle => PropertyValue();

@@ -17,14 +17,14 @@ public enum BackendStatus
     DatabaseNotAvailable,
 
     /// <summary>
-    /// Web server not defined
+    /// Webserver not defined
     /// </summary>
-    WebServerUndefined,
+    WebserverUndefined,
 
     /// <summary>
-    /// Web server not started
+    /// Webserver not started
     /// </summary>
-    WebServerNotStarted,
+    WebserverNotStarted,
 
     /// <summary>
     /// Backend is running

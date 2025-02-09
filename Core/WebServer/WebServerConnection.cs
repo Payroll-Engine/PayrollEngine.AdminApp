@@ -1,11 +1,11 @@
 ﻿using System;
 
-namespace PayrollEngine.AdminApp.WebServer;
+namespace PayrollEngine.AdminApp.Webserver;
 
 /// <summary>
-/// Web server connection
+/// Webserver connection
 /// </summary>
-public class WebServerConnection
+public class WebserverConnection
 {
     /// <summary>
     /// Base URL (required)
@@ -30,7 +30,7 @@ public class WebServerConnection
     /// <summary>
     /// Default constructor
     /// </summary>
-    public WebServerConnection()
+    public WebserverConnection()
     {
     }
 
@@ -38,7 +38,7 @@ public class WebServerConnection
     /// Copy constructor
     /// </summary>
     /// <param name="copy"></param>
-    public WebServerConnection(WebServerConnection copy)
+    public WebserverConnection(WebserverConnection copy)
     {
         ImportValues(copy);
     }
@@ -72,7 +72,7 @@ public class WebServerConnection
     /// Test for equal values
     /// </summary>
     /// <param name="compare">Object to compare</param>
-    public bool EqualValues(WebServerConnection compare) =>
+    public bool EqualValues(WebserverConnection compare) =>
         compare != null &&
         Equals(BaseUrl, compare.BaseUrl) &&
         Equals(Port, compare.Port) &&
@@ -83,7 +83,7 @@ public class WebServerConnection
     /// Import connection values
     /// </summary>
     /// <param name="source">Object to import</param>
-    public void ImportValues(WebServerConnection source)
+    public void ImportValues(WebserverConnection source)
     {
         if (source == null)
         {

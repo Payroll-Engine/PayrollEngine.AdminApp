@@ -1,5 +1,5 @@
 ﻿using System.Threading.Tasks;
-using PayrollEngine.AdminApp.WebServer;
+using PayrollEngine.AdminApp.Webserver;
 using PayrollEngine.AdminApp.Persistence;
 
 namespace PayrollEngine.AdminApp.Setting;
@@ -34,22 +34,22 @@ public interface ISettingsService
     /// <summary>
     /// Get the api connection string
     /// </summary>
-    Task<WebServerConnection> GetApiConnectionAsync();
+    Task<WebserverConnection> GetApiConnectionAsync();
 
     /// <summary>
     /// Change the api connection string
     /// </summary>
     /// <param name="connection">Database connection</param>
-    Task SetApiConnectionAsync(WebServerConnection connection);
+    Task SetApiConnectionAsync(WebserverConnection connection);
 
     /// <summary>
     /// Get the web app connection string
     /// </summary>
-    Task<WebServerConnection> GetWebAppConnectionAsync();
+    Task<WebserverConnection> GetWebAppConnectionAsync();
 
     /// <summary>
     /// Change the web app connection string
     /// </summary>
     /// <param name="connection">Database connection</param>
-    Task SetWebAppConnectionAsync(WebServerConnection connection);
+    Task SetWebAppConnectionAsync(WebserverConnection connection);
 }

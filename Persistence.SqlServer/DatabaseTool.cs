@@ -18,7 +18,7 @@ internal static class DatabaseTool
     /// </summary>
     /// <param name="serverName">Server name</param>
     /// <param name="errorService">Error service</param>
-    internal static Version GetServerVersion(string serverName, IErrorService errorService)
+    internal static Version GetServerVersion(string serverName, IErrorService errorService = null)
     {
         try
         {
@@ -45,7 +45,7 @@ internal static class DatabaseTool
         }
         catch (Exception exception)
         {
-            errorService.AddError(exception);
+            errorService?.AddError(exception);
             Debug.WriteLine(exception.GetBaseException().Message);
             return null;
         }
@@ -57,7 +57,7 @@ internal static class DatabaseTool
     /// <param name="connection">Database connection</param>
     /// <param name="errorService">Error service</param>
     internal static async Task<bool?> TestDatabaseAvailableAsync(DatabaseConnection connection,
-        IErrorService errorService)
+        IErrorService errorService = null)
     {
         if (!connection.HasRequiredValues())
         {
@@ -71,7 +71,7 @@ internal static class DatabaseTool
         }
         catch (Exception exception)
         {
-            errorService.AddError(exception);
+            errorService?.AddError(exception);
             Debug.WriteLine(exception.GetBaseException().Message);
             return null;
         }
@@ -83,7 +83,7 @@ internal static class DatabaseTool
     /// <param name="connection">Database connection</param>
     /// <param name="errorService">Error service</param>
     internal static async Task<bool?> TestEmptyDatabaseAsync(DatabaseConnection connection,
-        IErrorService errorService)
+        IErrorService errorService = null)
     {
         try
         {
@@ -96,7 +96,7 @@ internal static class DatabaseTool
         }
         catch (Exception exception)
         {
-            errorService.AddError(exception);
+            errorService?.AddError(exception);
             Debug.WriteLine(exception.GetBaseException().Message);
             return null;
         }
@@ -109,7 +109,7 @@ internal static class DatabaseTool
     /// <param name="errorService">Error service</param>
     /// <returns>List of versions</returns>
     internal static async Task<List<Version>> GetDatabaseVersionsAsync(DatabaseConnection connection,
-        IErrorService errorService)
+        IErrorService errorService = null)
     {
         var versions = new List<Version>();
 
@@ -143,7 +143,7 @@ internal static class DatabaseTool
         }
         catch (Exception exception)
         {
-            errorService.AddError(exception);
+            errorService?.AddError(exception);
             Debug.WriteLine(exception.GetBaseException().Message);
             return null;
         }
@@ -153,10 +153,10 @@ internal static class DatabaseTool
     /// Create a database
     /// </summary>
     /// <param name="connection">Database connection</param>
-    /// <param name="errorService">Error service</param>
     /// <param name="collation">Database collation</param>
-    internal static async Task<int?> CreateDatabaseAsync(DatabaseConnection connection,
-        IErrorService errorService, string collation)
+    /// <param name="errorService">Error service</param>
+    internal static async Task<bool?> CreateDatabaseAsync(DatabaseConnection connection,
+        string collation = null, IErrorService errorService = null)
     {
         // invalid connection
         if (!connection.HasRequiredValues())
@@ -171,7 +171,7 @@ internal static class DatabaseTool
             var connectionString = connection.ToConnectionString();
             if (string.IsNullOrWhiteSpace(connectionString))
             {
-                return -1;
+                return null;
             }
             await using var sqlConnection = new SqlConnection(connectionString);
             var serverConnection = new ServerConnection(sqlConnection);
@@ -184,19 +184,31 @@ internal static class DatabaseTool
                 new Server(serverConnection);
 
             // database
-            var database = new Database(server, connection.Database)
+            var database = new Database(server, connection.Database);
+            if (!string.IsNullOrWhiteSpace(collation))
             {
-                Collation = collation
-            };
+                database.Collation = collation;
+            }
 
             database.Create();
-            return 0;
+
+            // test created database without error tracking (poll 3 times)
+            // note: test available database with Task.Run(), otherwise it fails
+            var testCount = 0;
+            var exists = await Task.Run(() => TestDatabaseAvailableAsync(connection));
+            while (exists != true && testCount < 3)
+            {
+                await Task.Delay(1000);
+                exists = await Task.Run(() => TestDatabaseAvailableAsync(connection));
+                testCount++;
+            }
+            return exists;
         }
         catch (Exception exception)
         {
-            errorService.AddError(exception);
+            errorService?.AddError(exception);
             Debug.WriteLine(exception.GetBaseException().Message);
-            return -1;
+            return null;
         }
     }
 
@@ -209,7 +221,7 @@ internal static class DatabaseTool
     /// <remarks>Script is executed within a database transaction</remarks>
     /// <returns>Number of affected rows, -1 on error</returns>
     internal static async Task<int?> ExecuteScriptAsync(DatabaseConnection connection,
-        string script, IErrorService errorService)
+        string script, IErrorService errorService = null)
     {
         if (string.IsNullOrWhiteSpace(script))
         {
@@ -250,7 +262,7 @@ internal static class DatabaseTool
             serverConnection.RollBackTransaction();
 
             // error handling
-            errorService.AddError(exception);
+            errorService?.AddError(exception);
             Debug.WriteLine(exception.GetBaseException().Message);
             return -1;
         }

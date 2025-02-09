@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using PayrollEngine.AdminApp.Persistence;
-using PayrollEngine.AdminApp.WebServer;
+using PayrollEngine.AdminApp.Webserver;
 
 namespace PayrollEngine.AdminApp.Setting;
 
@@ -68,19 +68,19 @@ public class EnvironmentSettingsService : ISettingsService
     #region Api Connection
 
     /// <inheritdoc />
-    public Task<WebServerConnection> GetApiConnectionAsync()
+    public Task<WebserverConnection> GetApiConnectionAsync()
     {
         var variable = GetUserVariable(Specification.PayrollApiConnection);
         if (string.IsNullOrWhiteSpace(variable))
         {
-            return Task.FromResult<WebServerConnection>(null);
+            return Task.FromResult<WebserverConnection>(null);
         }
-        var connection = variable.ToWebServerConnection();
+        var connection = variable.ToWebserverConnection();
         return Task.FromResult(connection);
     }
 
     /// <inheritdoc />
-    public Task SetApiConnectionAsync(WebServerConnection connection)
+    public Task SetApiConnectionAsync(WebserverConnection connection)
     {
         if (connection == null)
         {
@@ -90,7 +90,7 @@ public class EnvironmentSettingsService : ISettingsService
         var variable = connection.ToConnectionString();
         if (string.IsNullOrWhiteSpace(variable))
         {
-            return Task.FromResult<WebServerConnection>(null);
+            return Task.FromResult<WebserverConnection>(null);
         }
 
         SetUserVariable(Specification.PayrollApiConnection, variable);
@@ -102,15 +102,15 @@ public class EnvironmentSettingsService : ISettingsService
     #region Web App Connection
 
     /// <inheritdoc />
-    public Task<WebServerConnection> GetWebAppConnectionAsync()
+    public Task<WebserverConnection> GetWebAppConnectionAsync()
     {
         var variable = GetUserVariable(Specification.PayrollWebAppConnection);
-        var connection = variable.ToWebServerConnection();
+        var connection = variable.ToWebserverConnection();
         return Task.FromResult(connection);
     }
 
     /// <inheritdoc />
-    public Task SetWebAppConnectionAsync(WebServerConnection connection)
+    public Task SetWebAppConnectionAsync(WebserverConnection connection)
     {
         if (connection == null)
         {

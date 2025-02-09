@@ -1,5 +1,5 @@
 ﻿using PayrollEngine.AdminApp.Setting;
-using PayrollEngine.AdminApp.WebServer;
+using PayrollEngine.AdminApp.Webserver;
 using PayrollEngine.AdminApp.Persistence;
 
 namespace PayrollEngine.AdminApp.Asset;
@@ -20,7 +20,7 @@ public class AssetContext
     public IDatabaseService DatabaseService { get; init; }
 
     /// <summary>
-    /// Web server service
+    /// Webserver service
     /// </summary>
-    public IWebServerService WebServerService { get; init; }
+    public IWebserverService WebserverService { get; init; }
 }

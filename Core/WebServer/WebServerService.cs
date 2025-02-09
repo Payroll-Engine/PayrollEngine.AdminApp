@@ -4,47 +4,54 @@ using System.Net.Http;
 using System.Diagnostics;
 using System.Threading.Tasks;
 
-namespace PayrollEngine.AdminApp.WebServer;
+namespace PayrollEngine.AdminApp.Webserver;
+
 /// <summary>
-/// Http web server service
+/// Http webserver service
 /// </summary>
-/// <param name="errorService">Error service</param>
-/// <param name="timeout">Test request timeout</param>
-public class WebServerService(IErrorService errorService, TimeSpan timeout) : IWebServerService
+public class WebserverService : IWebserverService
 {
-    private IErrorService ErrorService { get; } = errorService;
-
-    private TimeSpan Timeout { get; } =
-        timeout == TimeSpan.Zero ? DefaultTimeout : timeout;
-
     /// <summary>
-    /// Default connection timeout
+    /// Http webserver service
     /// </summary>
-    public static TimeSpan DefaultTimeout = TimeSpan.FromSeconds(5);
+    /// <param name="configService">Configuration service</param>
+    public WebserverService(IWebserverConfigurationService configService)
+    {
+        // timeout
+        var configTimeout = configService.GetConnectionTimeout();
+        if (configTimeout <= 0)
+        {
+            configTimeout = Specification.HttpConnectTimeoutDefault;
+        }
+        Timeout = TimeSpan.FromSeconds(configTimeout);
+    }
+
+    private TimeSpan Timeout { get; }
 
     /// <inheritdoc />
-    public async Task<WebServerStatus> GetStatusAsync(WebServerConnection connection)
+    public async Task<WebserverStatus> GetStatusAsync(WebserverConnection connection, IErrorService errorService = null)
     {
         var url = connection.ToUrl();
         if (string.IsNullOrWhiteSpace(url))
         {
-            return WebServerStatus.UndefinedConnection;
+            return WebserverStatus.UndefinedConnection;
         }
-        if (!await AvailableUrlAsync(url))
+        if (!await AvailableUrlAsync(url, errorService))
         {
-            return WebServerStatus.NotAvailable;
+            return WebserverStatus.NotAvailable;
         }
 
-        return WebServerStatus.Available;
+        return WebserverStatus.Available;
     }
 
     /// <summary>
     /// Test if web url can be connected
     /// </summary>
-    /// <param name="url">The web server url</param>
+    /// <param name="url">The webserver url</param>
+    /// <param name="errorService">Error service</param>
     /// <returns>true if the connection is opened</returns>
     /// <remarks>source: https://stackoverflow.com/a/16171261</remarks>
-    private async Task<bool> AvailableUrlAsync(string url)
+    private async Task<bool> AvailableUrlAsync(string url, IErrorService errorService = null)
     {
         try
         {
@@ -62,7 +69,7 @@ public class WebServerService(IErrorService errorService, TimeSpan timeout) : IW
         }
         catch (Exception exception)
         {
-            ErrorService.AddError(exception);
+            errorService?.AddError(exception);
             Debug.WriteLine(exception);
             return false;
         }

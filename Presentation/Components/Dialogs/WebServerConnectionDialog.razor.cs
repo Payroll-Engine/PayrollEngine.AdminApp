@@ -2,21 +2,21 @@
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
 using MudBlazor;
-using PayrollEngine.AdminApp.WebServer;
+using PayrollEngine.AdminApp.Webserver;
 
 namespace PayrollEngine.AdminApp.Presentation.Components.Dialogs;
 
 /// <summary>
-/// Web server connection dialog
+/// Webserver connection dialog
 /// </summary>
-public abstract class WebServerConnectionDialogBase : ComponentBase
+public abstract class WebserverConnectionDialogBase : ComponentBase
 {
     [CascadingParameter] private IMudDialogInstance MudDialog { get; set; }
 
     /// <summary>
-    /// Web server connection
+    /// Webserver connection
     /// </summary>
-    [Parameter] public WebServerConnection Connection { get; set; }
+    [Parameter] public WebserverConnection Connection { get; set; }
 
     /// <summary>
     /// Only url edit
@@ -57,7 +57,7 @@ public abstract class WebServerConnectionDialogBase : ComponentBase
     /// <summary>
     /// The editing connection
     /// </summary>
-    protected WebServerConnection EditConnection { get; } = new();
+    protected WebserverConnection EditConnection { get; } = new();
 
     /// <summary>
     /// Connection timeout
@@ -74,7 +74,7 @@ public abstract class WebServerConnectionDialogBase : ComponentBase
     protected void Cancel() => MudDialog.Cancel();
 
     /// <summary>
-    /// Submit web server connection
+    /// Submit webserver connection
     /// </summary>
     protected async Task Submit()
     {

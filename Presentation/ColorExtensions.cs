@@ -1,6 +1,6 @@
 ﻿using MudBlazor;
 using PayrollEngine.AdminApp.Asset;
-using PayrollEngine.AdminApp.WebServer;
+using PayrollEngine.AdminApp.Webserver;
 using PayrollEngine.AdminApp.Persistence;
 
 namespace PayrollEngine.AdminApp.Presentation;
@@ -19,8 +19,8 @@ public static class ColorExtensions
         {
             BackendStatus.NotAvailable => Color.Error,
             BackendStatus.DatabaseNotAvailable => Color.Error,
-            BackendStatus.WebServerUndefined => Color.Error,
-            BackendStatus.WebServerNotStarted => Color.Error,
+            BackendStatus.WebserverUndefined => Color.Error,
+            BackendStatus.WebserverNotStarted => Color.Error,
             BackendStatus.Running => Color.Success,
             _ => Color.Default
         };
@@ -33,22 +33,22 @@ public static class ColorExtensions
         status switch
         {
             WebAppStatus.NotAvailable => Color.Error,
-            WebAppStatus.WebServerUndefined => Color.Error,
-            WebAppStatus.WebServerNotStarted => Color.Error,
+            WebAppStatus.WebserverUndefined => Color.Error,
+            WebAppStatus.WebserverNotStarted => Color.Error,
             WebAppStatus.Running => Color.Success,
             _ => Color.Default
         };
 
     /// <summary>
-    /// Get web server edit color
+    /// Get webserver edit color
     /// </summary>
-    /// <param name="status">Web server status</param>
-    public static Color ToEditColor(this WebServerStatus status) =>
+    /// <param name="status">Webserver status</param>
+    public static Color ToEditColor(this WebserverStatus status) =>
         status switch
         {
-            WebServerStatus.UndefinedConnection => Color.Error,
-            WebServerStatus.NotAvailable => Color.Error,
-            WebServerStatus.Available => Color.Success,
+            WebserverStatus.UndefinedConnection => Color.Error,
+            WebserverStatus.NotAvailable => Color.Error,
+            WebserverStatus.Available => Color.Success,
             _ => Color.Default
         };
 
