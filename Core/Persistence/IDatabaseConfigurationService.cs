@@ -6,11 +6,6 @@
 public interface IDatabaseConfigurationService
 {
     /// <summary>
-    /// Get database collation
-    /// </summary>
-    string GetCollation();
-
-    /// <summary>
     /// Get connection timeout in seconds
     /// </summary>
     int GetConnectionTimeout();

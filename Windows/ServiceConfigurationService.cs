@@ -26,10 +26,6 @@ public class ServiceConfigurationService :
     #region IDatabaseConfigurationService
 
     /// <inheritdoc />
-    string IDatabaseConfigurationService.GetCollation() =>
-        Configuration["DatabaseCollation"] ?? Specification.DatabaseCollation;
-
-    /// <inheritdoc />
     int IDatabaseConfigurationService.GetConnectionTimeout()
     {
         var timeout = Configuration["DatabaseConnectTimeout"];

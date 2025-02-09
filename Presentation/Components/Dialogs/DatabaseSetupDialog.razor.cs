@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Components;
+using Microsoft.Extensions.Configuration;
 using MudBlazor;
 using PayrollEngine.AdminApp.Persistence;
 
@@ -30,6 +31,11 @@ public abstract class DatabaseSetupDialogBase : ComponentBase
     [Parameter] public DatabaseSetupMode SetupMode { get; set; }
 
     /// <summary>
+    /// Database collation mode
+    /// </summary>
+    [Parameter] public bool UseCollation { get; set; }
+
+    /// <summary>
     /// Database scripts
     /// </summary>
     [Parameter] public List<string> Scripts { get; set; }
@@ -40,6 +46,12 @@ public abstract class DatabaseSetupDialogBase : ComponentBase
     [Inject] protected Localizer Localizer { get; set; }
     [Inject] private IErrorService ErrorService { get; set; }
     [Inject] private IDialogService DialogService { get; set; }
+    [Inject] private IConfigurationRoot Configuration { get; set; }
+
+    /// <summary>
+    /// Database collation
+    /// </summary>
+    protected string Collation { get; set; }
 
     /// <summary>
     /// Current status message
@@ -94,7 +106,8 @@ public abstract class DatabaseSetupDialogBase : ComponentBase
                 if (databaseStatus == DatabaseStatus.MissingDatabase)
                 {
                     // create database with error tracking
-                    var createResult = await Task.Run(() => DatabaseService.CreateDatabaseAsync(Connection, ErrorService));
+                    var createResult = await Task.Run(() =>
+                        DatabaseService.CreateDatabaseAsync(Connection, Collation, ErrorService));
                     if (createResult != true)
                     {
                         // database create error
@@ -160,5 +173,20 @@ public abstract class DatabaseSetupDialogBase : ComponentBase
     private async Task SetupCompleted()
     {
         await DialogService.ShowMessage(DialogTitle, SuccessMessage);
+    }
+
+    private void InitCollation()
+    {
+        if (UseCollation)
+        {
+            Collation = Configuration["DatabaseCollation"] ?? Specification.DefaultDatabaseCollation;
+        }
+    }
+
+    /// <inheritdoc />
+    protected override void OnParametersSet()
+    {
+        InitCollation();
+        base.OnParametersSet();
     }
 }

@@ -42,8 +42,8 @@ public static class Specification
 
     #region Database
 
-    /// <summary>Default web app url</summary>
-    public const string DatabaseCollation = "SQL_Latin1_General_CP1_CS_AS";
+    /// <summary>Default database collation</summary>
+    public const string DefaultDatabaseCollation = "SQL_Latin1_General_CP1_CS_AS";
 
     #endregion
 

@@ -261,6 +261,9 @@
 	<data name="CustomParametersTab" xml:space="preserve">
     <value>Custom Parameters</value>
   </data>
+	<data name="DatabaseCollation" xml:space="preserve">
+    <value>Collation</value>
+  </data>
 	<data name="NoParametersAvailable" xml:space="preserve">
     <value>Not data available</value>
   </data>		

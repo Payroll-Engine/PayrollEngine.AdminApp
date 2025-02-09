@@ -23,13 +23,9 @@ public class DatabaseService : IDatabaseService
             configTimeout = Specification.HttpConnectTimeoutDefault;
         }
         Timeout = configTimeout;
-
-        // collation
-        Collation = configService.GetCollation();
     }
 
     private int Timeout { get; }
-    private string Collation { get; }
 
     /// <inheritdoc />
     public async Task<Version> GetCurrentVersionAsync(DatabaseConnection connection, IErrorService errorService = null)
@@ -110,8 +106,8 @@ public class DatabaseService : IDatabaseService
     }
 
     /// <inheritdoc />
-    public async Task<bool?> CreateDatabaseAsync(DatabaseConnection connection, IErrorService errorService = null) =>
-        await DatabaseTool.CreateDatabaseAsync(ToTestConnection(connection), Collation, errorService);
+    public async Task<bool?> CreateDatabaseAsync(DatabaseConnection connection, string collation = null, IErrorService errorService = null) =>
+        await DatabaseTool.CreateDatabaseAsync(ToTestConnection(connection), collation, errorService);
 
     /// <inheritdoc />
     public async Task<int?> ExecuteScriptAsync(DatabaseConnection connection, string script, IErrorService errorService = null) =>

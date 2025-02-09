@@ -57,6 +57,7 @@ public class Localizer(IStringLocalizerFactory factory) : LocalizerBase(factory)
     public string UserId => PropertyValue();
     public string Password => PropertyValue();
     public string CustomParametersTab => PropertyValue();
+    public string DatabaseCollation => PropertyValue();
     public string NoParametersAvailable => PropertyValue();
     public string DatabaseUpdateHelp => PropertyValue();
     public string DatabaseStatusHelp => PropertyValue();

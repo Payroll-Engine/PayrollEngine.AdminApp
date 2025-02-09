@@ -20,6 +20,16 @@
                                   Label="@Localizer.DatabaseName"
                                   Margin="Margin.Dense"
                                   Disabled="true" />
+                    @* collation *@
+                    @if (UseCollation)
+                    {
+                        <MudTextField T="string"
+                                      @bind-Value="@Collation"
+                                      Variant="@Globals.InputFieldVariant"
+                                      Label="@Localizer.DatabaseCollation"
+                                      Disabled="@SetupExecute"
+                                      Margin="Margin.Dense" />
+                    }
                 </MudStack>
             </MudSimpleTable>
 

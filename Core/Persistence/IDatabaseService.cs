@@ -27,9 +27,10 @@ public interface IDatabaseService
     /// Create a new database
     /// </summary>
     /// <param name="connection">Database connection</param>
+    /// <param name="collation">Database collation</param>
     /// <param name="errorService">Error service</param>
     /// <returns>True on success</returns>
-    Task<bool?> CreateDatabaseAsync(DatabaseConnection connection, IErrorService errorService = null);
+    Task<bool?> CreateDatabaseAsync(DatabaseConnection connection, string collation = null, IErrorService errorService = null);
 
     /// <summary>
     /// Execute database script

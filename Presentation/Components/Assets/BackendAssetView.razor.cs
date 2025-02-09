@@ -370,6 +370,7 @@ public abstract class BackendAssetViewBase : ComponentBase
                 { nameof(DatabaseSetupDialog.DatabaseService), DatabaseService },
                 { nameof(DatabaseSetupDialog.Connection), Asset.DatabaseConnection },
                 { nameof(DatabaseSetupDialog.SetupMode), DatabaseSetupMode.Create },
+                { nameof(DatabaseSetupDialog.UseCollation), Asset.DatabaseStatus == DatabaseStatus.MissingDatabase },
                 { nameof(DatabaseSetupDialog.Scripts), scripts }
             };
 

@@ -261,7 +261,10 @@
 	<data name="CustomParametersTab" xml:space="preserve">
     <value>Weitere Parameter</value>
   </data>
-  <data name="NoParametersAvailable" xml:space="preserve">
+	<data name="DatabaseCollation" xml:space="preserve">
+    <value>Sortierung</value>
+  </data>
+	<data name="NoParametersAvailable" xml:space="preserve">
     <value>Keine Daten verfügbar</value>
   </data>		
   <data name="DatabaseUpdateHelp" xml:space="preserve">
