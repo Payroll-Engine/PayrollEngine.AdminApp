@@ -5,7 +5,7 @@
 The functions of the admin app are divided into assets:
 
 | Asset            | Base asses                | Setup | Client Setup |
-|:--|:--|:--|:--|:--|
+|:--|:--|:--|:--|
 | Web App          | Backend                   |   ✔️  |              |
 | Backend          |                           |   ✔️  |              |
 | Backend Remote   |                           |       |    ✔️        |
