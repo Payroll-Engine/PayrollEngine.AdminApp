@@ -235,22 +235,19 @@ public abstract class BackendAssetViewBase : ComponentBase
     /// <summary>
     /// Database connection setup text
     /// </summary>
-    protected string DatabaseSetupText =>
-        Asset.DatabaseStatus switch
+    protected string DatabaseSetupText
+    {
+        get
         {
-            DatabaseStatus.MissingDatabase or
-                DatabaseStatus.EmptyDatabase => Localizer.Create,
-            DatabaseStatus.OutdatedVersion => Localizer.Update,
-            _ => Localizer.Edit
-        };
-
-    /// <summary>
-    /// Check for pending database changes
-    /// </summary>
-    protected bool DatabasePendingChange =>
-        Asset.DatabaseStatus is DatabaseStatus.MissingDatabase or
-            DatabaseStatus.EmptyDatabase or
-            DatabaseStatus.OutdatedVersion;
+            if (Asset.DatabaseStatus.ReadyToCreate())
+            {
+                return Localizer.Create;
+            }
+            return Asset.DatabaseStatus.ReadyToUpdate() ?
+                Localizer.Update :
+                Localizer.Edit;
+        }
+    }
 
     /// <summary>
     /// Edit database connection
@@ -282,6 +279,7 @@ public abstract class BackendAssetViewBase : ComponentBase
             {
                 { nameof(DatabaseConnectionDialog.DatabaseService), DatabaseService },
                 { nameof(DatabaseConnectionDialog.Connection), editConnection },
+                { nameof(DatabaseConnectionDialog.NewConnection), true },
                 { nameof(DatabaseConnectionDialog.Version), Asset.Parameters.Database.CurrentVersion },
                 { nameof(DatabaseConnectionDialog.InitHost), initHost }
             };
@@ -317,7 +315,7 @@ public abstract class BackendAssetViewBase : ComponentBase
             // new connection
             if (newConnection)
             {
-                await InitializeDatabaseAsync();
+                await CreateDatabaseAsync();
             }
         }
         catch (Exception exception)
@@ -331,22 +329,20 @@ public abstract class BackendAssetViewBase : ComponentBase
     /// </summary>
     protected async Task SetupDatabaseAsync()
     {
-        switch (Asset.DatabaseStatus)
+        if (Asset.DatabaseStatus.ReadyToCreate())
         {
-            case DatabaseStatus.MissingDatabase:
-            case DatabaseStatus.EmptyDatabase:
-                await InitializeDatabaseAsync();
-                break;
-            case DatabaseStatus.OutdatedVersion:
-                await UpdateDatabaseAsync();
-                break;
+            await CreateDatabaseAsync();
+        }
+        else if (Asset.DatabaseStatus.ReadyToCreate())
+        {
+            await UpdateDatabaseAsync();
         }
     }
 
     /// <summary>
-    /// Initialize new database
+    /// Create new database
     /// </summary>
-    private async Task InitializeDatabaseAsync()
+    private async Task CreateDatabaseAsync()
     {
         try
         {
@@ -364,13 +360,16 @@ public abstract class BackendAssetViewBase : ComponentBase
                 return;
             }
 
+            // current database status
+            var databaseStatus = await DatabaseService.GetStatusAsync(Asset.DatabaseConnection);
+
             // dialog parameters
             var parameters = new DialogParameters
             {
                 { nameof(DatabaseSetupDialog.DatabaseService), DatabaseService },
                 { nameof(DatabaseSetupDialog.Connection), Asset.DatabaseConnection },
                 { nameof(DatabaseSetupDialog.SetupMode), DatabaseSetupMode.Create },
-                { nameof(DatabaseSetupDialog.UseCollation), Asset.DatabaseStatus == DatabaseStatus.MissingDatabase },
+                { nameof(DatabaseSetupDialog.UseCollation), databaseStatus == DatabaseStatus.MissingDatabase },
                 { nameof(DatabaseSetupDialog.Scripts), scripts }
             };
 

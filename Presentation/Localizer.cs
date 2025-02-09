@@ -32,6 +32,7 @@ public class Localizer(IStringLocalizerFactory factory) : LocalizerBase(factory)
     public string Add => PropertyValue();
     public string Create => PropertyValue();
     public string Update => PropertyValue();
+    public string Continue => PropertyValue();
     public string UrlUndefined => PropertyValue();
     public string CopyToClipboardHelp => PropertyValue();
     public string Name => PropertyValue();
@@ -59,6 +60,7 @@ public class Localizer(IStringLocalizerFactory factory) : LocalizerBase(factory)
     public string CustomParametersTab => PropertyValue();
     public string DatabaseCollation => PropertyValue();
     public string NoParametersAvailable => PropertyValue();
+    public string DatabaseNotReadyToSetup => PropertyValue();
     public string DatabaseUpdateHelp => PropertyValue();
     public string DatabaseStatusHelp => PropertyValue();
     public MarkupString DatabaseSetupHelp => new(PropertyValue());

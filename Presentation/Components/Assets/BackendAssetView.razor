@@ -126,14 +126,14 @@
             </MudTooltip>
 
             @* setup action *@
-            @if (DatabasePendingChange)
+            @if (Asset.DatabaseStatus.PendingChange())
             {
                 <MudTooltip Delay="1000" Text="@Localizer.DatabaseUpdateHelp" Placement="Placement.Top">
                     <MudButton @onclick="@SetupDatabaseAsync"
                                Class="ml-2"
                                Color="Color.Success"
                                Variant="@Globals.ButtonVariant"
-                               EndIcon="@(Asset.DatabaseStatus == DatabaseStatus.OutdatedVersion ?
+                               EndIcon="@(Asset.DatabaseStatus.ReadyToUpdate() ?
                                             Icons.Material.Filled.Update : Icons.Material.Filled.InstallDesktop)"
                                Size="Size.Small">@DatabaseSetupText</MudButton>
                 </MudTooltip>

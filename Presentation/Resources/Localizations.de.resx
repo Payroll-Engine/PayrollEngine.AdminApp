@@ -138,8 +138,8 @@
     <value>Remote</value>
   </data>
 	<!-- ============================== General ============================== -->
-		<!-- ** app  ** -->
-<data name="AppTitle" xml:space="preserve">
+	<!-- ** app  ** -->
+	<data name="AppTitle" xml:space="preserve">
     <value>Payroll Engine Admin</value>
   </data>
 	<data name="AppLoadingMessage" xml:space="preserve">
@@ -173,13 +173,13 @@
 	<data name="Ok" xml:space="preserve">
     <value>OK</value>
   </data>
-<data name="Start" xml:space="preserve">
+	<data name="Start" xml:space="preserve">
     <value>Starten</value>
   </data>
 	<data name="StartHelp" xml:space="preserve">
     <value>Webserver starten</value>
   </data>
-		<data name="Edit" xml:space="preserve">
+	<data name="Edit" xml:space="preserve">
     <value>Bearbeiten</value>
   </data>
 	<data name="Add" xml:space="preserve">
@@ -191,10 +191,13 @@
 	<data name="Update" xml:space="preserve">
     <value>Aktualisieren</value>
   </data>
-		<data name="UrlUndefined" xml:space="preserve">
+	<data name="Continue" xml:space="preserve">
+    <value>Weiter</value>
+  </data>
+	<data name="UrlUndefined" xml:space="preserve">
     <value>Nicht definiert</value>
   </data>
-  <data name="CopyToClipboardHelp" xml:space="preserve">
+	<data name="CopyToClipboardHelp" xml:space="preserve">
     <value>In Zwischenablage kopieren</value>
   </data>
 	<data name="Name" xml:space="preserve">
@@ -266,13 +269,16 @@
   </data>
 	<data name="NoParametersAvailable" xml:space="preserve">
     <value>Keine Daten verfügbar</value>
-  </data>		
-  <data name="DatabaseUpdateHelp" xml:space="preserve">
+  </data>
+	<data name="DatabaseNotReadyToSetup" xml:space="preserve">
+    <value>Die Datenbankverbindung ist mit diesen Einstellungen nicht möglich.</value>
+  </data>
+	<data name="DatabaseUpdateHelp" xml:space="preserve">
     <value>Datenbank aktualisieren</value>
   </data>
-  <data name="DatabaseStatusHelp" xml:space="preserve">
+	<data name="DatabaseStatusHelp" xml:space="preserve">
     <value>Verbindungsstatus</value>
-  </data>	
+  </data>
 	<data name="DatabaseSetupHelp" xml:space="preserve">
     <value>Der Microsoft® SQL Server® ist erforderlich.&amp;nbsp;&lt;a style="text-decoration: underline" href="https://www.microsoft.com/en-us/download/details.aspx?id=104781"&gt;Download&lt;/a&gt;&amp;nbsp;Express Ausführung.</value>
   </data>
@@ -331,7 +337,7 @@
 	<data name="ApiKey" xml:space="preserve">
     <value>API Schlüssel</value>
   </data>
-<data name="WebserverConnectionUpdateMessage" xml:space="preserve">
+	<data name="WebserverConnectionUpdateMessage" xml:space="preserve">
     <value>Webserver Verbindung erfolgreich aktualisiert.</value>
   </data>
 	<!-- ** web app  ** -->
@@ -380,7 +386,7 @@
 	<data name="CurrentRegistration" xml:space="preserve">
     <value>Aktuelle Registrierung: {name}</value>
   </data>
-  <data name="FileTypeRegisterMessage" xml:space="preserve">
+	<data name="FileTypeRegisterMessage" xml:space="preserve">
     <value>Payroll Console Kommandodatei '{type}' Dateierweiterungs-Verknüpfung.</value>
   </data>
 	<data name="FileTypeRegisterQuery" xml:space="preserve">
@@ -388,7 +394,7 @@
   </data>
 	<data name="FileTypeRegisterTitle" xml:space="preserve">
     <value>Dateityp Registration</value>
-  </data>	
+  </data>
 	<data name="FileTypeRegisterSuccess" xml:space="preserve">
     <value>Dateityp Registrierung erfolgreich.</value>
   </data>
@@ -397,11 +403,11 @@
   </data>
 	<data name="Unregister" xml:space="preserve">
     <value>Entfernen</value>
-  </data>	
+  </data>
 	<data name="FileTypeUnregisterQuery" xml:space="preserve">
     <value>Registrierung vom Dateityp {type} entfernen?</value>
-  </data> 
-   <data name="FileTypeUnregisterTitle" xml:space="preserve">
+  </data>
+	<data name="FileTypeUnregisterTitle" xml:space="preserve">
     <value>Dateityp Registration</value>
   </data>
 	<data name="FileTypeUnregisterSuccess" xml:space="preserve">
@@ -410,8 +416,8 @@
 	<data name="FileTypeUnregisterError" xml:space="preserve">
     <value>Fehler beim Entfernen der Registrierung.</value>
   </data>
-			<!-- ** other assets  ** -->
-<data name="TestsTitle" xml:space="preserve">
+	<!-- ** other assets  ** -->
+	<data name="TestsTitle" xml:space="preserve">
     <value>Tests</value>
   </data>
 	<data name="ExamplesTitle" xml:space="preserve">

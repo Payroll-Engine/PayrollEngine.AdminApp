@@ -48,6 +48,9 @@ public abstract class DatabaseSetupDialogBase : ComponentBase
     [Inject] private IDialogService DialogService { get; set; }
     [Inject] private IConfigurationRoot Configuration { get; set; }
 
+    private const int TestCreateRetryCount = 100;
+    private const int TestCreateRetryDelay = 200; // milliseconds
+
     /// <summary>
     /// Database collation
     /// </summary>
@@ -102,7 +105,7 @@ public abstract class DatabaseSetupDialogBase : ComponentBase
             // database setup
             if (SetupMode == DatabaseSetupMode.Create)
             {
-                var databaseStatus = await Task.Run(() => DatabaseService.GetStatusAsync(Connection));
+                var databaseStatus = await DatabaseService.GetStatusAsync(Connection);
                 if (databaseStatus == DatabaseStatus.MissingDatabase)
                 {
                     // create database with error tracking
@@ -110,12 +113,24 @@ public abstract class DatabaseSetupDialogBase : ComponentBase
                         DatabaseService.CreateDatabaseAsync(Connection, Collation, ErrorService));
                     if (createResult != true)
                     {
-                        // database create error
-                        var error = ErrorService.RetrieveErrors();
-                        if (!string.IsNullOrWhiteSpace(error))
-                        {
-                            await DialogService.ShowMessage(DialogTitle, error);
-                        }
+                        await DialogService.ShowMessage(DialogTitle,
+                            ErrorService.RetrieveErrors() ?? Localizer.DatabaseCreateErrorMessage);
+                        return;
+                    }
+
+                    // test created database
+                    var count = 0;
+                    var status = await DatabaseService.GetStatusAsync(Connection);
+                    while (status != DatabaseStatus.EmptyDatabase && count < TestCreateRetryCount)
+                    {
+                        // retry with some delay
+                        await Task.Delay(TestCreateRetryDelay);
+                        status = await DatabaseService.GetStatusAsync(Connection);
+                        count++;
+                    }
+                    if (status != DatabaseStatus.EmptyDatabase)
+                    {
+                        await DialogService.ShowMessage(DialogTitle, Localizer.DatabaseCreateErrorMessage);
                         return;
                     }
                 }
@@ -153,7 +168,7 @@ public abstract class DatabaseSetupDialogBase : ComponentBase
             MudDialog.Close(DialogResult.Ok(true));
 
             // user confirmation
-            await InvokeAsync(SetupCompleted);
+            await InvokeAsync(SetupCompletedAsync);
         }
         catch (Exception exception)
         {
@@ -170,7 +185,7 @@ public abstract class DatabaseSetupDialogBase : ComponentBase
     /// <summary>
     /// Setup completed message
     /// </summary>
-    private async Task SetupCompleted()
+    private async Task SetupCompletedAsync()
     {
         await DialogService.ShowMessage(DialogTitle, SuccessMessage);
     }

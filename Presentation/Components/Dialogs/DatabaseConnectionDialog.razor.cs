@@ -24,6 +24,11 @@ public abstract class DatabaseConnectionDialogBase : ComponentBase
     [Parameter] public DatabaseConnection Connection { get; set; }
 
     /// <summary>
+    /// Setup new connection
+    /// </summary>
+    [Parameter] public bool NewConnection { get; set; }
+
+    /// <summary>
     /// Database version
     /// </summary>
     [Parameter] public Version Version { get; set; }
@@ -73,14 +78,9 @@ public abstract class DatabaseConnectionDialogBase : ComponentBase
     protected bool IsValid { get; set; }
 
     /// <summary>
-    /// Database change text
+    /// Submit button text
     /// </summary>
-    protected string DatabaseChangeText =>
-        DatabaseStatus switch
-        {
-            DatabaseStatus.UndefinedConnection => Localizer.Add,
-            _ => Localizer.Apply
-        };
+    protected string SubmitText { get; private set; }
 
     #region Parameter
 
@@ -184,6 +184,18 @@ public abstract class DatabaseConnectionDialogBase : ComponentBase
                 return;
             }
 
+            // validate connection
+            if (NewConnection)
+            {
+                await UpdateDatabaseStatusAsync();
+                if (!DatabaseStatus.ReadyToCreate())
+                {
+                    await DialogService.ShowMessage(Localizer.DatabaseConnectionDialogTitle,
+                        Localizer.DatabaseNotReadyToSetup);
+                    return;
+                }
+            }
+
             // adapt edit values
             Connection.ImportValues(EditConnection);
 
@@ -257,6 +269,9 @@ public abstract class DatabaseConnectionDialogBase : ComponentBase
             // refresh database status
             DatabaseStatus = await DatabaseService.GetStatusAsync(EditConnection, Version, ErrorService);
 
+            // control
+            UpdateSubmitText();
+
             // errors
             StatusMessage = ErrorService.RetrieveErrors();
         }
@@ -270,6 +285,24 @@ public abstract class DatabaseConnectionDialogBase : ComponentBase
             StatusUpdate = false;
             StateHasChanged();
         }
+    }
+
+    /// <summary>
+    /// Refresh database status
+    /// </summary>
+    /// <returns></returns>
+    private async Task UpdateDatabaseStatusAsync()
+    {
+        // refresh database status
+        DatabaseStatus = await DatabaseService.GetStatusAsync(EditConnection, Version);
+    }
+
+    /// <summary>
+    /// Update submit text
+    /// </summary>
+    private void UpdateSubmitText()
+    {
+        SubmitText = NewConnection ? Localizer.Continue : Localizer.Update;
     }
 
     /// <summary>
@@ -296,13 +329,15 @@ public abstract class DatabaseConnectionDialogBase : ComponentBase
         }
 
         // refresh database status
-        DatabaseStatus = await DatabaseService.GetStatusAsync(EditConnection, Version);
+        await UpdateDatabaseStatusAsync();
     }
 
     /// <inheritdoc />
     protected override async Task OnInitializedAsync()
     {
         await InitConnectionAsync();
+        UpdateSubmitText();
+
         await base.OnInitializedAsync();
     }
 

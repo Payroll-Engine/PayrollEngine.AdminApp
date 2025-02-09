@@ -191,18 +191,7 @@ internal static class DatabaseTool
             }
 
             database.Create();
-
-            // test created database without error tracking (poll 3 times)
-            // note: test available database with Task.Run(), otherwise it fails
-            var testCount = 0;
-            var exists = await Task.Run(() => TestDatabaseAvailableAsync(connection));
-            while (exists != true && testCount < 3)
-            {
-                await Task.Delay(1000);
-                exists = await Task.Run(() => TestDatabaseAvailableAsync(connection));
-                testCount++;
-            }
-            return exists;
+            return true;
         }
         catch (Exception exception)
         {
