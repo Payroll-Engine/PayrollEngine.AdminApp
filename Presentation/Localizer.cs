@@ -34,6 +34,7 @@ public class Localizer(IStringLocalizerFactory factory) : LocalizerBase(factory)
     public string Update => PropertyValue();
     public string Continue => PropertyValue();
     public string UrlUndefined => PropertyValue();
+    public string Refresh => PropertyValue();
     public string CopyToClipboardHelp => PropertyValue();
     public string Name => PropertyValue();
     public string Value => PropertyValue();

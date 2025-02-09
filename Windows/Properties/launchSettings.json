@@ -1,8 +1,7 @@
 {
   "profiles": {
     "PayrollEngine.AdminApp.Windows": {
-      "commandName": "Project",
-      "workingDirectory": "C:\\Shared\\PayrollEngine\\Setup2"
+      "commandName": "Project"
     }
   }
 }

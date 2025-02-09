@@ -279,7 +279,7 @@ public abstract class BackendAssetViewBase : ComponentBase
             {
                 { nameof(DatabaseConnectionDialog.DatabaseService), DatabaseService },
                 { nameof(DatabaseConnectionDialog.Connection), editConnection },
-                { nameof(DatabaseConnectionDialog.NewConnection), true },
+                { nameof(DatabaseConnectionDialog.NewConnection), newConnection },
                 { nameof(DatabaseConnectionDialog.Version), Asset.Parameters.Database.CurrentVersion },
                 { nameof(DatabaseConnectionDialog.InitHost), initHost }
             };
@@ -295,8 +295,7 @@ public abstract class BackendAssetViewBase : ComponentBase
             // no changes
             if (editConnection.EqualValues(Asset.DatabaseConnection))
             {
-                await DialogService.ShowMessage(Localizer.DatabaseConnectionDialogTitle,
-                    Localizer.NoEditChangesMessage);
+                StatusMessageService.SetMessage(Localizer.NoEditChangesMessage);
                 return;
             }
 

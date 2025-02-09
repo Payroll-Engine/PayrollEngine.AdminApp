@@ -1,61 +1,57 @@
 ﻿@using PayrollEngine.AdminApp.Persistence
 @inherits DatabaseConnectionDialogBase
 
-<MudDialog Class="item-dialog" Style="min-width: 40rem; max-width: 60rem; min-height: 29rem; max-height: 66rem"
+<MudDialog Class="item-dialog" Style="min-width: 40rem; max-width: 60rem; min-height: 33rem; max-height: 66rem"
            TitleClass="mud-theme-primary pe-dialog-title">
     <DialogContent>
         <MudForm @ref="Form" @bind-IsValid="@IsValid">
 
-            @if (!NewConnection)
-            {
-                @* connection status *@
-                <MudPaper Elevation="0" Outlined="true" Class="pa-2 mt-2 mb-2">
+            @* connection status *@
+            <MudPaper Elevation="0" Outlined="true" Class="pa-2 mt-2 mb-2">
 
-                    <MudStack Row="true" Class="d-flex flex-grow-1 align-center" Spacing="0">
-                        <div class="flex-grow-1">
-                            <MudStack Row="true" Spacing="0" Class="align-center">
-                                <MudIcon Icon="@(DatabaseStatus == DatabaseStatus.Available ?
-                                            Icons.Material.Outlined.CheckBox :
-                                            Icons.Material.Outlined.ErrorOutline)"
-                                         Style="zoom: 0.8"
-                                         Color="@DatabaseStatus.ToEditColor()" />
-                                <MudTooltip Delay="1000" Text="@Localizer.DatabaseStatusHelp" Placement="Placement.Top">
-                                    <MudText Class="ml-2">
-                                        @Localizer.Enum(DatabaseStatus)
-                                    </MudText>
-                                </MudTooltip>
-                            </MudStack>
-                        </div>
+                <MudStack Row="true" Class="d-flex flex-grow-1 align-center" Spacing="0">
+                    <div class="flex-grow-1">
+                        <MudStack Row="true" Spacing="0" Class="align-center">
+                            <MudIcon Icon="@StatusIcon"
+                                     Style="zoom: 0.8"
+                                     Color="@DatabaseStatus.ToEditColor()" />
+                            <MudTooltip Delay="1000" Text="@Localizer.DatabaseStatusHelp" Placement="Placement.Top">
+                                <MudText Class="ml-2">
+                                    @Localizer.Enum(DatabaseStatus)
+                                </MudText>
+                            </MudTooltip>
+                        </MudStack>
+                    </div>
 
-                        <MudTooltip Delay="1000" Text="@Localizer.RefreshDatabaseStatusHelp" Placement="Placement.Left">
-                            <MudButton OnClick="UpdateStatusAsync"
-                                       Class="ml-2"
-                                       Color="Color.Primary"
-                                       Variant="@Globals.ButtonVariant"
-                                       Style="zoom: 0.8"
-                                       Disabled="@(StatusUpdate || !IsValid)"
-                                       EndIcon="@Icons.Material.Outlined.PlayCircle"
-                                       Size="Size.Small">Test</MudButton>
-                        </MudTooltip>
-                    </MudStack>
-                    @if (StatusUpdate)
-                    {
-                        <MudProgressLinear Color="Color.Info" Rounded="true"
-                                           Class="mud-table-loading-progress mt-2"
-                                           Indeterminate="true" />
-                    }
-                </MudPaper>
+                    <MudTooltip Delay="1000" Text="@Localizer.RefreshDatabaseStatusHelp" Placement="Placement.Left">
+                        <MudButton OnClick="UpdateStatusAsync"
+                                   Class="ml-2"
+                                   Color="Color.Primary"
+                                   Variant="@Globals.ButtonVariant"
+                                   Style="zoom: 0.8"
+                                   Disabled="@(StatusUpdate || !IsValid)"
+                                   EndIcon="@Icons.Material.Outlined.Refresh"
+                                   Size="Size.Small">@Localizer.Refresh</MudButton>
+                    </MudTooltip>
+                </MudStack>
 
-                @* Status *@
-                @if (HasStatusMessage)
+                @if (StatusUpdate)
                 {
-                    <MudPaper Elevation="0" Outlined="true" Class="d-flex align-center pa-2 mb-4">
-                        <MudIcon Icon="@Icons.Material.Filled.Info" Style="zoom: 0.8" />
-                        <MudText Typo="Typo.caption" Class="d-flex flex-grow-1 pl-2">
-                            @StatusMessage
-                        </MudText>
-                    </MudPaper>
+                    <MudProgressLinear Color="Color.Info" Rounded="true"
+                                       Class="mud-table-loading-progress mt-2"
+                                       Indeterminate="true" />
                 }
+            </MudPaper>
+
+            @* Status *@
+            @if (HasStatusMessage)
+            {
+                <MudPaper Elevation="0" Outlined="true" Class="d-flex align-center pa-2 mb-4">
+                    <MudIcon Icon="@Icons.Material.Filled.Info" Style="zoom: 0.8" />
+                    <MudText Typo="Typo.caption" Class="d-flex flex-grow-1 pl-2">
+                        @StatusMessage
+                    </MudText>
+                </MudPaper>
             }
 
             @* connection edit *@

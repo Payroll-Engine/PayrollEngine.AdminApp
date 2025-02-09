@@ -82,6 +82,23 @@ public abstract class DatabaseConnectionDialogBase : ComponentBase
     /// </summary>
     protected string SubmitText { get; private set; }
 
+    /// <summary>
+    /// Status icon
+    /// </summary>
+    protected string StatusIcon =>
+        DatabaseStatus switch
+        {
+            DatabaseStatus.UndefinedConnection or
+                DatabaseStatus.InvalidConnection or
+                DatabaseStatus.MissingServer
+                => Icons.Material.Outlined.ErrorOutline,
+            DatabaseStatus.MissingDatabase => Icons.Material.Outlined.Add,
+            DatabaseStatus.EmptyDatabase => Icons.Material.Outlined.Create,
+            DatabaseStatus.OutdatedVersion => Icons.Material.Outlined.Update,
+            DatabaseStatus.Available => Icons.Material.Outlined.ErrorOutline,
+            _ => Icons.Custom.Uncategorized.Empty
+        };
+
     #region Parameter
 
     /// <summary>

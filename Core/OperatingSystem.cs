@@ -41,7 +41,7 @@ public static class OperatingSystem
 
     #endregion
 
-    #region File & Directory
+    #region File
 
     /// <summary>
     /// Test for existing file
@@ -49,6 +49,57 @@ public static class OperatingSystem
     /// <param name="path">File name to test</param>
     public static bool FileExists(string path) =>
         File.Exists(path);
+
+    /// <summary>
+    /// Deserialize JSON file
+    /// </summary>
+    /// <typeparam name="T">Target object</typeparam>
+    /// <param name="fileName">Source file name</param>
+    public static T DeserializeJsonFile<T>(string fileName) where T : class
+    {
+        if (string.IsNullOrWhiteSpace(fileName))
+        {
+            throw new ArgumentException(nameof(fileName));
+        }
+        if (!FileExists(fileName))
+        {
+            return null;
+        }
+
+        var text = File.ReadAllText(fileName);
+        var result = JsonSerializer.Deserialize<T>(text);
+        return result;
+    }
+
+    #endregion
+
+    #region Directory
+
+    /// <summary>
+    /// Get the current directory
+    /// </summary>
+    public static string GetCurrentDirectory() =>
+        Directory.GetCurrentDirectory();
+
+    /// <summary>
+    /// Get the current parent directory
+    /// </summary>
+    public static string GetCurrentParentDirectory() =>
+        GetParentDirectory(GetCurrentDirectory());
+
+    /// <summary>
+    /// Get the application directory
+    /// </summary>
+    /// <returns></returns>
+    /// <exception cref="NotImplementedException"></exception>
+    public static string GetAppDirectory() =>
+        GetParentDirectory(System.Reflection.Assembly.GetExecutingAssembly().Location);
+
+    /// <summary>
+    /// Get the parent directory
+    /// </summary>
+    private static string GetParentDirectory(string path) =>
+        new DirectoryInfo(path).Parent?.FullName;
 
     /// <summary>
     /// Test for existing directory
@@ -71,27 +122,6 @@ public static class OperatingSystem
     /// <param name="path2">Second path element</param>
     public static string PathCombine(string path1, string path2) =>
         Path.Combine(path1, path2);
-
-    /// <summary>
-    /// Deserialize JSON file
-    /// </summary>
-    /// <typeparam name="T">Target object</typeparam>
-    /// <param name="fileName">Source file name</param>
-    public static T DeserializeJsonFile<T>(string fileName) where T : class
-    {
-        if (string.IsNullOrWhiteSpace(fileName))
-        {
-            throw new ArgumentException(nameof(fileName));
-        }
-        if (!FileExists(fileName))
-        {
-            return null;
-        }
-
-        var text = File.ReadAllText(fileName);
-        var result = JsonSerializer.Deserialize<T>(text);
-        return result;
-    }
 
     #endregion
 

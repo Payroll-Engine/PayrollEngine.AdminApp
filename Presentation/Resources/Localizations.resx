@@ -83,10 +83,10 @@
     <value>No database</value>
   </data>	
   <data name="DatabaseStatus.EmptyDatabase" xml:space="preserve">
-    <value>Empty database</value>
+    <value>Ready to set up</value>
   </data>
 	<data name="DatabaseStatus.OutdatedVersion" xml:space="preserve">
-    <value>Outdated version</value>
+    <value>Ready to update</value>
   </data>
 	<data name="DatabaseStatus.Available" xml:space="preserve">
     <value>Available</value>
@@ -194,6 +194,9 @@
 	<data name="Continue" xml:space="preserve">
     <value>Continue</value>
   </data>
+	<data name="Refresh" xml:space="preserve">
+    <value>Refresh</value>
+  </data>
 	<data name="UrlUndefined" xml:space="preserve">
     <value>Undefined</value>
   </data>
@@ -232,7 +235,7 @@
     <value>Update Database</value>
   </data>
 	<data name="RefreshDatabaseStatusHelp" xml:space="preserve">
-    <value>Connection status refresh</value>
+    <value>Refresh database connection status</value>
   </data>
 	<data name="CommonFieldsTab" xml:space="preserve">
     <value>Common</value>

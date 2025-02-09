@@ -83,10 +83,10 @@
     <value>Keine Datenbank</value>
   </data>
 	<data name="DatabaseStatus.EmptyDatabase" xml:space="preserve">
-    <value>Leere Datenbank</value>
+    <value>Bereit zur Einrichtung</value>
   </data>
 	<data name="DatabaseStatus.OutdatedVersion" xml:space="preserve">
-    <value>Veraltete Version</value>
+    <value>Bereit zum Aktualisieren</value>
   </data>
 	<data name="DatabaseStatus.Available" xml:space="preserve">
     <value>Verfügbar</value>
@@ -193,6 +193,9 @@
   </data>
 	<data name="Continue" xml:space="preserve">
     <value>Weiter</value>
+  </data>
+	<data name="Refresh" xml:space="preserve">
+    <value>Aktualisieren</value>
   </data>
 	<data name="UrlUndefined" xml:space="preserve">
     <value>Nicht definiert</value>
