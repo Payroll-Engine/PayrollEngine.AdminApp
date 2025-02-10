@@ -164,7 +164,7 @@ public abstract class DatabaseSetupDialogBase : ComponentBase
             }
 
             // close dialog
-            MudDialog.Close(DialogResult.Ok(true));
+            MudDialog.CloseSuccess();
 
             // user confirmation
             await InvokeAsync(SetupCompletedAsync);

@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Windows;
-using System.Diagnostics;
-using System.Globalization;
 using System.Threading;
+using System.Globalization;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Web.WebView2.Core.Raw;
 
 namespace PayrollEngine.AdminApp.Windows;
 
@@ -20,33 +20,6 @@ public partial class MainWindow
         InitializeComponent();
         InitializeCulture();
         InitializeWindow();
-    }
-
-    /// <summary>
-    /// Start ap p help
-    /// </summary>
-    private void Help()
-    {
-        var appUrl = ResourceTool.GetService<IConfigurationRoot>()?.HelpUrl();
-        if (string.IsNullOrWhiteSpace(appUrl))
-        {
-            appUrl = Specification.DefaultHelpUrl;
-        }
-        OperatingSystem.StartProcess(appUrl);
-    }
-
-    /// <summary>
-    /// Get app version
-    /// </summary>
-    private string GetAppVersion()
-    {
-        // version
-        var assemblyInfo = FileVersionInfo.GetVersionInfo(GetType().Assembly.Location);
-        if (string.IsNullOrWhiteSpace(assemblyInfo.FileVersion))
-        {
-            return null;
-        }
-        return $"v{assemblyInfo.FileVersion}";
     }
 
     /// <summary>
@@ -90,9 +63,11 @@ public partial class MainWindow
             AdminText.Visibility = Visibility.Hidden;
         }
 
-        // buttons
-        AppVersion.Text = GetAppVersion();
-        HelpButton.Click += (_, _) => Help();
+        // window buttons
+        InfoButton.Click += (_, _) => ShowAbout();
         CloseButton.Click += (_, _) => Close();
     }
+
+    private void ShowAbout() =>
+        new AppAboutWindow { Owner = this }.ShowDialog();
 }

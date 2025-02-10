@@ -7,7 +7,7 @@
 		<InformationalVersion></InformationalVersion>
 		<Authors>Jani Giannoudis</Authors>
 		<Company>Software Consulting Giannoudis</Company>
-		<Copyright>2025 Software Consulting Giannoudis</Copyright>
+		<Copyright>© 2025 Software Consulting Giannoudis</Copyright>
 		<Product>Payroll Engine Admin Application</Product>
 		<RepositoryUrl>https://github.com/Payroll-Engine/PayrollEngine.AdminApp.git</RepositoryUrl>
 		<IncludeSourceRevisionInInformationalVersion>false</IncludeSourceRevisionInInformationalVersion>

@@ -64,12 +64,12 @@ public abstract class FileTypeRegisterDialogBase : ComponentBase
 
             // user notification
             StatusMessageService.SetMessage(Localizer.FileTypeRegisterSuccess);
-            MudDialog.Close(DialogResult.Ok(true));
+            MudDialog.CloseSuccess();
         }
         catch (Exception exception)
         {
             await DialogService.ShowErrorMessage(Localizer.FileTypeRegisterTitle, exception);
-            MudDialog.Close(DialogResult.Ok(false));
+            MudDialog.CloseFailure();
         }
     }
 
@@ -98,12 +98,12 @@ public abstract class FileTypeRegisterDialogBase : ComponentBase
 
             // user notification
             StatusMessageService.SetMessage(Localizer.FileTypeUnregisterSuccess);
-            MudDialog.Close(DialogResult.Ok(true));
+            MudDialog.CloseSuccess();
         }
         catch (Exception exception)
         {
             await DialogService.ShowErrorMessage(Localizer.FileTypeRegisterTitle, exception);
-            MudDialog.Close(DialogResult.Ok(false));
+            MudDialog.CloseFailure();
         }
     }
 }

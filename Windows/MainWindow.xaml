@@ -48,7 +48,7 @@
                 <Button Width="35"
                         Content="?"
                         Style="{StaticResource TitleButton}"
-                        Name="HelpButton" />
+                        Name="InfoButton" />
                 <Button Width="35"
                         Content="🗙" 
                         Style="{StaticResource TitleButton}"

@@ -62,12 +62,12 @@ public abstract class DatabaseParameterDialogBase : ComponentBase
 
             // adapt edit values
             Parameter.ImportValues(EditParameter);
-            MudDialog.Close(DialogResult.Ok(true));
+            MudDialog.CloseSuccess();
         }
         catch (Exception exception)
         {
             await DialogService.ShowErrorMessage(Localizer.DatabaseConnectionDialogTitle, exception);
-            MudDialog.Close(DialogResult.Ok(false));
+            MudDialog.CloseFailure();
         }
     }
 

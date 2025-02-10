@@ -50,10 +50,10 @@
     /// <summary>
     /// Cancel selection
     /// </summary>
-    private void Cancel() => MudDialog.Close(DialogResult.Ok(false));
+    private void Cancel() => MudDialog.CloseFailure();
 
     /// <summary>
     /// Ok selection
     /// </summary>
-    private void Ok() => MudDialog.Close(DialogResult.Ok(true));
+    private void Ok() => MudDialog.CloseSuccess();
 }

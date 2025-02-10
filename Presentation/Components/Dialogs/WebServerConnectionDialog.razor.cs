@@ -91,12 +91,12 @@ public abstract class WebserverConnectionDialogBase : ComponentBase
             // adapt edit values
             Connection.ImportValues(EditConnection);
 
-            MudDialog.Close(DialogResult.Ok(true));
+            MudDialog.CloseSuccess();
         }
         catch (Exception exception)
         {
             await DialogService.ShowErrorMessage(Localizer.DatabaseConnectionDialogTitle, exception);
-            MudDialog.Close(DialogResult.Ok(false));
+            MudDialog.CloseFailure();
         }
     }
 
