@@ -11,16 +11,7 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-	  <None Remove="Resources\App.png" />
-	  <None Remove="Resources\AppDark.png" />
-	</ItemGroup>
-
-	<ItemGroup>
-	  <Content Include="Resources\App.png" />
 	  <Resource Include="Resources\AppDark.png" />
-	</ItemGroup>
-
-	<ItemGroup>
 	  <Resource Include="appicon.ico" />
 	</ItemGroup>
 

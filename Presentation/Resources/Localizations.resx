@@ -1,429 +1,392 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
-	<xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
-		<xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
-		<xsd:element name="root" msdata:IsDataSet="true">
-			<xsd:complexType>
-				<xsd:choice maxOccurs="unbounded">
-					<xsd:element name="metadata">
-						<xsd:complexType>
-							<xsd:sequence>
-								<xsd:element name="value" type="xsd:string" minOccurs="0" />
-							</xsd:sequence>
-							<xsd:attribute name="name" use="required" type="xsd:string" />
-							<xsd:attribute name="type" type="xsd:string" />
-							<xsd:attribute name="mimetype" type="xsd:string" />
-							<xsd:attribute ref="xml:space" />
-						</xsd:complexType>
-					</xsd:element>
-					<xsd:element name="assembly">
-						<xsd:complexType>
-							<xsd:attribute name="alias" type="xsd:string" />
-							<xsd:attribute name="name" type="xsd:string" />
-						</xsd:complexType>
-					</xsd:element>
-					<xsd:element name="data">
-						<xsd:complexType>
-							<xsd:sequence>
-								<xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
-								<xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
-							</xsd:sequence>
-							<xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
-							<xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
-							<xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
-							<xsd:attribute ref="xml:space" />
-						</xsd:complexType>
-					</xsd:element>
-					<xsd:element name="resheader">
-						<xsd:complexType>
-							<xsd:sequence>
-								<xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
-							</xsd:sequence>
-							<xsd:attribute name="name" type="xsd:string" use="required" />
-						</xsd:complexType>
-					</xsd:element>
-				</xsd:choice>
-			</xsd:complexType>
-		</xsd:element>
-	</xsd:schema>
-	<resheader name="resmimetype">
-		<value>text/microsoft-resx</value>
-	</resheader>
-	<resheader name="version">
-		<value>2.0</value>
-	</resheader>
-	<resheader name="reader">
-		<value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-	</resheader>
-	<resheader name="writer">
-		<value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-	</resheader>
-	<!-- ============================== Enums ============================== -->
-	<!-- ** WebserverStatus ** -->
-	<data name="WebserverStatus.UndefinedConnection" xml:space="preserve">
+  <xsd:schema id="root"
+    xmlns=""
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+    xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <!-- ============================== Enums ============================== -->
+  <!-- ** WebserverStatus ** -->
+  <data name="WebserverStatus.UndefinedConnection" xml:space="preserve">
     <value>Undefined</value>
   </data>
-	<data name="WebserverStatus.NotAvailable" xml:space="preserve">
+  <data name="WebserverStatus.NotAvailable" xml:space="preserve">
     <value>Not available</value>
   </data>
-	<data name="WebserverStatus.Available" xml:space="preserve">
+  <data name="WebserverStatus.Available" xml:space="preserve">
     <value>Available</value>
   </data>
-	<!-- ** DatabaseStatus ** -->
-	<data name="DatabaseStatus.UndefinedConnection" xml:space="preserve">
+  <!-- ** DatabaseStatus ** -->
+  <data name="DatabaseStatus.UndefinedConnection" xml:space="preserve">
     <value>Undefined</value>
   </data>
-	<data name="DatabaseStatus.InvalidConnection" xml:space="preserve">
+  <data name="DatabaseStatus.InvalidConnection" xml:space="preserve">
     <value>Invalid</value>
   </data>
-	<data name="DatabaseStatus.MissingServer" xml:space="preserve">
+  <data name="DatabaseStatus.MissingServer" xml:space="preserve">
     <value>No database server</value>
   </data>
-	<data name="DatabaseStatus.MissingDatabase" xml:space="preserve">
+  <data name="DatabaseStatus.MissingDatabase" xml:space="preserve">
     <value>No database</value>
-  </data>	
+  </data>
   <data name="DatabaseStatus.EmptyDatabase" xml:space="preserve">
     <value>Ready to set up</value>
   </data>
-	<data name="DatabaseStatus.OutdatedVersion" xml:space="preserve">
+  <data name="DatabaseStatus.OutdatedVersion" xml:space="preserve">
     <value>Ready to update</value>
   </data>
-	<data name="DatabaseStatus.Available" xml:space="preserve">
+  <data name="DatabaseStatus.Available" xml:space="preserve">
     <value>Available</value>
   </data>
-	<!-- ** RemoteBackendStatus (map of WebserverStatus) ** -->
-	<data name="RemoteBackendStatus.NotAvailable" xml:space="preserve">
+  <!-- ** RemoteBackendStatus (map of WebserverStatus) ** -->
+  <data name="RemoteBackendStatus.NotAvailable" xml:space="preserve">
     <value>Backend not available</value>
   </data>
-	<data name="RemoteBackendStatus.UndefinedConnection" xml:space="preserve">
+  <data name="RemoteBackendStatus.UndefinedConnection" xml:space="preserve">
     <value>Backend undefined</value>
   </data>
-	<data name="RemoteBackendStatus.Available" xml:space="preserve">
+  <data name="RemoteBackendStatus.Available" xml:space="preserve">
     <value>Backend available</value>
   </data>
-	<!-- ** BackendStatus ** -->
-	<data name="BackendStatus.NotAvailable" xml:space="preserve">
+  <!-- ** BackendStatus ** -->
+  <data name="BackendStatus.NotAvailable" xml:space="preserve">
     <value>Backend not available</value>
   </data>
-	<data name="BackendStatus.DatabaseNotAvailable" xml:space="preserve">
+  <data name="BackendStatus.DatabaseNotAvailable" xml:space="preserve">
     <value>Database not available</value>
   </data>
-	<data name="BackendStatus.WebserverUndefined" xml:space="preserve">
+  <data name="BackendStatus.WebserverUndefined" xml:space="preserve">
     <value>Server not defined</value>
   </data>
-	<data name="BackendStatus.WebserverNotStarted" xml:space="preserve">
+  <data name="BackendStatus.WebserverNotStarted" xml:space="preserve">
     <value>Backend not started</value>
   </data>
-	<data name="BackendStatus.Running" xml:space="preserve">
+  <data name="BackendStatus.Running" xml:space="preserve">
     <value>Running</value>
   </data>
-	<!-- ** WebAppStatus ** -->
-	<data name="WebAppStatus.NotAvailable" xml:space="preserve">
+  <!-- ** WebAppStatus ** -->
+  <data name="WebAppStatus.NotAvailable" xml:space="preserve">
     <value>Web App not available</value>
   </data>
-	<data name="WebAppStatus.WebserverUndefined" xml:space="preserve">
+  <data name="WebAppStatus.WebserverUndefined" xml:space="preserve">
     <value>Web App not defined</value>
   </data>
-	<data name="WebAppStatus.WebserverNotStarted" xml:space="preserve">
+  <data name="WebAppStatus.WebserverNotStarted" xml:space="preserve">
     <value>Web App not started</value>
   </data>
-	<data name="WebAppStatus.Running" xml:space="preserve">
+  <data name="WebAppStatus.Running" xml:space="preserve">
     <value>Running</value>
   </data>
-	<!-- ** DatabaseHost ** -->
-	<data name="DatabaseHost.Local" xml:space="preserve">
+  <!-- ** DatabaseHost ** -->
+  <data name="DatabaseHost.Local" xml:space="preserve">
     <value>Local</value>
   </data>
-	<data name="DatabaseHost.Remote" xml:space="preserve">
+  <data name="DatabaseHost.Remote" xml:space="preserve">
     <value>Remote</value>
   </data>
-	<!-- ============================== General ============================== -->
-	<!-- ** app  ** -->
-	<data name="AppTitle" xml:space="preserve">
+  <!-- ============================== General ============================== -->
+  <!-- ** app  ** -->
+  <data name="AppTitle" xml:space="preserve">
     <value>Payroll Engine Admin</value>
   </data>
-	<data name="AppLoadingMessage" xml:space="preserve">
+  <data name="AppLoadingMessage" xml:space="preserve">
     <value>Please wait, collecting application data...</value>
   </data>
-	<data name="AppWelcomeMessage" xml:space="preserve">
+  <data name="AppWelcomeMessage" xml:space="preserve">
     <value>All settings are stored in the user's environment variables.</value>
   </data>
-	<data name="RefreshAppStatusHelp" xml:space="preserve">
+  <data name="RefreshAppStatusHelp" xml:space="preserve">
     <value>Refresh application status</value>
   </data>
-	<data name="AutoRefreshAppStatusHelp" xml:space="preserve">
+  <data name="AutoRefreshAppStatusHelp" xml:space="preserve">
     <value>Refresh application (every {seconds} seconds)</value>
   </data>
-	<data name="LastUpdatedAppStatusHelp" xml:space="preserve">
+  <data name="LastUpdatedAppStatusHelp" xml:space="preserve">
     <value>Last status update</value>
   </data>
-	<data name="MissingAssetsError" xml:space="preserve">
+  <data name="MissingAssetsError" xml:space="preserve">
     <value>Missing application assets</value>
   </data>
-	<!-- ** common  ** -->
-	<data name="Close" xml:space="preserve">
+  <!-- ** common  ** -->
+  <data name="Close" xml:space="preserve">
     <value>Close</value>
   </data>
-	<data name="Apply" xml:space="preserve">
+  <data name="Apply" xml:space="preserve">
     <value>Apply</value>
   </data>
-	<data name="Cancel" xml:space="preserve">
+  <data name="Cancel" xml:space="preserve">
     <value>Cancel</value>
   </data>
-	<data name="Ok" xml:space="preserve">
+  <data name="Ok" xml:space="preserve">
     <value>OK</value>
   </data>
-	<data name="Start" xml:space="preserve">
+  <data name="Start" xml:space="preserve">
     <value>Start</value>
   </data>
-	<data name="StartHelp" xml:space="preserve">
+  <data name="StartHelp" xml:space="preserve">
     <value>Start webserver</value>
   </data>
-	<data name="Edit" xml:space="preserve">
+  <data name="Edit" xml:space="preserve">
     <value>Edit</value>
   </data>
-	<data name="Add" xml:space="preserve">
+  <data name="Add" xml:space="preserve">
     <value>Add</value>
   </data>
-	<data name="Create" xml:space="preserve">
+  <data name="Create" xml:space="preserve">
     <value>Create</value>
   </data>
-	<data name="Update" xml:space="preserve">
+  <data name="Update" xml:space="preserve">
     <value>Update</value>
   </data>
-	<data name="Continue" xml:space="preserve">
+  <data name="Continue" xml:space="preserve">
     <value>Continue</value>
   </data>
-	<data name="Refresh" xml:space="preserve">
+  <data name="Refresh" xml:space="preserve">
     <value>Refresh</value>
   </data>
-	<data name="UrlUndefined" xml:space="preserve">
+  <data name="UrlUndefined" xml:space="preserve">
     <value>Undefined</value>
   </data>
   <data name="CopyToClipboardHelp" xml:space="preserve">
     <value>Copy to clipboard</value>
   </data>
-	<data name="Name" xml:space="preserve">
+  <data name="Name" xml:space="preserve">
     <value>Name</value>
   </data>
-	<data name="Value" xml:space="preserve">
+  <data name="Value" xml:space="preserve">
     <value>Value</value>
   </data>
-	<data name="NoEditChangesMessage" xml:space="preserve">
+  <data name="NoEditChangesMessage" xml:space="preserve">
     <value>No changes.</value>
   </data>
-	<data name="MissingDotNetDevCertificate" xml:space="preserve">
+  <data name="MissingDotNetDevCertificate" xml:space="preserve">
     <value>The ASP.NET Core Developer Certificate is missing.&lt;br /&gt;Install a trusted developer certificate?</value>
   </data>
-	<data name="DotNetDevCertificateSetupFailed" xml:space="preserve">
+  <data name="DotNetDevCertificateSetupFailed" xml:space="preserve">
     <value>Failed to install the ASP.NET Core Developer Certificate.&lt;br /&gt;Continue?</value>
   </data>
-	<!-- ** database  ** -->
-	<data name="Database" xml:space="preserve">
+  <!-- ** database  ** -->
+  <data name="Database" xml:space="preserve">
     <value>Database</value>
   </data>
-		<data name="DatabaseConnectionDialogTitle" xml:space="preserve">
+  <data name="DatabaseConnectionDialogTitle" xml:space="preserve">
     <value>Database Connection</value>
   </data>
-	<data name="ConnectionParameterDialogTitle" xml:space="preserve">
+  <data name="ConnectionParameterDialogTitle" xml:space="preserve">
     <value>Connection Parameter</value>
   </data>
-	<data name="DatabaseCreateDialogTitle" xml:space="preserve">
+  <data name="DatabaseCreateDialogTitle" xml:space="preserve">
     <value>Create Database </value>
   </data>
-	<data name="DatabaseUpdateDialogTitle" xml:space="preserve">
+  <data name="DatabaseUpdateDialogTitle" xml:space="preserve">
     <value>Update Database</value>
   </data>
-	<data name="RefreshDatabaseStatusHelp" xml:space="preserve">
+  <data name="RefreshDatabaseStatusHelp" xml:space="preserve">
     <value>Refresh database connection status</value>
   </data>
-	<data name="CommonFieldsTab" xml:space="preserve">
+  <data name="CommonFieldsTab" xml:space="preserve">
     <value>Common</value>
   </data>
-	<data name="ServerName" xml:space="preserve">
+  <data name="ServerName" xml:space="preserve">
     <value>Server</value>
   </data>
-	<data name="DatabaseName" xml:space="preserve">
+  <data name="DatabaseName" xml:space="preserve">
     <value>Database</value>
   </data>
-	<data name="Timeout" xml:space="preserve">
+  <data name="Timeout" xml:space="preserve">
     <value>Timeout (seconds)</value>
   </data>
-	<data name="SecurityTab" xml:space="preserve">
+  <data name="SecurityTab" xml:space="preserve">
     <value>Security</value>
   </data>
-	<data name="IntegratedSecurity" xml:space="preserve">
+  <data name="IntegratedSecurity" xml:space="preserve">
     <value>Integrated security</value>
   </data>
-	<data name="TrustedConnection" xml:space="preserve">
+  <data name="TrustedConnection" xml:space="preserve">
     <value>Trusted connection</value>
   </data>
-	<data name="UserId" xml:space="preserve">
+  <data name="UserId" xml:space="preserve">
     <value>User</value>
   </data>
-	<data name="Password" xml:space="preserve">
+  <data name="Password" xml:space="preserve">
     <value>Password</value>
   </data>
-	<data name="CustomParametersTab" xml:space="preserve">
+  <data name="CustomParametersTab" xml:space="preserve">
     <value>Custom Parameters</value>
   </data>
-	<data name="DatabaseCollation" xml:space="preserve">
+  <data name="DatabaseCollation" xml:space="preserve">
     <value>Collation</value>
   </data>
-	<data name="NoParametersAvailable" xml:space="preserve">
+  <data name="NoParametersAvailable" xml:space="preserve">
     <value>Not data available</value>
-  </data>		
-	<data name="InvalidDatabaseConnection" xml:space="preserve">
+  </data>
+  <data name="InvalidDatabaseConnection" xml:space="preserve">
     <value>Invalid database connection.</value>
-  </data>		
+  </data>
   <data name="DatabaseUpdateHelp" xml:space="preserve">
     <value>Update the database</value>
   </data>
   <data name="DatabaseStatusHelp" xml:space="preserve">
     <value>Connection status</value>
   </data>
-	<data name="DatabaseSetupHelp" xml:space="preserve">
+  <data name="DatabaseSetupHelp" xml:space="preserve">
     <value>The Microsoft® SQL Server® is required.&amp;nbsp;&lt;a style="text-decoration: underline" href="https://www.microsoft.com/en-us/download/details.aspx?id=104781"&gt;Download&lt;/a&gt;&amp;nbsp; Express Edition.</value>
   </data>
-	<data name="InvalidConnectionParameter" xml:space="preserve">
+  <data name="InvalidConnectionParameter" xml:space="preserve">
     <value>Invalid connection parameter {name}</value>
   </data>
-	<data name="RemoveParameterQuery" xml:space="preserve">
+  <data name="RemoveParameterQuery" xml:space="preserve">
     <value>Remove {name}?</value>
   </data>
-	<data name="DatabaseConnectionUpdateMessage" xml:space="preserve">
-    <value>Database connection updated successfully.</value>
+  <data name="DatabaseConnectionUpdateMessage" xml:space="preserve">
+    <value>Database connection updated successful.</value>
   </data>
-	<data name="DatabaseCreateSuccessMessage" xml:space="preserve">
+  <data name="DatabaseCreateSuccessMessage" xml:space="preserve">
     <value>Database created successfully.</value>
   </data>
-	<data name="DatabaseCreateErrorMessage" xml:space="preserve">
+  <data name="DatabaseCreateErrorMessage" xml:space="preserve">
     <value>Error creating the database.</value>
   </data>
-	<data name="DatabaseUpdateSuccessMessage" xml:space="preserve">
+  <data name="DatabaseUpdateSuccessMessage" xml:space="preserve">
     <value>Database updated successfully.</value>
   </data>
-	<data name="DatabaseUpdateErrorMessage" xml:space="preserve">
+  <data name="DatabaseUpdateErrorMessage" xml:space="preserve">
     <value>Error updating the database.</value>
   </data>
-	<data name="DatabaseInstallInfo" xml:space="preserve">
+  <data name="DatabaseInstallInfo" xml:space="preserve">
     <value>Creating database...</value>
-  	  </data>
-	<data name="ScriptInstallInfo" xml:space="preserve">
+  </data>
+  <data name="ScriptInstallInfo" xml:space="preserve">
     <value>Installing database model...</value>
   </data>
-	<data name="DatabaseHostTypeQuery" xml:space="preserve">
+  <data name="DatabaseHostTypeQuery" xml:space="preserve">
     <value>Where is the database server located?</value>
-  </data>	
-	<data name="DatabaseNotEmptyMessage" xml:space="preserve">
+  </data>
+  <data name="DatabaseNotEmptyMessage" xml:space="preserve">
     <value>Database is not empty.</value>
   </data>
-	<data name="DatabaseCreateError" xml:space="preserve">
+  <data name="DatabaseCreateError" xml:space="preserve">
     <value>Create error: {value}.</value>
   </data>
-	<data name="DatabaseSetupError" xml:space="preserve">
+  <data name="DatabaseSetupError" xml:space="preserve">
     <value>Setup error: {value}.</value>
   </data>
-	<!-- ** webserver  ** -->
-	<data name="Webserver" xml:space="preserve">
+  <!-- ** webserver  ** -->
+  <data name="Webserver" xml:space="preserve">
     <value>Webserver</value>
   </data>
-	<data name="WebserverDialogTitle" xml:space="preserve">
+  <data name="WebserverDialogTitle" xml:space="preserve">
     <value>Webserver Connection</value>
   </data>
-	<data name="BaseUrl" xml:space="preserve">
+  <data name="BaseUrl" xml:space="preserve">
     <value>Base URL</value>
   </data>
-	<data name="Port" xml:space="preserve">
+  <data name="Port" xml:space="preserve">
     <value>Port</value>
   </data>
-	<data name="ApiKey" xml:space="preserve">
+  <data name="ApiKey" xml:space="preserve">
     <value>API key</value>
   </data>
-	<data name="WebserverConnectionUpdateMessage" xml:space="preserve">
+  <data name="WebserverConnectionUpdateMessage" xml:space="preserve">
     <value>Webserver connection updated successfully.</value>
   </data>
-	<!-- ** web app  ** -->
-	<data name="WebAppTitle" xml:space="preserve">
+  <!-- ** web app  ** -->
+  <data name="WebAppTitle" xml:space="preserve">
     <value>Web App</value>
   </data>
-	<data name="OpenWebApp" xml:space="preserve">
+  <data name="OpenWebApp" xml:space="preserve">
     <value>Login</value>
   </data>
-	<data name="OpenWebAppHelp" xml:space="preserve">
+  <data name="OpenWebAppHelp" xml:space="preserve">
     <value>Open Web App login</value>
   </data>
-	<!-- ** backend  ** -->
-	<data name="BackendLocalTitle" xml:space="preserve">
+  <!-- ** backend  ** -->
+  <data name="BackendLocalTitle" xml:space="preserve">
     <value>Backend</value>
   </data>
-	<data name="BackendRemoteTitle" xml:space="preserve">
+  <data name="BackendRemoteTitle" xml:space="preserve">
     <value>Backend Remote</value>
   </data>
-	<data name="OpenBackend" xml:space="preserve">
+  <data name="OpenBackend" xml:space="preserve">
     <value>API</value>
   </data>
-	<data name="OpenBackendHelp" xml:space="preserve">
+  <data name="OpenBackendHelp" xml:space="preserve">
     <value>Open backend API</value>
   </data>
-	<!-- ** console  ** -->
-	<data name="ConsoleTitle" xml:space="preserve">
+  <!-- ** console  ** -->
+  <data name="ConsoleTitle" xml:space="preserve">
     <value>Console</value>
   </data>
-	<data name="BrowseFolder" xml:space="preserve">
+  <data name="BrowseFolder" xml:space="preserve">
     <value>Open</value>
   </data>
-	<data name="BrowseFolderHelp" xml:space="preserve">
+  <data name="BrowseFolderHelp" xml:space="preserve">
     <value>Open file folder</value>
   </data>
-	<!-- ** console: file types  ** -->
-	<data name="Register" xml:space="preserve">
-    <value>Register</value>
+  <data name="RegisterHelp" xml:space="preserve">
+    <value>Run the setup command 'FileType.Reg.cmd' as an administrator to register the file extension</value>
   </data>
-	<data name="RegisterHelp" xml:space="preserve">
-    <value>Register Console command file extension</value>
-  </data>
-	<data name="AdminRegisterHelp" xml:space="preserve">
-    <value>Run this application as an administrator to set up file associations</value>
-  </data>
-	<data name="CurrentRegistration" xml:space="preserve">
-    <value>Current registration: {name}</value>
-  </data>
-  <data name="FileTypeRegisterMessage" xml:space="preserve">
-    <value>Payroll Console command file '{type}' extension association.</value>
-  </data>
-	<data name="FileTypeRegisterQuery" xml:space="preserve">
-    <value>Register file type {type}?</value>
-  </data>
-	<data name="FileTypeRegisterTitle" xml:space="preserve">
-    <value>File Type Registration</value>
-  </data>	
-	<data name="FileTypeRegisterSuccess" xml:space="preserve">
-    <value>File type registration successfully.</value>
-  </data>
-	<data name="FileTypeRegisterError" xml:space="preserve">
-    <value>File type registration error.</value>
-  </data>
-	<data name="Unregister" xml:space="preserve">
-    <value>Unregister</value>
-  </data>
-  	<data name="FileTypeUnregisterQuery" xml:space="preserve">
-    <value>Unregister file type {type}?</value>
-  </data>
-	<data name="FileTypeUnregisterTitle" xml:space="preserve">
-    <value>File Type Registration</value>
-  </data>
-	<data name="FileTypeUnregisterSuccess" xml:space="preserve">
-    <value>File type registration remove successfully.</value>
-  </data>
-	<data name="FileTypeUnregisterError" xml:space="preserve">
-    <value>File type registration remove error.</value>
-  </data>
-		<!-- ** other assets  ** -->
-<data name="TestsTitle" xml:space="preserve">
+  <!-- ** other assets  ** -->
+  <data name="TestsTitle" xml:space="preserve">
     <value>Tests</value>
   </data>
-	<data name="ExamplesTitle" xml:space="preserve">
+  <data name="ExamplesTitle" xml:space="preserve">
     <value>Examples</value>
   </data>
 </root>

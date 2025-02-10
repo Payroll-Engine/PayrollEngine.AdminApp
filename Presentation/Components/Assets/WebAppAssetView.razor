@@ -37,7 +37,7 @@
         <div class="d-flex flex-grow-1 justify-end align-end">
 
             @* edit action *@
-            <MudTooltip Delay="1000" Text="@Localizer.Enum(Asset.WebserverStatus)" Placement="Placement.Top">
+            <MudTooltip Delay="1000" Text="@Localizer.Enum(Asset.WebserverStatus)" Placement="Placement.Left">
                 <MudButton @onclick="@EditServerAsync"
                            Color="@(Asset.WebserverStatus == WebserverStatus.UndefinedConnection ?
                                       Color.Success : Color.Primary)"
@@ -51,7 +51,7 @@
             @* browse action *@
             @if (Asset.WebserverStatus == WebserverStatus.Available)
             {
-                <MudTooltip Delay="1000" Text="@Localizer.OpenWebAppHelp" Placement="Placement.Top">
+                <MudTooltip Delay="1000" Text="@Localizer.OpenWebAppHelp" Placement="Placement.Left">
                     <MudButton @onclick="@BrowseServerAsync"
                                Class="ml-2"
                                Color="@Color.Primary"
@@ -64,7 +64,7 @@
             @* start action *@
             @if (BackendIsRunning && Asset.WebserverStatus == WebserverStatus.NotAvailable)
             {
-                <MudTooltip Delay="1000" Text="@Localizer.StartHelp" Placement="Placement.Top">
+                <MudTooltip Delay="1000" Text="@Localizer.StartHelp" Placement="Placement.Left">
                     <MudButton @onclick="@StartServerAsync"
                                Class="ml-2"
                                Color="@Color.Success"

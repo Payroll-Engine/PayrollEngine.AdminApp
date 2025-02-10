@@ -38,7 +38,7 @@ public class BackendAsset : WebserverAssetBase, IStartAsset
         await base.UpdateStatusAsync(context);
 
         // asset not available
-        if (!Available)
+        if (Parameters.Database == null || !Available)
         {
             BackendStatus = BackendStatus.NotAvailable;
             return;

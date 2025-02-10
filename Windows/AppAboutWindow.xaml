@@ -8,6 +8,7 @@
         Background="{StaticResource AppBackgroundBrush}"
         Foreground="{StaticResource AppForegroundBrush}"
         BorderBrush="{StaticResource AppForegroundBrush}"
+        BorderThickness="1"
         WindowStartupLocation="CenterOwner"
         WindowStyle="None"
         AllowsTransparency="True"

@@ -107,25 +107,7 @@ public class Localizer(IStringLocalizerFactory factory) : LocalizerBase(factory)
     public string ConsoleTitle => PropertyValue();
     public string BrowseFolder => PropertyValue();
     public string BrowseFolderHelp => PropertyValue();
-    // console: file type
-    public string Register => PropertyValue();
     public string RegisterHelp => PropertyValue();
-    public string AdminRegisterHelp => PropertyValue();
-    public string CurrentRegistration(string name) =>
-        FormatValue(PropertyValue(), nameof(name), name);
-    public string FileTypeRegisterMessage(string type) =>
-        FormatValue(PropertyValue(), nameof(type), type);
-    public string FileTypeRegisterQuery(string type) =>
-        FormatValue(PropertyValue(), nameof(type), type);
-    public string FileTypeRegisterTitle => PropertyValue();
-    public string FileTypeRegisterSuccess => PropertyValue();
-    public string FileTypeRegisterError => PropertyValue();
-    public string Unregister => PropertyValue();
-    public string FileTypeUnregisterQuery(string type) =>
-        FormatValue(PropertyValue(), nameof(type), type);
-    public string FileTypeUnregisterTitle => PropertyValue();
-    public string FileTypeUnregisterSuccess => PropertyValue();
-    public string FileTypeUnregisterError => PropertyValue();
 
     // other assets
     public string TestsTitle => PropertyValue();

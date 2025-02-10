@@ -3,7 +3,6 @@ using System.Windows;
 using System.Threading;
 using System.Globalization;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Web.WebView2.Core.Raw;
 
 namespace PayrollEngine.AdminApp.Windows;
 
@@ -52,16 +51,6 @@ public partial class MainWindow
     {
         // title
         Title = "Payroll Engine Admin";
-
-        if (OperatingSystem.IsAdministrator())
-        {
-            AdminText.Text = "ADMIN";
-            AdminText.Visibility = Visibility.Visible;
-        }
-        else
-        {
-            AdminText.Visibility = Visibility.Hidden;
-        }
 
         // window buttons
         InfoButton.Click += (_, _) => ShowAbout();

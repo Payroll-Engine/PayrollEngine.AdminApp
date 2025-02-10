@@ -67,10 +67,10 @@ public partial class AppAboutWindow
 
     private static string GetAppUrl()
     {
-        var appUrl = ResourceTool.GetService<IConfigurationRoot>()?.HelpUrl();
+        var appUrl = ResourceTool.GetService<IConfigurationRoot>()?.AppUrl();
         if (string.IsNullOrWhiteSpace(appUrl))
         {
-            appUrl = Specification.DefaultHelpUrl;
+            appUrl = Specification.DefaultAppUrl;
         }
 
         return appUrl;

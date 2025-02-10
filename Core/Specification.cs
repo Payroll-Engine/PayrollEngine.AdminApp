@@ -68,9 +68,9 @@ public static class Specification
     #region Defaults
 
     /// <summary>
-    /// Default help url
+    /// Default app url
     /// </summary>
-    public const string DefaultHelpUrl = "https://github.com/Payroll-Engine";
+    public const string DefaultAppUrl = "https://www.payrollengine.org";
 
     /// <summary>
     /// Http default connection timeout

@@ -40,7 +40,7 @@
             <div class="d-flex flex-grow-1 justify-end align-end">
 
                 @* edit action *@
-                <MudTooltip Delay="1000" Text="@Localizer.Enum(Asset.WebserverStatus)" Placement="Placement.Top">
+                <MudTooltip Delay="1000" Text="@Localizer.Enum(Asset.WebserverStatus)" Placement="Placement.Left">
                     <MudButton @onclick="@EditServerAsync"
                                Class="ml-2"
                                Color="@(Asset.WebserverStatus == WebserverStatus.UndefinedConnection ?
@@ -54,7 +54,7 @@
                 @* browse action *@
                 @if (Asset.WebserverStatus == WebserverStatus.Available)
                 {
-                    <MudTooltip Delay="1000" Text="@Localizer.OpenBackendHelp" Placement="Placement.Top">
+                    <MudTooltip Delay="1000" Text="@Localizer.OpenBackendHelp" Placement="Placement.Left">
                         <MudButton @onclick="@BrowseServerAsync"
                                    Class="ml-2"
                                    Color="@Color.Primary"
@@ -67,7 +67,7 @@
                 @* start action *@
                 @if (Asset.WebserverStatus == WebserverStatus.NotAvailable)
                 {
-                    <MudTooltip Delay="1000" Text="@Localizer.StartHelp" Placement="Placement.Top">
+                    <MudTooltip Delay="1000" Text="@Localizer.StartHelp" Placement="Placement.Left">
                         <MudButton @onclick="@StartServerAsync"
                                    Class="ml-2"
                                    Color="@Color.Success"
@@ -114,7 +114,7 @@
         <div class="d-flex flex-grow-1 justify-end align-end">
 
             @* edit action *@
-            <MudTooltip Delay="1000" Text="@Localizer.Enum(Asset.DatabaseStatus)" Placement="Placement.Top">
+            <MudTooltip Delay="1000" Text="@Localizer.Enum(Asset.DatabaseStatus)" Placement="Placement.Left">
                 <MudButton @onclick="@EditConnectionAsync"
                            Class="ml-2"
                            Color="@(Asset.DatabaseStatus == DatabaseStatus.UndefinedConnection ?
@@ -128,7 +128,7 @@
             @* setup action *@
             @if (Asset.DatabaseStatus.PendingChange())
             {
-                <MudTooltip Delay="1000" Text="@Localizer.DatabaseUpdateHelp" Placement="Placement.Top">
+                <MudTooltip Delay="1000" Text="@Localizer.DatabaseUpdateHelp" Placement="Placement.Left">
                     <MudButton @onclick="@SetupDatabaseAsync"
                                Class="ml-2"
                                Color="Color.Success"

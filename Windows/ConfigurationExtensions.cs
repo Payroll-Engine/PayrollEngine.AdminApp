@@ -18,6 +18,6 @@ public static class ConfigurationExtensions
     /// Get help url
     /// </summary>
     /// <param name="configuration">Configuration</param>
-    public static string HelpUrl(this IConfigurationRoot configuration) =>
-        configuration[nameof(HelpUrl)];
+    public static string AppUrl(this IConfigurationRoot configuration) =>
+        configuration[nameof(AppUrl)];
 }

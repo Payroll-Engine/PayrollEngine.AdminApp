@@ -84,6 +84,13 @@ public class DatabaseAssetParameter : IAssetParameter
             return;
         }
 
+        // first version should be the min-version
+        var firstVersion = UpdateScripts.First().FromVersion;
+        if (!firstVersion.Equals(MinVersion))
+        {
+            throw new AdminException($"First update version ({firstVersion}) does not match the minimum version ({MinVersion}).");
+        }
+
         // validate closed version chain
         var updatesByVersion = UpdateScripts.OrderBy(x => x.FromVersion).ToList();
         for (var i = 0; i < updatesByVersion.Count - 1; i++)
@@ -100,7 +107,7 @@ public class DatabaseAssetParameter : IAssetParameter
         var lastVersion = UpdateScripts.Last().ToVersion;
         if (!lastVersion.Equals(CurrentVersion))
         {
-            throw new AdminException($"Last update script version ({lastVersion}) does not match the current version ({CurrentVersion}).");
+            throw new AdminException($"Last update version ({lastVersion}) does not match the current version ({CurrentVersion}).");
         }
     }
 }

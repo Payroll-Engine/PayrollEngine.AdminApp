@@ -40,11 +40,6 @@
                         VerticalAlignment="Center" 
                         HorizontalAlignment="Right" 
                         Orientation="Horizontal">
-                <TextBlock Name="AdminText"
-                           Background="DimGray"
-                           FontWeight="DemiBold"
-                           VerticalAlignment="Center"
-                           Padding="8 2" />
                 <Button Width="35"
                         Content="?"
                         Style="{StaticResource TitleButton}"
