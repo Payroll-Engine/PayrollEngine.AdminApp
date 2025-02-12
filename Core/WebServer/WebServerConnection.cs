@@ -46,12 +46,16 @@ public class WebserverConnection
     /// <summary>
     /// Convert to url
     /// </summary>
-    public string ToUrl() =>
-        string.IsNullOrWhiteSpace(BaseUrl) ?
-            string.Empty :
-            Port != 0 ?
-                $"{BaseUrl}:{Port}" :
-                BaseUrl;
+    public string ToUrl()
+    {
+        if (string.IsNullOrWhiteSpace(BaseUrl))
+        {
+            return string.Empty;
+        }
+
+        var url = BaseUrl.Trim().TrimEnd(['/', '\\']);
+        return Port == 0 ? url : $"{url}:{Port}";
+    }
 
     /// <summary>
     /// Test for empty connection

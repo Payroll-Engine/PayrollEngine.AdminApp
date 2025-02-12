@@ -279,7 +279,7 @@ public class MainPage : ComponentBase, IDisposable
     /// <inheritdoc />
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        var updateStatus = (firstRender || !AssetService.ValidStatus) && !StatusUpdating;
+        var updateStatus = firstRender || !AssetService.ValidStatus;
 
         // update status
         if (updateStatus)

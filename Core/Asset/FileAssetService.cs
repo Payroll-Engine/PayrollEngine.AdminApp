@@ -113,6 +113,7 @@ public class FileAssetService : IAssetService
                 await asset.UpdateStatusAsync(AssetContext);
             }
         }
+        ValidStatus = true;
     }
 
     #endregion
