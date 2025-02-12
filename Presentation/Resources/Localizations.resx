@@ -348,7 +348,7 @@
   </data>
   <!-- ** web app  ** -->
   <data name="WebAppTitle" xml:space="preserve">
-    <value>Web App</value>
+    <value>Web Application</value>
   </data>
   <data name="OpenWebApp" xml:space="preserve">
     <value>Login</value>

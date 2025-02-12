@@ -27,6 +27,8 @@ public class MainPage : ComponentBase, IDisposable
     protected IAssetService AssetService { get; set; }
     [Inject]
     private IStatusMessageService StatusMessageService { get; set; }
+    [Inject] 
+    private IStatusUpdateService StatusUpdateService { get; set; }
     [Inject]
     private IConfigurationRoot Configuration { get; set; }
 
@@ -37,7 +39,8 @@ public class MainPage : ComponentBase, IDisposable
     /// <summary>
     /// Backend asset available
     /// </summary>
-    protected bool BackendAvailable => BackendStatus > BackendStatus.NotAvailable;
+    protected bool BackendAvailable =>
+        AssetService.Backend.Available && BackendStatus > BackendStatus.NotAvailable;
 
     /// <summary>
     /// Backend webserver status
@@ -82,6 +85,7 @@ public class MainPage : ComponentBase, IDisposable
     /// Web app asset available
     /// </summary>
     protected bool WebAppAvailable =>
+        AssetService.WebApp.Available &&
         BackendForClientAvailable && WebAppStatus > WebAppStatus.NotAvailable;
 
     #endregion
@@ -123,9 +127,9 @@ public class MainPage : ComponentBase, IDisposable
     protected DateTime StatusLastUpdated { get; private set; } = DateTime.Now;
 
     /// <summary>
-    /// Status update indicator
+    /// Status updating indicator
     /// </summary>
-    protected bool StatusUpdate { get; private set; }
+    protected bool StatusUpdating => StatusUpdateService.Updating;
 
     /// <summary>
     /// Status icon
@@ -211,7 +215,7 @@ public class MainPage : ComponentBase, IDisposable
 
     private void TimerElapsedHandler(object source, ElapsedEventArgs e)
     {
-        if (StatusUpdate)
+        if (StatusUpdating)
         {
             return;
         }
@@ -227,13 +231,14 @@ public class MainPage : ComponentBase, IDisposable
     /// </summary>
     protected async Task UpdateStatusAsync()
     {
-        if (StatusUpdate)
+        if (StatusUpdating)
         {
             return;
         }
 
         // show progress indicator
-        StatusUpdate = true;
+        StatusUpdateService.BeginUpdate();
+
         StateHasChanged();
         try
         {
@@ -247,7 +252,7 @@ public class MainPage : ComponentBase, IDisposable
         finally
         {
             // hide progress indicator
-            StatusUpdate = false;
+            StatusUpdateService.EndUpdate();
             StateHasChanged();
         }
     }
@@ -274,7 +279,7 @@ public class MainPage : ComponentBase, IDisposable
     /// <inheritdoc />
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        var updateStatus = (firstRender || !AssetService.ValidStatus) && !StatusUpdate;
+        var updateStatus = (firstRender || !AssetService.ValidStatus) && !StatusUpdating;
 
         // update status
         if (updateStatus)
@@ -298,7 +303,7 @@ public class MainPage : ComponentBase, IDisposable
 
     private void AssetStatusInvalidatedHandler(object sender, EventArgs e)
     {
-        if (!StatusUpdate)
+        if (!StatusUpdating)
         {
             StateHasChanged();
         }

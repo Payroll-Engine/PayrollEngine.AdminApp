@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using PayrollEngine.AdminApp.Webserver;
 using PayrollEngine.AdminApp.Persistence;
 
@@ -9,6 +10,11 @@ namespace PayrollEngine.AdminApp.Setting;
 /// </summary>
 public interface ISettingsService
 {
+    /// <summary>
+    /// Get environment settings
+    /// </summary>
+    Task<Dictionary<string,string>> GetEnvironmentSettingsAsync();
+
     /// <summary>
     /// Get the database connection string
     /// </summary>

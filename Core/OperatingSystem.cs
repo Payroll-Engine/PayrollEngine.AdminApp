@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Text.Json;
 using System.Diagnostics;
@@ -13,12 +14,6 @@ public static class OperatingSystem
 {
 
     #region OS
-
-    /// <summary>
-    /// Test for windows OS
-    /// </summary>
-    private static bool IsWindows() =>
-        RuntimeInformation.IsOSPlatform(OSPlatform.Windows);
 
     /// <summary>
     /// Test for linux OS
@@ -157,26 +152,30 @@ public static class OperatingSystem
     /// <param name="workingDirectory">Webserver path</param>
     /// <param name="webserverExec">Executable file name</param>
     /// <param name="webserverUrl">Target webserver url</param>
-    /// <param name="webserverName">Server name</param>
+    /// <param name="webserverName">Server name (currently not supported)</param>
+    /// <param name="environment">Process environment</param>
     public static void StartWebserver(string workingDirectory, string webserverExec,
-        string webserverUrl, string webserverName)
+        // ReSharper disable once UnusedParameter.Global
+        string webserverUrl, string webserverName,Dictionary<string, string> environment = null)
     {
         Directory.SetCurrentDirectory(workingDirectory);
 
-        var fileName = "dotnet.exe";
         var arguments = $"{webserverExec} --urls={webserverUrl}";
-        if (IsWindows() && !string.IsNullOrWhiteSpace(webserverName))
-        {
-            fileName = "cmd.exe";
-            arguments = $"/C START /MIN \"Payroll Engine - Backend Server\" dotnet {webserverExec} --urls={webserverUrl}";
-        }
-        var info = new ProcessStartInfo(fileName, arguments)
+        var info = new ProcessStartInfo("dotnet.exe", arguments)
         {
 
             WorkingDirectory = workingDirectory,
-            UseShellExecute = !IsLinux(),
+            UseShellExecute = false,
+            //UseShellExecute = !IsLinux(),
             WindowStyle = ProcessWindowStyle.Minimized
         };
+        if (environment != null)
+        {
+            foreach (var item in environment)
+            {
+                info.Environment.Add(item);
+            }
+        }
 
         using var process = Process.Start(info);
     }

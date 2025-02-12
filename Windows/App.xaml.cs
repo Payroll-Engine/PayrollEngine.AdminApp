@@ -86,6 +86,7 @@ public partial class App
         var errorService = new ErrorService();
         services.AddSingleton<IErrorService>(errorService);
         services.AddSingleton<IStatusMessageService, StatusMessageService>();
+        services.AddSingleton<IStatusUpdateService, StatusUpdateService>();
 
         // asset services
         services.AddSingleton<ISettingsService, EnvironmentSettingsService>();

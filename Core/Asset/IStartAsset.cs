@@ -11,5 +11,5 @@ public interface IStartAsset
     /// Start the asset
     /// </summary>
     // ReSharper disable once UnusedMemberInSuper.Global
-    Task StartAsync();
+    Task StartAsync(AssetContext contextI);
 }

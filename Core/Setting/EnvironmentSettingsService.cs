@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Threading.Tasks;
-using PayrollEngine.AdminApp.Persistence;
+using System.Collections.Generic;
 using PayrollEngine.AdminApp.Webserver;
+using PayrollEngine.AdminApp.Persistence;
 
 namespace PayrollEngine.AdminApp.Setting;
 
@@ -10,6 +11,26 @@ namespace PayrollEngine.AdminApp.Setting;
 /// </summary>
 public class EnvironmentSettingsService : ISettingsService
 {
+
+    /// <inheritdoc />
+    public Task<Dictionary<string, string>> GetEnvironmentSettingsAsync()
+    {
+        var environment = new Dictionary<string, string>();
+        AddEnvironmentVariable(environment, Specification.PayrollDatabaseConnection);
+        AddEnvironmentVariable(environment, Specification.PayrollApiKey);
+        AddEnvironmentVariable(environment, Specification.PayrollApiConnection);
+        AddEnvironmentVariable(environment, Specification.PayrollWebAppConnection);
+        return Task.FromResult(environment);
+    }
+
+    private static void AddEnvironmentVariable(Dictionary<string, string> environment, string variable)
+    {
+        var value = GetUserVariable(variable);
+        if (!string.IsNullOrWhiteSpace(value))
+        {
+            environment.Add(variable, value);
+        }
+    }
 
     #region Database
 

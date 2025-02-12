@@ -26,12 +26,12 @@
                        Color="@Color.Primary"
                        Variant="@Globals.ButtonVariant"
                        Style="zoom: 0.8"
-                       Disabled="StatusUpdate"
+                       Disabled="StatusUpdating"
                        Icon="@(ActiveTimer ? Icons.Material.Outlined.AutoMode : Icons.Material.Outlined.Refresh)"
                        Size="Size.Small" />
     </MudTooltip>
 </div>
-@if (StatusUpdate)
+@if (StatusUpdating)
 {
     <div class="px-2 pt-2">
         <MudProgressLinear Color="Color.Info" Rounded="true"

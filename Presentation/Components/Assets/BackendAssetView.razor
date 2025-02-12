@@ -6,7 +6,9 @@
 <MudStack Spacing="2">
     <MudStack Spacing="0" Row="true">
         <MudText Typo="Typo.h5" Class="flex-grow-1">@Localizer.BackendLocalTitle</MudText>
-        <MudText Color="Asset.BackendStatus.ToEditColor()">@Localizer.Enum(Asset.BackendStatus)</MudText>
+        <MudText Color="Asset.BackendStatus.ToEditColor()">
+            @(StatusUpdating ? string.Empty : Localizer.Enum(Asset.BackendStatus))
+        </MudText>
     </MudStack>
 
     @if (Asset.DatabaseStatus >= DatabaseStatus.EmptyDatabase)
@@ -43,6 +45,7 @@
                 <MudTooltip Delay="1000" Text="@Localizer.Enum(Asset.WebserverStatus)" Placement="Placement.Left">
                     <MudButton @onclick="@EditServerAsync"
                                Class="ml-2"
+                               Disabled="@StatusUpdating"
                                Color="@(Asset.WebserverStatus == WebserverStatus.UndefinedConnection ?
                                           Color.Success : Color.Primary)"
                                Variant="@Globals.ButtonVariant"
@@ -57,6 +60,7 @@
                     <MudTooltip Delay="1000" Text="@Localizer.OpenBackendHelp" Placement="Placement.Left">
                         <MudButton @onclick="@BrowseServerAsync"
                                    Class="ml-2"
+                                   Disabled="@StatusUpdating"
                                    Color="@Color.Primary"
                                    Variant="@Globals.ButtonVariant"
                                    EndIcon="@Icons.Material.Filled.Api"
@@ -70,6 +74,7 @@
                     <MudTooltip Delay="1000" Text="@Localizer.StartHelp" Placement="Placement.Left">
                         <MudButton @onclick="@StartServerAsync"
                                    Class="ml-2"
+                                   Disabled="@StatusUpdating"
                                    Color="@Color.Success"
                                    Variant="@Globals.ButtonVariant"
                                    EndIcon="@Icons.Material.Filled.PlayCircleOutline"
@@ -117,6 +122,7 @@
             <MudTooltip Delay="1000" Text="@Localizer.Enum(Asset.DatabaseStatus)" Placement="Placement.Left">
                 <MudButton @onclick="@EditConnectionAsync"
                            Class="ml-2"
+                           Disabled="@StatusUpdating"
                            Color="@(Asset.DatabaseStatus == DatabaseStatus.UndefinedConnection ?
                                       Color.Success : Color.Primary)"
                            Variant="@Globals.ButtonVariant"
@@ -131,6 +137,7 @@
                 <MudTooltip Delay="1000" Text="@Localizer.DatabaseUpdateHelp" Placement="Placement.Left">
                     <MudButton @onclick="@SetupDatabaseAsync"
                                Class="ml-2"
+                               Disabled="@StatusUpdating"
                                Color="Color.Success"
                                Variant="@Globals.ButtonVariant"
                                EndIcon="@(Asset.DatabaseStatus.ReadyToUpdate() ?

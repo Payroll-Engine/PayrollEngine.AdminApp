@@ -4,7 +4,12 @@
 <MudStack Spacing="2">
     <MudStack Spacing="0" Row="true">
         <MudText Typo="Typo.h5" Style="line-height: normal" Class="flex-grow-1">@Localizer.WebAppTitle</MudText>
-        <MudText Color="Asset.WebAppStatus.ToEditColor()">@Localizer.Enum(Asset.WebAppStatus)</MudText>
+        @if (!StatusUpdating)
+        {
+            <MudText Color="Asset.WebAppStatus.ToEditColor()">
+                @(StatusUpdating ? string.Empty : Localizer.Enum(Asset.WebAppStatus))
+            </MudText>
+        }
     </MudStack>
 
     @* app *@
@@ -26,9 +31,8 @@
                     <MudTooltip Delay="1000" Text="@Asset.WebserverConnection.ToConnectionString(encryptApiKey: true)" Placement="Placement.Top">
                         <MudText Typo="Typo.caption" Style="@WebserverUrlStyle">@WebserverHref</MudText>
                     </MudTooltip>
-                    <ClipboardButton 
-                        Hidden="@(Asset.WebserverStatus == WebserverStatus.UndefinedConnection)" 
-                        Text="@WebserverUrl" />
+                    <ClipboardButton Hidden="@(Asset.WebserverStatus == WebserverStatus.UndefinedConnection)"
+                                     Text="@WebserverUrl" />
                 </MudStack>
             </MudStack>
         </MudText>
@@ -41,6 +45,7 @@
                 <MudButton @onclick="@EditServerAsync"
                            Color="@(Asset.WebserverStatus == WebserverStatus.UndefinedConnection ?
                                       Color.Success : Color.Primary)"
+                           Disabled="@StatusUpdating"
                            Variant="@Globals.ButtonVariant"
                            EndIcon="@(Asset.WebserverStatus == WebserverStatus.UndefinedConnection ?
                                         Icons.Material.Filled.Add : Icons.Material.Filled.Edit)"
@@ -54,6 +59,7 @@
                 <MudTooltip Delay="1000" Text="@Localizer.OpenWebAppHelp" Placement="Placement.Left">
                     <MudButton @onclick="@BrowseServerAsync"
                                Class="ml-2"
+                               Disabled="@StatusUpdating"
                                Color="@Color.Primary"
                                Variant="@Globals.ButtonVariant"
                                EndIcon="@Icons.Material.Filled.ExitToApp"
@@ -67,6 +73,7 @@
                 <MudTooltip Delay="1000" Text="@Localizer.StartHelp" Placement="Placement.Left">
                     <MudButton @onclick="@StartServerAsync"
                                Class="ml-2"
+                               Disabled="@StatusUpdating"
                                Color="@Color.Success"
                                Variant="@Globals.ButtonVariant"
                                EndIcon="@Icons.Material.Filled.PlayCircleOutline"

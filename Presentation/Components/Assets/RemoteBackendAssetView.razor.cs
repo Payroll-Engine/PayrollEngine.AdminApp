@@ -24,10 +24,16 @@ public abstract class RemoteBackendAssetViewBase : ComponentBase
     /// </summary>
     [Inject] protected Localizer Localizer { get; set; }
     [Inject] private IStatusMessageService StatusMessageService { get; set; }
+    [Inject] private IStatusUpdateService StatusUpdateService { get; set; }
     [Inject] private IDialogService DialogService { get; set; }
     [Inject] private IAssetService AssetService { get; set; }
 
     private ISettingsService SettingsService => AssetService.AssetContext.SettingsService;
+
+    /// <summary>
+    /// Status updating indicator
+    /// </summary>
+    protected bool StatusUpdating => StatusUpdateService.Updating;
 
     /// <summary>
     /// Webserver url

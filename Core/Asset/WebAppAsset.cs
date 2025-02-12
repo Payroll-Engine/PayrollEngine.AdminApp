@@ -50,14 +50,15 @@ public class WebAppAsset : WebserverAssetBase, IStartAsset
     }
 
     /// <inheritdoc />
-    public Task StartAsync()
+    public async Task StartAsync(AssetContext context)
     {
+        var environment = await context.SettingsService.GetEnvironmentSettingsAsync();
         OperatingSystem.StartWebserver(
             workingDirectory: Name,
             webserverExec: Parameters.WebserverExec,
             webserverUrl: WebserverConnection.ToUrl(),
-            webserverName: Parameters.WebserverName);
-        return Task.CompletedTask;
+            webserverName: Parameters.WebserverName,
+            environment: environment);
     }
 
     /// <inheritdoc />
