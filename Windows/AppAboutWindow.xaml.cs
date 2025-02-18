@@ -97,7 +97,7 @@ public partial class AppAboutWindow
     /// </summary>
     private static string GetVersion()
     {
-        var version = FileVersionInfo.GetVersionInfo(typeof(AppAboutWindow).Assembly.Location).FileVersion;
+        var version = FileVersionInfo.GetVersionInfo(typeof(AppAboutWindow).Assembly.Location).ProductVersion;
         return string.Format(VersionText, version);
     }
 }

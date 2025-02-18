@@ -53,7 +53,7 @@ public class WebserverConnection
             return string.Empty;
         }
 
-        var url = BaseUrl.Trim().TrimEnd(['/', '\\']);
+        var url = BaseUrl.Trim().TrimEnd('/', '\\');
         return Port == 0 ? url : $"{url}:{Port}";
     }
 

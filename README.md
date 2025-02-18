@@ -160,7 +160,7 @@ The.NET Core application consists of the following projects:
 | `PayrollEngine.AdminApp.Core`                  | Library          | Core types, assets and services                   |
 | `PayrollEngine.AdminApp.Persistence.SqlServer` | Library          | Database service for SQL Server                   |
 | `PayrollEngine.AdminApp.Presentation`          | Razor Library    | The web application connection string             |
-| `PayrollEngine.AdminApp.Windows`               | Wpf/Razor WinExe | Windows WPF application hosting the Razor VewView |
+| `PayrollEngine.AdminApp.Windows`               | Wpf/Razor WinExe | Windows WPF application hosting the Razor WebView |
 
 ## Third party components
 - UI with [MudBlazor](https://github.com/MudBlazor/MudBlazor/) - license `MIT`
