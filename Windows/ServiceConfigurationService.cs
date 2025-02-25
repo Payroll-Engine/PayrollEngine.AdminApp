@@ -58,26 +58,21 @@ public class ServiceConfigurationService :
     /// <inheritdoc />
     string IFileAssetConfigurationService.GetRoot()
     {
-        // configuration
+        // file assets root folder
         var configRoot = Configuration["FileAssetsRoot"];
-        if (!string.IsNullOrWhiteSpace(configRoot))
+        if (configRoot == null || !OperatingSystem.DirectoryExists(configRoot))
         {
-            if (OperatingSystem.DirectoryExists(configRoot))
-            {
-                return configRoot;
-            }
-            throw new AdminException($"Invalid configuration setting 'FileAssetsRoot': {configRoot}");
+            configRoot = ".";
         }
 
-        // current directory
-        var curDirectory = OperatingSystem.GetCurrentDirectory();
+        // app directory: use parent directory in case of local start
         var appDirectory = OperatingSystem.GetAppDirectory();
-        // use parent directory in case of local start
-        if (string.Equals(curDirectory, appDirectory))
+        if (string.Equals(configRoot, appDirectory))
         {
-            curDirectory = OperatingSystem.GetCurrentParentDirectory();
+            configRoot = OperatingSystem.GetCurrentParentDirectory();
         }
-        return curDirectory;
+
+        return configRoot;
     }
 
     #endregion

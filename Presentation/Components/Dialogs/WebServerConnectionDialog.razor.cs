@@ -30,6 +30,22 @@ public abstract class WebserverConnectionDialogBase : ComponentBase
     [Inject] private IDialogService DialogService { get; set; }
 
     /// <summary>
+    /// Connection base url
+    /// </summary>
+    protected string BaseUrl
+    {
+        get => EditConnection.BaseUrl;
+        set
+        {
+            if (value != null)
+            {
+                value = value.TrimEnd('\\', '/');
+            }
+            EditConnection.BaseUrl = value;
+        }
+    }
+
+    /// <summary>
     /// Api key input type
     /// </summary>
     protected InputType ApiKeyInputType { get; private set; } = InputType.Password;

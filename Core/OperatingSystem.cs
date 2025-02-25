@@ -60,7 +60,7 @@ public static class OperatingSystem
     /// <summary>
     /// Get the current directory
     /// </summary>
-    public static string GetCurrentDirectory() =>
+    private static string GetCurrentDirectory() =>
         Directory.GetCurrentDirectory();
 
     /// <summary>

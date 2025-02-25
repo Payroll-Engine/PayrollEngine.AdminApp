@@ -22,7 +22,7 @@
 		<PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="9.0.2" />
 		<PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="9.0.2" />
 		<PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="9.0.2" />
-		<PackageReference Include="MudBlazor" Version="8.2.0" />
+		<PackageReference Include="MudBlazor" Version="8.3.0" />
 	</ItemGroup>
 
 	<ItemGroup>
