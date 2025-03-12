@@ -17,11 +17,11 @@
 
 	<ItemGroup>
 		<PackageReference Include="Microsoft.AspNetCore.Components.WebView.Wpf" Version="9.0.40" />
-		<PackageReference Include="Microsoft.Extensions.Configuration" Version="9.0.2" />
-		<PackageReference Include="Microsoft.Extensions.Configuration.FileExtensions" Version="9.0.2" />
-		<PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="9.0.2" />
-		<PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="9.0.2" />
-		<PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="9.0.2" />
+		<PackageReference Include="Microsoft.Extensions.Configuration" Version="9.0.3" />
+		<PackageReference Include="Microsoft.Extensions.Configuration.FileExtensions" Version="9.0.3" />
+		<PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="9.0.3" />
+		<PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="9.0.3" />
+		<PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="9.0.3" />
 		<PackageReference Include="MudBlazor" Version="8.3.0" />
 	</ItemGroup>
 
