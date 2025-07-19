@@ -54,16 +54,20 @@ The following command files are located in the installation start folder and mus
 ## Data Storage
 All configuration data is stored in the operating system's environment variables:
 
-| Variable                    | Description                            | Required  | Used by                 |
-|:--|:--|:--:|:--|
-| `PayrollDatabaseConnection` | The database connection string         | yes       | Backend                 |
-| `PayrollApiConnection`      | The Backend connection string          | yes       | Web App, Console        |
-| `PayrollWebAppConnection`   | The Web Application connection string  | no        | Admin App <sup>1)</sup> |
-| `PayrollApiKey`             | The payroll API key                    | no        | Backend                 |
+| Variable                    | Description                                   | Required  | Read by | Set by                  |
+|:--|:--|:--:|:--|:--|
+| `PayrollApiKey`             | The backend API access key                    | no        | Backend | Backend                 |
+| `PayrollDatabaseConnection` | The database connection string <sup>1)</sup>  | yes       | Backend | Backend                 |
+| `PayrollApiConnection`      | The backend connection string <sup>2)</sup>   | yes       | Backend | Web App, Console        |
+| `PayrollWebAppConnection`   | The Web App connection string <sup>3)</sup>   | no        | Web App | Admin App <sup>4)</sup> |
 
-<sup>1)</sup> Used to start the web application server within the admin application.<br/>
+<sup>1)</sup> Example: `Server=localhost; Database=PayrollEngine; Integrated Security=true; TrustServerCertificate=true; Timeout=30;`.<br />
+<sup>2)</sup> Example: `BaseUrl=https://localhost; Port=44354; Timeout=02:46:40; ApiKey=MyApiKey;`.<br/>
+<sup>3)</sup> Example: `BaseUrl=https://localhost; Port=7179;`.<br/>
+<sup>4)</sup> Used to start the web application server within the admin application.<br/>
 
-The `PayrollApiKey` parameter forces a key when accessing the Backend API. This value must be set to restrict access to the API server. Once the API key is defined, only applications that know this key will be able to use the API.
+The `PayrollApiKey` parameter forces a key when accessing the Backend API. This value must be set to restrict access to the API server. Once the API key has been defined, it must be included in the client connection string.
+
 
 ## Application Configuration
 The application configuration file `appsetings.json` contains the following settings:
