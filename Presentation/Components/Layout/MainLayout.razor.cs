@@ -28,7 +28,7 @@ public abstract class MainLayoutBase : LayoutComponentBase
     /// </summary>
     private async Task InitDarkModeAsync()
     {
-        var darkMode = GetDarkModeConfig() ?? await ThemeProvider.GetSystemPreference();
+        var darkMode = GetDarkModeConfig() ?? await ThemeProvider.GetSystemDarkModeAsync();
 
         // no dark mode change
         if (DarkMode == darkMode)
