@@ -162,7 +162,7 @@ public abstract class WebAppAssetViewBase : ComponentBase
 
             // show dialog
             var dialog = await (await DialogService.ShowAsync<WebserverConnectionDialog>(
-                title: Localizer.DatabaseConnectionDialogTitle, parameters)).Result;
+                title: Localizer.WebserverDialogTitle, parameters)).Result;
             if (dialog == null || dialog.Canceled)
             {
                 return;
@@ -189,7 +189,7 @@ public abstract class WebAppAssetViewBase : ComponentBase
         }
         catch (Exception exception)
         {
-            await DialogService.ShowErrorMessage(Localizer.DatabaseConnectionDialogTitle, exception);
+            await DialogService.ShowErrorMessage(Localizer.WebserverDialogTitle, exception);
         }
     }
 
