@@ -73,8 +73,8 @@ public class DatabaseConnection
         UserId == null &&
         Password == null &&
         Timeout == 15 &&
-        IntegratedSecurity == false &&
-        TrustedConnection == false &&
+        !IntegratedSecurity &&
+        !TrustedConnection &&
         !CustomParameters.Any();
 
     /// <summary>
