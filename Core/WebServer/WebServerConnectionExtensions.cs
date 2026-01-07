@@ -8,58 +8,60 @@ namespace PayrollEngine.AdminApp.Webserver;
 /// </summary>
 public static class WebserverConnectionExtensions
 {
-    /// <summary>
-    /// Test for local and secure connection
-    /// </summary>
     /// <param name="connection">Connection to test</param>
-    public static bool IsLocalSecureConnection(this WebserverConnection connection)
+    extension(WebserverConnection connection)
     {
-        if (string.IsNullOrWhiteSpace(connection.BaseUrl))
+        /// <summary>
+        /// Test for local and secure connection
+        /// </summary>
+        public bool IsLocalSecureConnection()
         {
-            return false;
+            if (string.IsNullOrWhiteSpace(connection.BaseUrl))
+            {
+                return false;
+            }
+
+            var url = new Uri(connection.BaseUrl);
+            return string.Equals(url.Authority, "localhost", StringComparison.InvariantCultureIgnoreCase) &&
+                   string.Equals(url.Scheme, "https", StringComparison.InvariantCultureIgnoreCase);
         }
 
-        var url = new Uri(connection.BaseUrl);
-        return string.Equals(url.Authority, "localhost", StringComparison.InvariantCultureIgnoreCase) &&
-               string.Equals(url.Scheme, "https", StringComparison.InvariantCultureIgnoreCase);
-    }
-
-    /// <summary>
-    /// Convert to connection string.
-    /// </summary>
-    /// <param name="connection">Connection to convert</param>
-    /// <param name="encryptApiKey">Encrypt the api key (default: false)</param>
-    public static string ToConnectionString(this WebserverConnection connection, bool encryptApiKey = false)
-    {
-        if (!connection.HasRequiredValues())
+        /// <summary>
+        /// Convert to connection string.
+        /// </summary>
+        /// <param name="encryptApiKey">Encrypt the api key (default: false)</param>
+        public string ToConnectionString(bool encryptApiKey = false)
         {
-            return null;
+            if (!connection.HasRequiredValues())
+            {
+                return null;
+            }
+
+            var buffer = new StringBuilder();
+
+            // base url
+            buffer.Append($"{nameof(WebserverConnection.BaseUrl)}={connection.BaseUrl}; ");
+
+            // port
+            if (connection.Port != 0)
+            {
+                buffer.Append($"{nameof(WebserverConnection.Port)}={connection.Port}; ");
+            }
+
+            // timeout
+            if (connection.Timeout != TimeSpan.Zero)
+            {
+                buffer.Append($"{nameof(WebserverConnection.Timeout)}={connection.Timeout}; ");
+            }
+
+            // api key
+            if (!string.IsNullOrWhiteSpace(connection.ApiKey))
+            {
+                var apiKey = encryptApiKey ? "***" : connection.ApiKey;
+                buffer.Append($"{nameof(WebserverConnection.ApiKey)}={apiKey}; ");
+            }
+            return buffer.ToString();
         }
-
-        var buffer = new StringBuilder();
-
-        // base url
-        buffer.Append($"{nameof(WebserverConnection.BaseUrl)}={connection.BaseUrl}; ");
-
-        // port
-        if (connection.Port != 0)
-        {
-            buffer.Append($"{nameof(WebserverConnection.Port)}={connection.Port}; ");
-        }
-
-        // timeout
-        if (connection.Timeout != TimeSpan.Zero)
-        {
-            buffer.Append($"{nameof(WebserverConnection.Timeout)}={connection.Timeout}; ");
-        }
-
-        // api key
-        if (!string.IsNullOrWhiteSpace(connection.ApiKey))
-        {
-            var apiKey = encryptApiKey ? "***" : connection.ApiKey;
-            buffer.Append($"{nameof(WebserverConnection.ApiKey)}={apiKey}; ");
-        }
-        return buffer.ToString();
     }
 
     /// <summary>

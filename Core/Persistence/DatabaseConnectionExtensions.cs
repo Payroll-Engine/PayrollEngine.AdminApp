@@ -182,46 +182,49 @@ public static class DatabaseConnectionExtensions
 
     #region Initialize
 
-    /// <summary>
-    /// Initialize new database
-    /// </summary>
     /// <param name="connection">Database connection</param>
-    /// <param name="host">Target host</param>
-    public static void Initialize(this DatabaseConnection connection, DatabaseHost host)
+    extension(DatabaseConnection connection)
     {
-        switch (host)
+        /// <summary>
+        /// Initialize new database
+        /// </summary>
+        /// <param name="host">Target host</param>
+        public void Initialize(DatabaseHost host)
         {
-            case DatabaseHost.Local:
-                InitializeToLocal(connection);
-                break;
-            case DatabaseHost.Remote:
-                InitializeToRemote(connection);
-                break;
+            switch (host)
+            {
+                case DatabaseHost.Local:
+                    connection.InitializeToLocal();
+                    break;
+                case DatabaseHost.Remote:
+                    connection.InitializeToRemote();
+                    break;
+            }
         }
-    }
 
-    private static void InitializeToLocal(this DatabaseConnection connection)
-    {
-        connection.Server = "localhost";
-        connection.Database = nameof(PayrollEngine);
-        connection.Timeout = 30;
-        connection.UserId = null;
-        connection.Password = null;
-        connection.IntegratedSecurity = true;
-        connection.TrustedConnection = true;
-        connection.CustomParameters.Clear();
-    }
+        private void InitializeToLocal()
+        {
+            connection.Server = "localhost";
+            connection.Database = nameof(PayrollEngine);
+            connection.Timeout = 30;
+            connection.UserId = null;
+            connection.Password = null;
+            connection.IntegratedSecurity = true;
+            connection.TrustedConnection = true;
+            connection.CustomParameters.Clear();
+        }
 
-    private static void InitializeToRemote(this DatabaseConnection connection)
-    {
-        connection.Server = null;
-        connection.Database = null;
-        connection.Timeout = 100;
-        connection.UserId = null;
-        connection.Password = null;
-        connection.IntegratedSecurity = false;
-        connection.TrustedConnection = false;
-        connection.CustomParameters.Clear();
+        private void InitializeToRemote()
+        {
+            connection.Server = null;
+            connection.Database = null;
+            connection.Timeout = 100;
+            connection.UserId = null;
+            connection.Password = null;
+            connection.IntegratedSecurity = false;
+            connection.TrustedConnection = false;
+            connection.CustomParameters.Clear();
+        }
     }
 
     #endregion
